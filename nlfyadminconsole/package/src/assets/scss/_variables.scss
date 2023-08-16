@@ -3,10 +3,11 @@
 /********************/
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700&display=swap");
 $font-family-sans-serif: "Nunito", sans-serif;
+$fa-font-path: "../webfonts";
 /*******************/
 // Theme Colors
 /********************/
-$primary: #2962ff;
+$primary: #F26E24;
 $info: #3699ff;
 $danger: #f64e60;
 $success: #0bb7af;
@@ -59,7 +60,14 @@ $body-color: $gray-900 !default;
 /********************/
 $border-radius: 0.3rem !default;
 $box-shadow: 0 0.5rem 1rem rgba($black, 0.05);
-$headings-font-weight: 600 !default;
+
+$headings-font-size: 24px;
+$headings-font-weight: 700 !default;
+
+$sub-headings-font-size: 22px;
+
+$body-font-size: 16px;
+$body-font-weight: 600 !default;
 
 $card-border-width: 0 !default;
 $card-box-shadow: $box-shadow !default;

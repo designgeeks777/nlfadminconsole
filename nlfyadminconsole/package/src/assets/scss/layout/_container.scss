@@ -33,6 +33,32 @@
 .table>:not(:first-child) {
   border-top: 2px solid;
 }
+
 .table-borderless>:not(:first-child) {
   border-top-width: 0;
+}
+
+.welcome-text {
+font-size: $headings-font-size;
+font-weight: $body-font-weight;
+color: $white;
+}
+
+.welcome-text:hover{
+color: $white;
+}
+
+.navbar-brand {
+  margin-right: 0px;
+}
+
+.navbar-collapse {
+  display: flex;
+  justify-content: flex-end;
+  align-items: unset;
+}
+
+.btn-primary {
+  --bs-btn-hover-bg: #F26E24;
+  --bs-btn-hover-border-color: #F26E24;
 }

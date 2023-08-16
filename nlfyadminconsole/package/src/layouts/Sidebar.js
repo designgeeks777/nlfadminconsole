@@ -1,57 +1,50 @@
 import { Button, Nav, NavItem } from "reactstrap";
 import Logo from "./Logo";
 import { Link, useLocation } from "react-router-dom";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faColumns,
+  faBullhorn,
+  faPeopleGroup,
+  faCalendarDays,
+  faPersonPraying,
+  faBell,
+} from "@fortawesome/free-solid-svg-icons";
 const navigation = [
   {
     title: "Dashboard",
     href: "/starter",
-    icon: "bi bi-speedometer2",
+    icon: faColumns,
   },
   {
-    title: "Alert",
+    title: "Announcements",
     href: "/alerts",
-    icon: "bi bi-bell",
+    icon: faBullhorn,
   },
   {
-    title: "Badges",
+    title: "Reminders",
     href: "/badges",
-    icon: "bi bi-patch-check",
+    icon: faBell,
   },
   {
-    title: "Buttons",
+    title: "Life Groups",
     href: "/buttons",
-    icon: "bi bi-hdd-stack",
+    icon: faPeopleGroup,
   },
   {
-    title: "Cards",
+    title: "Events",
     href: "/cards",
-    icon: "bi bi-card-text",
+    icon: faCalendarDays,
   },
   {
-    title: "Grid",
+    title: "Prayer Requests",
     href: "/grid",
-    icon: "bi bi-columns",
+    icon: faPersonPraying,
   },
   {
-    title: "Table",
+    title: "Church Prayers",
     href: "/table",
-    icon: "bi bi-layout-split",
-  },
-  {
-    title: "Forms",
-    href: "/forms",
-    icon: "bi bi-textarea-resize",
-  },
-  {
-    title: "Breadcrumbs",
-    href: "/breadcrumbs",
-    icon: "bi bi-link",
-  },
-  {
-    title: "About",
-    href: "/about",
-    icon: "bi bi-people",
+    icon: faPeopleGroup,
   },
 ];
 
@@ -66,12 +59,12 @@ const Sidebar = () => {
       <div className="d-flex align-items-center">
         <Logo />
         <span className="ms-auto d-lg-none">
-        <Button
-          close
-          size="sm"
-          className="ms-auto d-lg-none"
-          onClick={() => showMobilemenu()}
-        ></Button>
+          <Button
+            close
+            size="sm"
+            className="ms-auto d-lg-none"
+            onClick={() => showMobilemenu()}
+          ></Button>
         </span>
       </div>
       <div className="pt-4 mt-2">
@@ -86,20 +79,14 @@ const Sidebar = () => {
                     : "nav-link text-secondary py-3"
                 }
               >
-                <i className={navi.icon}></i>
+                <FontAwesomeIcon
+                  className="sidenav-icons-color"
+                  icon={navi.icon}
+                />
                 <span className="ms-3 d-inline-block">{navi.title}</span>
               </Link>
             </NavItem>
           ))}
-          <Button
-            color="danger"
-            tag="a"
-            target="_blank"
-            className="mt-3"
-            href="https://www.wrappixel.com/templates/xtreme-react-redux-admin/?ref=33"
-          >
-            Upgrade To Pro
-          </Button>
         </Nav>
       </div>
     </div>

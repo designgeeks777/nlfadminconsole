@@ -14,7 +14,7 @@ import {
   Button,
 } from "reactstrap";
 import { ReactComponent as LogoWhite } from "../assets/images/logos/xtremelogowhite.svg";
-import user1 from "../assets/images/users/user1.jpg";
+import avatar from "../assets/images/users/avatar.png";
 
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -31,7 +31,14 @@ const Header = () => {
     <Navbar color="primary" dark expand="md">
       <div className="d-flex align-items-center">
         <NavbarBrand href="/" className="d-lg-none">
-          <LogoWhite />
+          {/* <LogoWhite /> */}
+          <img
+            src={require("../assets/images/logos/logoIcon.png")}
+            alt="logo"
+            width={40}
+            height={40}
+            className="card-bg"
+          />
         </NavbarBrand>
         <Button
           color="primary"
@@ -41,6 +48,8 @@ const Header = () => {
           <i className="bi bi-list"></i>
         </Button>
       </div>
+      <div className="me-auto nav-link welcome-text">Welcome Admin!</div>
+
       <div className="hstack gap-2">
         <Button
           color="primary"
@@ -57,36 +66,14 @@ const Header = () => {
       </div>
 
       <Collapse navbar isOpen={isOpen}>
-        <Nav className="me-auto" navbar>
-          <NavItem>
-            <Link to="/starter" className="nav-link">
-              Starter
-            </Link>
-          </NavItem>
-          <NavItem>
-            <Link to="/about" className="nav-link">
-              About
-            </Link>
-          </NavItem>
-          <UncontrolledDropdown inNavbar nav>
-            <DropdownToggle caret nav>
-              DD Menu
-            </DropdownToggle>
-            <DropdownMenu end>
-              <DropdownItem>Option 1</DropdownItem>
-              <DropdownItem>Option 2</DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem>Reset</DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
-        </Nav>
         <Dropdown isOpen={dropdownOpen} toggle={toggle}>
           <DropdownToggle color="primary">
             <img
-              src={user1}
+              src={avatar}
               alt="profile"
               className="rounded-circle"
-              width="30"
+              width="40"
+              height="40"
             ></img>
           </DropdownToggle>
           <DropdownMenu>
