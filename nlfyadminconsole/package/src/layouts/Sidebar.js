@@ -6,7 +6,7 @@ const navigation = [
   {
     title: "Dashboard",
     href: "/starter",
-    icon: "bi bi-speedometer2",
+    icon: "bi bi-speedometer1",
   },
   {
     title: "Alert",
@@ -66,12 +66,12 @@ const Sidebar = () => {
       <div className="d-flex align-items-center">
         <Logo />
         <span className="ms-auto d-lg-none">
-        <Button
-          close
-          size="sm"
-          className="ms-auto d-lg-none"
-          onClick={() => showMobilemenu()}
-        ></Button>
+          <Button
+            close
+            size="sm"
+            className="ms-auto d-lg-none"
+            onClick={() => showMobilemenu()}
+          ></Button>
         </span>
       </div>
       <div className="pt-4 mt-2">
