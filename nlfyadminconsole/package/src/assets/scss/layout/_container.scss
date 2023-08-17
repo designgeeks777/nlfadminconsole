@@ -59,6 +59,22 @@ color: $white;
 }
 
 .btn-primary {
-  --bs-btn-hover-bg: #F26E24;
+  --bs-btn-hover-bg: #f97e3a;
+  --bs-btn-hover-border-color: #f97e3a;
+}
+
+.btn-secondary {
+  --bs-btn-color: #F26E24;
+  --bs-btn-bg: #ffffff;
+  --bs-btn-border-color: #F26E24;
+  --bs-btn-hover-color: #F26E24;
+  --bs-btn-hover-bg: #fcfcfc;
   --bs-btn-hover-border-color: #F26E24;
+}
+
+.table-actions-button {
+  pointer-events: visible ;
+  color: $button-actions;
+  cursor: pointer;
+  font-weight: $headings-font-weight;
 }

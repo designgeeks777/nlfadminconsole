@@ -15,6 +15,7 @@ $warning: #ee9d01;
 $dark: #343a40;
 $light: #eaf2fb;
 $secondary: #35363b;
+$button-actions : #008BE2;
 
 $theme-colors: (
   "primary": $primary,
@@ -30,6 +31,7 @@ $theme-colors: (
   "light-info": #d3edfa,
   "light-warning": #f8ecdc,
   "light-danger": #f8dddd,
+  "button-actions": #008BE2,
 );
 // scss-docs-start gray-color-variables
 $white: #fff !default;
@@ -85,7 +87,23 @@ $dropdown-bg:$white !default;
 $btn-focus-width: 0px;
 
 /*******************/
+// Theme modal btn
+/********************/
+$btn-modal-width: 140px;
+$btn-modal-height: 44px;
+$btn-modal-border-radius: 10px;
+
+/*******************/
+// Theme modal
+/********************/
+$modal-border-radius: 10px;
+$modal-bg: $white;
+$modal-border-color: #C9CAC8;
+
+/*******************/
 // Theme sidebar width
 /********************/
 $sidebarWidth: 260px;
 $sidebarColor: $white;
+
+

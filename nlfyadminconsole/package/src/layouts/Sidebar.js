@@ -13,12 +13,17 @@ import {
 const navigation = [
   {
     title: "Dashboard",
-    href: "/starter",
+    href: "/dashboard",
     icon: faColumns,
   },
+  // {
+  //   title: "Announcements",
+  //   href: "/alerts",
+  //   icon: faBullhorn,
+  // },
   {
     title: "Announcements",
-    href: "/alerts",
+    href: "/announcements",
     icon: faBullhorn,
   },
   {
@@ -36,14 +41,24 @@ const navigation = [
     href: "/cards",
     icon: faCalendarDays,
   },
+  // {
+  //   title: "Prayer Requests",
+  //   href: "/grid",
+  //   icon: faPersonPraying,
+  // },
   {
     title: "Prayer Requests",
-    href: "/grid",
+    href: "/prayerRequests",
     icon: faPersonPraying,
   },
+  // {
+  //   title: "Church Prayers",
+  //   href: "/table",
+  //   icon: faPeopleGroup,
+  // },
   {
     title: "Church Prayers",
-    href: "/table",
+    href: "/churchPrayers",
     icon: faPeopleGroup,
   },
 ];
