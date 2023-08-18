@@ -56,8 +56,8 @@ const ChurchPrayers = () => {
   };
   return (
     <div>
-      <div class="d-flex flex-column mb-3">
-        <div class="p-2 align-self-end">
+      <div className="d-flex flex-column mb-3">
+        <div className="p-2 align-self-end">
           <Button
             className="btn"
             color="primary"
@@ -76,19 +76,19 @@ const ChurchPrayers = () => {
               submitButtonTitle="Add"
               cancelButtonTitle="Cancel"
             >
-              <div class="mb-3">
+              <div className="mb-3">
                 <label
                   for="Title"
-                  class="form-label modal-body-label"
+                  className="form-label modal-body-label"
                   style={{ fontSize: 14 }}
                 >
                   Prayer Point
-                  <label class="form-label modal-body-info-label">
+                  <label className="form-label modal-body-info-label">
                     ( Maximum 12 words.Please keep it short and simple)
                   </label>
                 </label>
                 <textarea
-                  class="form-control modal-body-textarea shadow-none"
+                  className="form-control modal-body-textarea shadow-none"
                   id="textarea"
                   rows="5"
                 ></textarea>
@@ -96,7 +96,7 @@ const ChurchPrayers = () => {
             </ComponentModal>
           ) : null}
         </div>
-        <div class="p-2">
+        <div className="p-2">
           <Row>
             <Col lg="12">
               <ProjectTables

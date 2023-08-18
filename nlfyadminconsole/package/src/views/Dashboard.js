@@ -105,11 +105,12 @@ const tableData = [
     gender: "male",
   },
   {
-    user: [user1, "Hanna"],
+    user: [user1, "anna"],
     phoneNumber: "+919986169736",
     gender: "female",
   },
 ];
+
 const tableColumns = [
   { path: "user", name: "User" },
   { path: "phoneNumber", name: "Phone number" },

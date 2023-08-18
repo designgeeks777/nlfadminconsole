@@ -12,6 +12,7 @@ const Alerts = lazy(() => import("../views/ui/Alerts"));
 const Announcements = lazy(() => import("../views/ui/Announcements"));
 const ChurchPrayers = lazy(() => import("../views/ui/ChurchPrayers"));
 const PrayerRequests = lazy(() => import("../views/ui/PrayerRequests"));
+const LifeGroups = lazy(() => import("../views/ui/LifeGroups"));
 const Badges = lazy(() => import("../views/ui/Badges"));
 const Buttons = lazy(() => import("../views/ui/Buttons"));
 const Cards = lazy(() => import("../views/ui/Cards"));
@@ -34,6 +35,7 @@ const ThemeRoutes = [
       { path: "/announcements", exact: true, element: <Announcements /> },
       { path: "/churchPrayers", exact: true, element: <ChurchPrayers /> },
       { path: "/prayerRequests", exact: true, element: <PrayerRequests /> },
+      { path: "/lifeGroups", exact: true, element: <LifeGroups /> },
       { path: "/badges", exact: true, element: <Badges /> },
       { path: "/buttons", exact: true, element: <Buttons /> },
       { path: "/cards", exact: true, element: <Cards /> },

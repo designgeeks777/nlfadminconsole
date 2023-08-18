@@ -33,9 +33,14 @@ const navigation = [
   },
   {
     title: "Life Groups",
-    href: "/buttons",
+    href: "/lifeGroups",
     icon: faPeopleGroup,
   },
+  // {
+  //   title: "Life Groups",
+  //   href: "/buttons",lifeGroups
+  //   icon: faPeopleGroup,
+  // },
   {
     title: "Events",
     href: "/cards",
