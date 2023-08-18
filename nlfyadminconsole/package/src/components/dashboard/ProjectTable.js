@@ -7,7 +7,7 @@ import {
   PaginationItem,
   PaginationLink,
 } from "reactstrap";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import avatar from "../../assets/images/users/user1.jpg";
 
@@ -97,6 +97,8 @@ const ProjectTables = ({ children, id, tableColumns, tableData, title }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const pageSize = 5;
   const pagesCount = Math.ceil(tableData.length / pageSize);
+  var tableColumnsCount = useRef(0);
+
   const handleClick = (e, index) => {
     e.preventDefault();
     setCurrentPage(index);
@@ -106,6 +108,10 @@ const ProjectTables = ({ children, id, tableColumns, tableData, title }) => {
   const capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
+
+  useEffect(() => {
+    tableColumnsCount.current = tableColumns.length;
+  }, [tableColumns.length]);
 
   return (
     <div>
@@ -117,7 +123,15 @@ const ProjectTables = ({ children, id, tableColumns, tableData, title }) => {
               <tr>
                 {tableColumns.map(({ path, name }) =>
                   path === "action" ? null : (
-                    <th key={path} style={{ whiteSpace: "nowrap" }}>
+                    <th
+                      key={path}
+                      style={
+                        ({ whiteSpace: "nowrap" },
+                        tableColumnsCount.current === 4
+                          ? { width: "25%" }
+                          : { width: "33.3%" })
+                      }
+                    >
                       {name}
                     </th>
                   )
@@ -133,9 +147,12 @@ const ProjectTables = ({ children, id, tableColumns, tableData, title }) => {
                       <td
                         key={path}
                         style={
-                          path === "user" || path === "requestBy"
+                          (path === "user" || path === "requestBy"
                             ? { padding: 0, paddingLeft: 8 }
-                            : { padding: 20, paddingLeft: 8 }
+                            : { padding: 20, paddingLeft: 8 },
+                          tableColumnsCount.current === 4
+                            ? { width: "25%" }
+                            : { width: "33.3%" })
                         }
                       >
                         {path === "user" || path === "requestBy" ? (
@@ -158,7 +175,10 @@ const ProjectTables = ({ children, id, tableColumns, tableData, title }) => {
                             </div>
                           </div>
                         ) : path === "action" ? (
-                          <div className="table-actions-button" size="sm">
+                          <div
+                            className="table-actions-button d-flex justify-content-center"
+                            size="sm"
+                          >
                             {rowData[path].toUpperCase()}
                           </div>
                         ) : (
