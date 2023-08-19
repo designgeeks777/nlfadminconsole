@@ -38,7 +38,7 @@ const navigation = [
   },
   // {
   //   title: "Life Groups",
-  //   href: "/buttons",lifeGroups
+  //   href: "/buttons"
   //   icon: faPeopleGroup,
   // },
   {

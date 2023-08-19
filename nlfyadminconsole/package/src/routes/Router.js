@@ -13,6 +13,8 @@ const Announcements = lazy(() => import("../views/ui/Announcements"));
 const ChurchPrayers = lazy(() => import("../views/ui/ChurchPrayers"));
 const PrayerRequests = lazy(() => import("../views/ui/PrayerRequests"));
 const LifeGroups = lazy(() => import("../views/ui/LifeGroups"));
+const LifeGroupDetails = lazy(() => import("../views/ui/LifeGroupDetails"));
+// const Test = lazy(() => import("../views/ui/test"));
 const Badges = lazy(() => import("../views/ui/Badges"));
 const Buttons = lazy(() => import("../views/ui/Buttons"));
 const Cards = lazy(() => import("../views/ui/Cards"));
@@ -36,6 +38,12 @@ const ThemeRoutes = [
       { path: "/churchPrayers", exact: true, element: <ChurchPrayers /> },
       { path: "/prayerRequests", exact: true, element: <PrayerRequests /> },
       { path: "/lifeGroups", exact: true, element: <LifeGroups /> },
+      // { path: "/test", exact: true, element: <Test /> },
+      {
+        path: "/lifeGroupsDetails/:id",
+        exact: true,
+        element: <LifeGroupDetails />,
+      },
       { path: "/badges", exact: true, element: <Badges /> },
       { path: "/buttons", exact: true, element: <Buttons /> },
       { path: "/cards", exact: true, element: <Cards /> },

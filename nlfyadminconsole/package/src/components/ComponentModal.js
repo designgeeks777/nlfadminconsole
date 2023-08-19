@@ -12,7 +12,7 @@ const ComponentModal = ({
   return (
     <>
       <div>
-        <Modal isOpen={state} toggle={toggle}>
+        <Modal centered isOpen={state} toggle={toggle}>
           <ModalHeader toggle={toggle}>{title}</ModalHeader>
           <ModalBody>
             <div>{children}</div>
@@ -40,7 +40,7 @@ const ComponentModal = ({
 };
 
 ComponentModal.propTypes = {
-  state: PropTypes.string,
+  state: PropTypes.bool,
   toggle: PropTypes.func,
   children: PropTypes.node,
   title: PropTypes.string,

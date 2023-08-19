@@ -31,7 +31,7 @@ const NestedTable = ({ children, id, tableData, title }) => {
   const tdData = () => {
     return tableData.map((data, index) => {
       return (
-        <tr key={index} className="border-top">
+        <tr key={index} className={`rowSpan=${tableColumnsCount}`}>
           {tableColumns.map((item) => {
             return <td key={item}>{capitalize(data[item])}</td>;
           })}
@@ -40,16 +40,20 @@ const NestedTable = ({ children, id, tableData, title }) => {
     });
   };
   return (
-    <Card style={{ borderWidth: 1 }}>
-      <CardBody className="p-0">
-        <Table className="no-wrap mt-3 align-middle" responsive borderless>
-          <thead>
-            <tr>{thData()}</tr>
-          </thead>
-          <tbody>{tdData()}</tbody>
-        </Table>
-      </CardBody>
-    </Card>
+    // <Card className="shadow-none custom-table-card">
+    //   <CardBody className="p-0">
+    <Table
+      className="no-wrap my-0 align-middle custom-table"
+      responsive
+      borderless
+    >
+      <thead>
+        <tr>{thData()}</tr>
+      </thead>
+      <tbody>{tdData()}</tbody>
+    </Table>
+    //   </CardBody>
+    // </Card>
   );
 };
 

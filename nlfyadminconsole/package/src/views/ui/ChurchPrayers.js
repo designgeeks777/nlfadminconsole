@@ -59,9 +59,8 @@ const ChurchPrayers = () => {
       <div className="d-flex flex-column mb-3">
         <div className="p-2 align-self-end">
           <Button
-            className="btn"
+            className="btn buttons"
             color="primary"
-            size="lg"
             onClick={() => {
               setState(true);
             }}

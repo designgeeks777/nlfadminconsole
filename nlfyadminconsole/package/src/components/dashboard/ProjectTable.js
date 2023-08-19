@@ -11,8 +11,12 @@ import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import avatar from "../../assets/images/users/user1.jpg";
 import NestedTable from "../NestedTable";
+import LifeGroupDetails from "../../views/ui/LifeGroupDetails";
+import { useNavigate } from "react-router-dom";
+// import Test from "../../views/ui/test";
 
 const ProjectTables = ({ children, id, tableData, tableColumns, title }) => {
+  const navigate = useNavigate();
   const [selectedId, setSelectedId] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const pageSize = 5;
@@ -69,7 +73,8 @@ const ProjectTables = ({ children, id, tableData, tableColumns, title }) => {
           <tr key={index} className="border-top">
             {tableColumns.map(({ path }) => {
               return (
-                <td className="p-2" key={path}>
+                // <td className="p-2" key={path}>
+                <td className="py-3" key={path}>
                   {path === "user" || path === "requestBy" ? (
                     <div className="d-flex align-items-center p-2">
                       <img
@@ -89,6 +94,10 @@ const ProjectTables = ({ children, id, tableData, tableColumns, title }) => {
                     <div
                       className="table-actions-button d-flex justify-content-center"
                       size="sm"
+                      onClick={() => {
+                        console.log("clicked");
+                        // performAction(data[path], data);
+                      }}
                     >
                       {data[path].toUpperCase()}
                     </div>
@@ -122,6 +131,12 @@ const ProjectTables = ({ children, id, tableData, tableColumns, title }) => {
         );
       });
   };
+
+  // const performAction = (action, data) => {
+  //   console.log("LGB", action, data);
+  //   <Test data={data} />;
+  //   navigate("/test");
+  // };
   return (
     <Card>
       <CardBody>
