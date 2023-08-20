@@ -2,7 +2,14 @@ import { Card, CardBody, CardTitle, Table } from "reactstrap";
 import { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 
-const NestedTable = ({ children, id, tableData, title }) => {
+const NestedTable = ({
+  children,
+  id,
+  tableData,
+  title,
+  fromLifeGroupDetailsPage,
+}) => {
+  console.log(tableData, "from lgd");
   const tableColumnsCount = useRef(0);
 
   const capitalize = (str) => {
@@ -11,6 +18,11 @@ const NestedTable = ({ children, id, tableData, title }) => {
 
   // get table tableColumns
   const tableColumns = Object.keys(tableData[0]);
+  const obj = tableColumns.reduce(
+    (o, key) => ({ ...o, [key]: capitalize(key) }),
+    {}
+  );
+  console.log("OBJECT >>>", obj);
 
   useEffect(() => {
     tableColumnsCount.current = tableColumns.length;
@@ -33,7 +45,14 @@ const NestedTable = ({ children, id, tableData, title }) => {
       return (
         <tr key={index} className={`rowSpan=${tableColumnsCount}`}>
           {tableColumns.map((item) => {
-            return <td key={item}>{capitalize(data[item])}</td>;
+            return fromLifeGroupDetailsPage && item === "phoneNumber" ? (
+              <td key={item}>
+                {capitalize(data[item])}
+                <span className="text-info">Remove</span>
+              </td>
+            ) : (
+              <td key={item}>{capitalize(data[item])}</td>
+            );
           })}
         </tr>
       );
@@ -43,7 +62,9 @@ const NestedTable = ({ children, id, tableData, title }) => {
     // <Card className="shadow-none custom-table-card">
     //   <CardBody className="p-0">
     <Table
-      className="no-wrap my-0 align-middle custom-table"
+      className={`no-wrap my-0 align-middle custom-table ${
+        fromLifeGroupDetailsPage ? "w-50" : ""
+      }`}
       responsive
       borderless
     >

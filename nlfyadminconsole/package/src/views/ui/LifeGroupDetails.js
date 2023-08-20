@@ -1,21 +1,13 @@
-import {
-  Button,
-  Card,
-  CardBody,
-  CardText,
-  CardTitle,
-  Col,
-  Row,
-  Table,
-} from "reactstrap";
+import { Button } from "reactstrap";
 import { useState } from "react";
 import ComponentCard from "../../components/ComponentCard";
 import ComponentModal from "../../components/ComponentModal";
 import PropTypes from "prop-types";
 import Alerts from "./Alerts";
+import NestedTable from "../../components/NestedTable";
 
-const LifeGroupDetails = ({ props, state, action, data }) => {
-  console.log("LGD", props, state, action, data);
+const LifeGroupDetails = ({ props }) => {
+  console.log("LGD", props);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openResetModal, setOpenResetModal] = useState(false);
   const openModal = () => {
@@ -24,7 +16,9 @@ const LifeGroupDetails = ({ props, state, action, data }) => {
   const openresetModal = () => {
     setOpenResetModal(!openResetModal);
   };
-  return (
+  return props === null || undefined ? (
+    <div>ADD LifeGroup</div>
+  ) : (
     <>
       <Alerts
         props={{
@@ -41,59 +35,60 @@ const LifeGroupDetails = ({ props, state, action, data }) => {
             "Oops Sorry ! The changes couldnt be updated at the moment.Please check your network and ensure server is up.",
         }}
       />
-      {props.state ? (
-        <div className="d-flex flex-column">
-          <div className="p-2 align-self-end mb-3">
-            <Button
-              className="btn px-4 py-2 buttons"
-              color="primary"
-              onClick={() => {
-                setOpenDeleteModal(true);
-              }}
+      <div className="d-flex flex-column">
+        <div className="p-2 align-self-end mb-3">
+          <Button
+            className="btn px-4 py-2 buttons"
+            color="primary"
+            onClick={() => {
+              setOpenDeleteModal(true);
+            }}
+          >
+            Delete
+          </Button>
+          {openDeleteModal ? (
+            <ComponentModal
+              state={openDeleteModal}
+              toggle={openModal}
+              title="Delete"
+              submitButtonTitle="Yes"
+              cancelButtonTitle="No"
             >
-              Delete
-            </Button>
-            {openDeleteModal ? (
-              <ComponentModal
-                state={openDeleteModal}
-                toggle={openModal}
-                title="Delete"
-                submitButtonTitle="Yes"
-                cancelButtonTitle="No"
-              >
-                <p className="text-center">
-                  Are you sure to delete the LifeGroup?
-                </p>
-              </ComponentModal>
-            ) : null}
+              <p className="text-center">
+                Are you sure to delete the LifeGroup?
+              </p>
+            </ComponentModal>
+          ) : null}
+        </div>
+        <ComponentCard title={`Life Group - ${props.location}`}>
+          <div className="mb-4">
+            <label htmlFor="leaders" className="form-label text-dark fw-bold">
+              Leaders
+            </label>
+            <input
+              type="text"
+              className="form-control p-2 modal-body-input shadow-none"
+              id="leaders"
+              placeholder="Anzi & Vegin"
+              defaultValue={props?.leaders}
+            />
           </div>
-          <ComponentCard title="Life Group Amruthahalli">
-            <div className="mb-4">
-              <label htmlFor="leaders" className="form-label text-dark fw-bold">
-                Leaders
-              </label>
-              <input
-                type="text"
-                className="form-control p-2 modal-body-input shadow-none"
-                id="leaders"
-                placeholder="Anzi & Vegin"
-                //   value={props.data.leaders}
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="meetingDays"
-                className="form-label text-dark fw-bold"
-              >
-                Meeting Days
-              </label>
-              <input
-                type="text"
-                className="form-control p-2 modal-body-input shadow-none"
-                id="meetingDays"
-                placeholder="Alternate Thursdays"
-              />
-            </div>
+          <div className="mb-4">
+            <label
+              htmlFor="meetingDays"
+              className="form-label text-dark fw-bold"
+            >
+              Meeting Days
+            </label>
+            <input
+              type="text"
+              className="form-control p-2 modal-body-input shadow-none"
+              id="meetingDays"
+              placeholder="Alternate Thursdays"
+              defaultValue={props?.meetingDay}
+            />
+          </div>
+          {props?.members[0] === "0" ? null : (
             <div>
               <label
                 htmlFor="membersTable"
@@ -101,87 +96,43 @@ const LifeGroupDetails = ({ props, state, action, data }) => {
               >
                 Members
               </label>
-              {/* <Card
-                id="membersTable"
-                className="shadow-none w-50 custom-table-card"
-              >
-                <CardBody className="p-0"> */}
-              <Table
-                className="my-0 w-50 custom-table no-wrap
-                      align-middle"
-                responsive
-                borderless
-              >
-                <thead>
-                  <tr>
-                    <th className="text-primary nowrap">Member Name</th>
-                    <th className="text-primary nowrap">Mobile Name</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Mark</td>
-                    <td>
-                      +919986169736 <span className="text-info">Remove</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Jacob</td>
-                    <td>
-                      +919986169736 <span className="text-info">Remove</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Larry</td>
-                    <td>
-                      +919986169736 <span className="text-info">Remove</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-              {/* </CardBody>
-              </Card> */}
+              <NestedTable
+                tableData={props?.members[1]}
+                fromLifeGroupDetailsPage={true}
+              />
             </div>
-          </ComponentCard>
-          <div className="button-group align-self-end">
-            <Button
-              className="btn px-4 py-2 mx-3 buttons"
-              color="secondary"
-              onClick={() => {
-                setOpenResetModal(true);
-              }}
-            >
-              Reset
-            </Button>
-            <Button className="btn px-4 py-2 buttons" color="primary">
-              Update
-            </Button>
-          </div>
-          {openResetModal ? (
-            <ComponentModal
-              state={openResetModal}
-              toggle={openresetModal}
-              title="Reset"
-              submitButtonTitle="Yes"
-              cancelButtonTitle="No"
-            >
-              <p>
-                Are you sure you want to reset? All your changes will be undone.
-              </p>
-            </ComponentModal>
-          ) : null}
+          )}
+        </ComponentCard>
+        <div className="button-group align-self-end">
+          <Button
+            className="btn px-4 py-2 mx-3 buttons"
+            color="secondary"
+            onClick={() => {
+              setOpenResetModal(true);
+            }}
+          >
+            Reset
+          </Button>
+          <Button className="btn px-4 py-2 buttons" color="primary">
+            Update
+          </Button>
         </div>
-      ) : null}
+        {openResetModal ? (
+          <ComponentModal
+            state={openResetModal}
+            toggle={openresetModal}
+            title="Reset"
+            submitButtonTitle="Yes"
+            cancelButtonTitle="No"
+          >
+            <p>
+              Are you sure you want to reset? All your changes will be undone.
+            </p>
+          </ComponentModal>
+        ) : null}
+      </div>
     </>
   );
 };
 
-LifeGroupDetails.propTypes = {
-  data: PropTypes.any,
-  key: PropTypes.any,
-  state: PropTypes.bool,
-  // toggle: PropTypes.func,
-  // children: PropTypes.node,
-  // title: PropTypes.string,
-};
 export default LifeGroupDetails;

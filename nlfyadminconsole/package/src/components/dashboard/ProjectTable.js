@@ -11,18 +11,21 @@ import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import avatar from "../../assets/images/users/user1.jpg";
 import NestedTable from "../NestedTable";
-import LifeGroupDetails from "../../views/ui/LifeGroupDetails";
 import { useNavigate } from "react-router-dom";
-// import Test from "../../views/ui/test";
 
-const ProjectTables = ({ children, id, tableData, tableColumns, title }) => {
-  const navigate = useNavigate();
+const ProjectTables = ({
+  children,
+  id,
+  parentCallback,
+  tableData,
+  tableColumns,
+  title,
+}) => {
   const [selectedId, setSelectedId] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const pageSize = 5;
   const pagesCount = Math.ceil(tableData.length / pageSize);
   const tableColumnsCount = useRef(0);
-
   const handleClick = (e, index) => {
     e.preventDefault();
     setCurrentPage(index);
@@ -95,8 +98,8 @@ const ProjectTables = ({ children, id, tableData, tableColumns, title }) => {
                       className="table-actions-button d-flex justify-content-center"
                       size="sm"
                       onClick={() => {
-                        console.log("clicked");
-                        // performAction(data[path], data);
+                        parentCallback(true, tableData[index]);
+                        console.log("clicked", tableData[index]);
                       }}
                     >
                       {data[path].toUpperCase()}
@@ -132,52 +135,49 @@ const ProjectTables = ({ children, id, tableData, tableColumns, title }) => {
       });
   };
 
-  // const performAction = (action, data) => {
-  //   console.log("LGB", action, data);
-  //   <Test data={data} />;
-  //   navigate("/test");
-  // };
   return (
-    <Card>
-      <CardBody>
-        <CardTitle tag="h5">{title}</CardTitle>
-        <Table className="no-wrap mt-3 align-middle" responsive borderless>
-          <thead>
-            <tr>
-              {tableColumns.map(({ path, name }) =>
-                path === "action" ? null : thData(path, name)
-              )}
-            </tr>
-          </thead>
-          <tbody>{tdData()}</tbody>
-        </Table>
-        <Pagination className="d-flex justify-content-end">
-          <PaginationItem disabled={currentPage <= 0}>
-            <PaginationLink
-              onClick={(e) => handleClick(e, currentPage - 1)}
-              previous
-              href="#"
-            />
-          </PaginationItem>
-
-          {[...Array(pagesCount)].map((page, i) => (
-            <PaginationItem active={i === currentPage} key={i}>
-              <PaginationLink onClick={(e) => handleClick(e, i)} href="#">
-                {i + 1}
-              </PaginationLink>
+    <>
+      <Card>
+        <CardBody>
+          <CardTitle tag="h5">{title}</CardTitle>
+          <Table className="no-wrap mt-3 align-middle" responsive borderless>
+            <thead>
+              <tr>
+                {tableColumns.map(({ path, name }) =>
+                  path === "action" ? null : thData(path, name)
+                )}
+              </tr>
+            </thead>
+            <tbody>{tdData()}</tbody>
+          </Table>
+          <Pagination className="d-flex justify-content-end">
+            <PaginationItem disabled={currentPage <= 0}>
+              <PaginationLink
+                onClick={(e) => handleClick(e, currentPage - 1)}
+                previous
+                href="#"
+              />
             </PaginationItem>
-          ))}
 
-          <PaginationItem disabled={currentPage >= pagesCount - 1}>
-            <PaginationLink
-              onClick={(e) => handleClick(e, currentPage + 1)}
-              next
-              href="#"
-            />
-          </PaginationItem>
-        </Pagination>
-      </CardBody>
-    </Card>
+            {[...Array(pagesCount)].map((page, i) => (
+              <PaginationItem active={i === currentPage} key={i}>
+                <PaginationLink onClick={(e) => handleClick(e, i)} href="#">
+                  {i + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+
+            <PaginationItem disabled={currentPage >= pagesCount - 1}>
+              <PaginationLink
+                onClick={(e) => handleClick(e, currentPage + 1)}
+                next
+                href="#"
+              />
+            </PaginationItem>
+          </Pagination>
+        </CardBody>
+      </Card>
+    </>
   );
 };
 
