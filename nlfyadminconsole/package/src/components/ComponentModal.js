@@ -40,7 +40,7 @@ const ComponentModal = ({
 };
 
 ComponentModal.propTypes = {
-  state: PropTypes.string,
+  state: PropTypes.bool,
   toggle: PropTypes.func,
   children: PropTypes.node,
   title: PropTypes.string,
