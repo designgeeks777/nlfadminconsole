@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   Card,
@@ -59,29 +59,46 @@ const Events = () => {
     { label: "F", value: "friday" },
     { label: "S", value: "saturday" },
   ];
-  const [selectedValue, setSelectedValue] = useState(null);
-  const [selectedRepeatValue, setSelectedRepeatValue] = useState(null);
+  const [selectedValue, setSelectedValue] = useState("");
+  var updateSelectedValue = "";
+  const [selectedRepeatValue, setSelectedRepeatValue] = useState("");
   const selectedDayValue = useRef(null);
+
+  useEffect(() => {
+    if (updateSelectedValue !== selectedValue) {
+      setSelectedValue(selectedValue);
+    }
+    console.log("effect selectedValue", selectedValue);
+  }, [updateSelectedValue, selectedValue]);
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
-    console.log(`Option selected:`, event.target.value, selectedValue);
+    console.log("selectedValue", selectedValue);
   };
+
+  useEffect(() => {
+    if (updateSelectedValue !== selectedRepeatValue) {
+      setSelectedRepeatValue(selectedRepeatValue);
+    }
+    console.log("effect selectedRepeatValue", selectedRepeatValue);
+  }, [updateSelectedValue, selectedRepeatValue]);
 
   const handleCustomRepeatChange = (e) => {
     setSelectedRepeatValue(e.target.value);
+    console.log("selectedRepeatValue", selectedRepeatValue);
   };
 
   const customStyles = {
-    option: (defaultStyles, state) => ({
+    option: (defaultStyles, states) => ({
       ...defaultStyles,
-      color: state.isSelected ? "#212529" : "#fff",
-      backgroundColor: state.isSelected ? "#a0a0a0" : "#212529",
+      color: states.isSelected ? "#212529" : "#fff",
+      backgroundColor: states.isSelected ? "#a0a0a0" : "#212529",
     }),
 
-    control: (defaultStyles) => ({
+    control: (defaultStyles, states) => ({
       ...defaultStyles,
       backgroundColor: "#212529",
+      borderColor: states.isFocused ? "grey" : "red",
       padding: "10px",
       border: "none",
       boxShadow: "none",
@@ -89,6 +106,7 @@ const Events = () => {
     singleValue: (defaultStyles) => ({ ...defaultStyles, color: "#fff" }),
   };
 
+  const [count, setCount] = useState(1);
   const [selectedId, setSelectedId] = useState(null);
   const onSelectItem = (id, daySelected) => {
     if (id === selectedId) return setSelectedId(null);
@@ -96,6 +114,11 @@ const Events = () => {
     selectedDayValue.current = daySelected;
     console.log(selectedDayValue.current);
   };
+
+  //   useEffect(() => {
+  //     console.log(count, "useeffetc");
+  //   }, [count]);
+
   return (
     <div className="d-flex flex-column mb-4">
       <div className="p-2 align-self-end mb-3">
@@ -119,13 +142,14 @@ const Events = () => {
           >
             <Form>
               <FormGroup>
-                <Label for="eventName" className="modal-body-Label">
+                <Label for="eventName" className="modal-body-label">
                   Event name
                 </Label>
                 <Input
                   id="eventName"
                   name="event"
                   type="text"
+                  bsSize="sm"
                   className="modal-body-input shadow-none"
                   placeholder=""
                 />
@@ -133,7 +157,7 @@ const Events = () => {
               <FormGroup>
                 <Row className="mb-4">
                   <Col md="4" lg="4">
-                    <Label for="date" className="modal-body-Label">
+                    <Label for="date" className="modal-body-label">
                       Date
                     </Label>
                     <Input
@@ -141,29 +165,32 @@ const Events = () => {
                       name="date"
                       type="date"
                       className="shadow-none modal-body-input"
+                      bsSize="sm"
                       placeholder=""
                     />
                   </Col>
                   <Col md="4" lg="4">
-                    <Label for="time" className="modal-body-Label">
+                    <Label for="time" className="modal-body-label">
                       Time
                     </Label>
                     <Input
                       id="time"
                       name="time"
                       type="time"
+                      bsSize="sm"
                       className="shadow-none modal-body-input"
                       placeholder=""
                     />
                   </Col>
                   <Col md="4" lg="4">
-                    <Label for="place" className="modal-body-Label">
+                    <Label for="place" className="modal-body-label">
                       Place
                     </Label>
                     <Input
                       id="place"
                       name="place"
                       type="text"
+                      bsSize="sm"
                       className="shadow-none modal-body-input"
                       placeholder=""
                     />
@@ -179,10 +206,17 @@ const Events = () => {
                   id="exampleSelect"
                   name="exampleSelect"
                   type="select"
-                  className="shadow-none w-50"
+                  className="shadow-none w-50 form-select-sm"
                   value={selectedValue}
                   onChange={handleChange}
                   //   styles={customStyles}
+                  style={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      borderColor: state.isFocused ? "grey" : "red",
+                      color: state.isFocused ? "grey" : "red",
+                    }),
+                  }}
                 >
                   {selectOptions.map((option) => (
                     <option value={option.value}>{option.label}</option>
@@ -191,19 +225,37 @@ const Events = () => {
               </FormGroup>
               {selectedValue === "custom" ? (
                 <div className="custom-event-container rounded p-2">
-                  <h5 className="modal-body-label">Custom Reccurance</h5>
+                  <h5 className="modal-body-label py-2">Custom Reccurance</h5>
                   <div className="d-flex align-items-center">
-                    <Label>Repeat every</Label>
-                    <p className="shadow-none mx-2">1</p>
-                    <i className="bi bi-chevron-expand px-2 fa-lg mb-2"></i>
+                    <Label className="me-2">Repeat every</Label>
+                    <p className="shadow-none me-2">{count}</p>
+                    <div className="d-flex flex-column align-self-start me-2">
+                      <i
+                        className="bi bi-chevron-up fa-xs text-primary pb-1"
+                        onClick={() => {
+                          if (count < 7) {
+                            setCount(count + 1);
+                          }
+                        }}
+                      ></i>
+                      <i
+                        className="bi bi-chevron-down fa-xs text-primary pt-1"
+                        onClick={() => {
+                          if (count > 0) {
+                            setCount(count - 1);
+                          }
+                        }}
+                      ></i>
+                    </div>
                     <FormGroup className="mb-0">
                       <Input
                         id="customRepeatSelect"
                         name="customRepeatSelect"
                         type="select"
-                        className="shadow-none"
+                        className="shadow-none form-select-sm"
                         value={selectedRepeatValue}
                         onChange={handleCustomRepeatChange}
+                        styles={customStyles}
                       >
                         {repeatOptions.map((option) => (
                           <option value={option.value}>{option.label}</option>
@@ -212,7 +264,7 @@ const Events = () => {
                     </FormGroup>
                   </div>
                   <Label>Repeat On</Label>
-                  <div className="d-flex">
+                  <div className="d-flex justify-content-evenly">
                     {daysOptions.map((day, index) => (
                       <span
                         style={{
@@ -227,8 +279,8 @@ const Events = () => {
                               ? "#ffffff"
                               : "inherit",
                         }}
-                        class="mx-2 text-center rounded-circle d-flex align-items-center 
-                        justify-content-center text-black px-3 py-3"
+                        className="text-center rounded-circle d-flex align-items-center 
+                        justify-content-center text-black p-3"
                         onClick={() => {
                           setChangeBgColor(true);
                           onSelectItem(index, day.value);
