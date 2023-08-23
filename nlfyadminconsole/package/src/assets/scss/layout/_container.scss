@@ -79,16 +79,11 @@ color: $white;
   font-weight: $headings-font-weight;
 }
 
-// .form-check-input[type=select]:focus, .form-check-input[type=checkbox]:focus {
-//   border-color: $modal-border-color !important;
-// }
-
 .event-card {
   border-radius: 12px;
   width: 80px;
   height: 80px;
-  background:
-    linear-gradient(180deg, $primary 0%, rgba(242, 105, 36, 0.7) 100%);                
+  background: $gradient;               
 }
 
 .event-container {

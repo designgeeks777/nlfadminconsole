@@ -23,7 +23,7 @@
     margin-bottom: 0.1rem !important;
 }
 .modal-body-info-label {
-    color:$modal-border-color !important;
+    color:#C9CAC8 !important;
     margin-bottom: 0.1rem !important;
 }
 .modal-body-input {
@@ -46,12 +46,12 @@
 }
   
 .modal-btn-secondary{
---bs-btn-color: $primary;
---bs-btn-bg: $white;
---bs-btn-border-color: $primary;
---bs-btn-hover-color: $primary;
+--bs-btn-color: #F26E24;
+--bs-btn-bg: #ffffff;
+--bs-btn-border-color: #F26E24;
+--bs-btn-hover-color: #F26E24;
 --bs-btn-hover-bg: #fcfcfc;
---bs-btn-hover-border-color: $primary;
+--bs-btn-hover-border-color: #F26E24;
 width: $btn-modal-width !important;
 height: $btn-modal-height !important;
 border-radius: $btn-modal-border-radius !important;

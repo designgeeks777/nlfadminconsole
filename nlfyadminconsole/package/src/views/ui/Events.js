@@ -3,14 +3,10 @@ import {
   Button,
   Card,
   CardBody,
-  CardText,
   CardTitle,
   Col,
   Form,
-  FormFeedback,
   FormGroup,
-  Input,
-  Label,
   Row,
 } from "reactstrap";
 import ComponentModal from "../../components/ComponentModal";
@@ -141,72 +137,72 @@ const Events = () => {
             cancelButtonTitle="Cancel"
           >
             <Form>
-              <FormGroup>
-                <Label for="eventName" className="modal-body-label">
+              <div className="mb-3">
+                <label for="eventName" className="form-label modal-body-label">
                   Event name
-                </Label>
-                <Input
+                </label>
+                <input
                   id="eventName"
-                  name="event"
+                  name="eventName"
                   type="text"
-                  bsSize="sm"
-                  className="modal-body-input shadow-none"
+                  className="form-control modal-body-input shadow-none"
                   placeholder=""
                 />
-              </FormGroup>
-              <FormGroup>
-                <Row className="mb-4">
+              </div>
+              <div className="mb-3">
+                <Row>
                   <Col md="4" lg="4">
-                    <Label for="date" className="modal-body-label">
+                    <label for="date" className="form-label modal-body-label">
                       Date
-                    </Label>
-                    <Input
+                    </label>
+                    <input
                       id="date"
                       name="date"
                       type="date"
-                      className="shadow-none modal-body-input"
-                      bsSize="sm"
+                      className="form-control shadow-none modal-body-input"
                       placeholder=""
                     />
                   </Col>
                   <Col md="4" lg="4">
-                    <Label for="time" className="modal-body-label">
+                    <label for="time" className="form-label modal-body-label">
                       Time
-                    </Label>
-                    <Input
+                    </label>
+                    <input
                       id="time"
                       name="time"
                       type="time"
-                      bsSize="sm"
-                      className="shadow-none modal-body-input"
+                      className="form-control shadow-none modal-body-input"
                       placeholder=""
                     />
                   </Col>
                   <Col md="4" lg="4">
-                    <Label for="place" className="modal-body-label">
+                    <label for="place" className="form-label modal-body-label">
                       Place
-                    </Label>
-                    <Input
+                    </label>
+                    <input
                       id="place"
                       name="place"
                       type="text"
-                      bsSize="sm"
-                      className="shadow-none modal-body-input"
+                      className="form-control shadow-none modal-body-input"
                       placeholder=""
                     />
                   </Col>
                 </Row>
-              </FormGroup>
-              <FormGroup check className="mb-4">
-                <Input type="checkbox" className="text-primary shadow-none" />{" "}
-                <Label check>Is this recurring event?</Label>
-              </FormGroup>
-              <FormGroup className="mb-4">
-                <Input
+              </div>
+              <div className="mb-3" check>
+                <input
+                  type="checkbox"
+                  className="form-check-input text-primary shadow-none"
+                />{" "}
+                <label className="form-check-label">
+                  Is this recurring event?
+                </label>
+              </div>
+              <div className="mb-3">
+                <select
                   id="exampleSelect"
                   name="exampleSelect"
-                  type="select"
-                  className="shadow-none w-50 form-select-sm"
+                  className="form-select shadow-none w-50"
                   value={selectedValue}
                   onChange={handleChange}
                   //   styles={customStyles}
@@ -219,17 +215,19 @@ const Events = () => {
                   }}
                 >
                   {selectOptions.map((option) => (
-                    <option value={option.value}>{option.label}</option>
+                    <option append-to="body" value={option.value}>
+                      {option.label}
+                    </option>
                   ))}
-                </Input>
-              </FormGroup>
+                </select>
+              </div>
               {selectedValue === "custom" ? (
-                <div className="custom-event-container rounded p-2">
+                <div className="custom-event-container rounded p-3">
                   <h5 className="modal-body-label py-2">Custom Reccurance</h5>
-                  <div className="d-flex align-items-center">
-                    <Label className="me-2">Repeat every</Label>
-                    <p className="shadow-none me-2">{count}</p>
-                    <div className="d-flex flex-column align-self-start me-2">
+                  <div className="d-flex align-items-center mb-3">
+                    <label className="form-label me-2 mb-0">Repeat every</label>
+                    <p className="shadow-none me-2 mb-0">{count}</p>
+                    <div className="d-flex flex-column align-self-start me-2 mt-1">
                       <i
                         className="bi bi-chevron-up fa-xs text-primary pb-1"
                         onClick={() => {
@@ -247,23 +245,24 @@ const Events = () => {
                         }}
                       ></i>
                     </div>
-                    <FormGroup className="mb-0">
-                      <Input
+                    <div className="mb-0">
+                      <select
                         id="customRepeatSelect"
                         name="customRepeatSelect"
-                        type="select"
-                        className="shadow-none form-select-sm"
+                        className="form-select shadow-none "
                         value={selectedRepeatValue}
                         onChange={handleCustomRepeatChange}
                         styles={customStyles}
                       >
                         {repeatOptions.map((option) => (
-                          <option value={option.value}>{option.label}</option>
+                          <option append-to="body" value={option.value}>
+                            {option.label}
+                          </option>
                         ))}
-                      </Input>
-                    </FormGroup>
+                      </select>
+                    </div>
                   </div>
-                  <Label>Repeat On</Label>
+                  <label className="form-label">Repeat On</label>
                   <div className="d-flex justify-content-evenly">
                     {daysOptions.map((day, index) => (
                       <span
@@ -303,21 +302,32 @@ const Events = () => {
                       </span>
                     ))}
                   </div>
-                  <FormGroup tag="fieldset" className="my-2">
-                    <Label>Ends</Label>
-                    <FormGroup check>
-                      <Input name="radio1" type="radio" />{" "}
-                      <Label check className="form-Label">
+                  <div className="my-3">
+                    <label className="form-label">Ends</label>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input shadow-none"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="flexRadioDefault1"
+                        checked
+                      />
+                      <label className="form-check-label" for="flexRadioDefault1">
                         Never
-                      </Label>
-                    </FormGroup>
-                    <FormGroup check>
-                      <Input name="radio1" type="radio" />{" "}
-                      <Label check className="form-Label">
+                      </label>
+                    </div>
+                    <div className="form-check">
+                      <input
+                        className="form-check-input shadow-none"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="flexRadioDefault2"
+                      />
+                      <label className="form-check-label" for="flexRadioDefault2">
                         On
-                      </Label>
-                    </FormGroup>
-                  </FormGroup>
+                      </label>
+                    </div>
+                  </div>
                 </div>
               ) : null}
             </Form>
@@ -360,16 +370,7 @@ const Events = () => {
               </Col>
               <Col md="4" lg="5" className="p-4">
                 <div className="d-flex">
-                  <div
-                    style={{
-                      borderRadius: 12,
-                      width: 80,
-                      height: 80,
-                      background:
-                        "linear-gradient(180deg, #F26924 0%, rgba(242, 105, 36, 0.7) 100%)",
-                    }}
-                    className="d-flex flex-column px-2 justify-content-center align-items-center"
-                  >
+                  <div className="d-flex event-card flex-column px-2 justify-content-center align-items-center">
                     <span className="text-white">OCT</span>
                     <span className="text-white">02</span>
                   </div>
@@ -386,16 +387,7 @@ const Events = () => {
               </Col>
               <Col md="4" lg="5" className="p-4">
                 <div className="d-flex">
-                  <div
-                    style={{
-                      borderRadius: 12,
-                      width: 80,
-                      height: 80,
-                      background:
-                        "linear-gradient(180deg, #F26924 0%, rgba(242, 105, 36, 0.7) 100%)",
-                    }}
-                    className="d-flex flex-column px-2 justify-content-center align-items-center"
-                  >
+                  <div className="d-flex event-card flex-column px-2 justify-content-center align-items-center">
                     <span className="text-white">OCT</span>
                     <span className="text-white">02</span>
                   </div>
@@ -412,16 +404,7 @@ const Events = () => {
               </Col>
               <Col md="4" lg="5" className="p-4">
                 <div className="d-flex">
-                  <div
-                    style={{
-                      borderRadius: 12,
-                      width: 80,
-                      height: 80,
-                      background:
-                        "linear-gradient(180deg, #F26924 0%, rgba(242, 105, 36, 0.7) 100%)",
-                    }}
-                    className="d-flex flex-column px-2 justify-content-center align-items-center"
-                  >
+                  <div className="d-flex event-card flex-column px-2 justify-content-center align-items-center">
                     <span className="text-white">OCT</span>
                     <span className="text-white">02</span>
                   </div>
@@ -438,16 +421,7 @@ const Events = () => {
               </Col>
               <Col md="4" lg="5" className="p-4">
                 <div className="d-flex">
-                  <div
-                    style={{
-                      borderRadius: 12,
-                      width: 80,
-                      height: 80,
-                      background:
-                        "linear-gradient(180deg, #F26924 0%, rgba(242, 105, 36, 0.7) 100%)",
-                    }}
-                    className="d-flex flex-column px-2 justify-content-center align-items-center"
-                  >
+                  <div className="d-flex event-card flex-column px-2 justify-content-center align-items-center">
                     <span className="text-white">OCT</span>
                     <span className="text-white">02</span>
                   </div>
@@ -465,16 +439,7 @@ const Events = () => {
 
               <Col md="4" lg="5" className="p-4">
                 <div className="d-flex">
-                  <div
-                    style={{
-                      borderRadius: 12,
-                      width: 80,
-                      height: 80,
-                      background:
-                        "linear-gradient(180deg, #F26924 0%, rgba(242, 105, 36, 0.7) 100%)",
-                    }}
-                    className="d-flex flex-column px-2 justify-content-center align-items-center"
-                  >
+                  <div className="d-flex event-card flex-column px-2 justify-content-center align-items-center">
                     <span className="text-white">OCT</span>
                     <span className="text-white">02</span>
                   </div>
@@ -491,16 +456,7 @@ const Events = () => {
               </Col>
               <Col md="4" lg="5" className="p-4">
                 <div className="d-flex">
-                  <div
-                    style={{
-                      borderRadius: 12,
-                      width: 80,
-                      height: 80,
-                      background:
-                        "linear-gradient(180deg, #F26924 0%, rgba(242, 105, 36, 0.7) 100%)",
-                    }}
-                    className="d-flex flex-column px-2 justify-content-center align-items-center"
-                  >
+                  <div className="d-flex event-card flex-column px-2 justify-content-center align-items-center">
                     <span className="text-white">OCT</span>
                     <span className="text-white">02</span>
                   </div>
@@ -517,16 +473,7 @@ const Events = () => {
               </Col>
               <Col md="4" lg="5" className="p-4">
                 <div className="d-flex">
-                  <div
-                    style={{
-                      borderRadius: 12,
-                      width: 80,
-                      height: 80,
-                      background:
-                        "linear-gradient(180deg, #F26924 0%, rgba(242, 105, 36, 0.7) 100%)",
-                    }}
-                    className="d-flex flex-column px-2 justify-content-center align-items-center"
-                  >
+                  <div className="d-flex event-card flex-column px-2 justify-content-center align-items-center">
                     <span className="text-white">OCT</span>
                     <span className="text-white">02</span>
                   </div>
