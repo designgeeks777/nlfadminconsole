@@ -47,6 +47,7 @@ const tableData = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis n”",
   },
 ];
+
 const tableColumns = [
   { path: "date", name: "Announced On" },
   { path: "title", name: "Title" },
@@ -60,12 +61,11 @@ const Announcements = () => {
   };
   return (
     <div>
-      <div class="d-flex flex-column mb-3">
-        <div class="p-2 align-self-end">
+      <div className="d-flex flex-column mb-3">
+        <div className="p-2 align-self-end">
           <Button
-            className="btn"
+            className="btn buttons"
             color="primary"
-            size="lg"
             onClick={() => {
               setState(true);
             }}
@@ -80,26 +80,26 @@ const Announcements = () => {
               submitButtonTitle="Announce"
               cancelButtonTitle="Cancel"
             >
-              <div class="mb-3">
-                <label for="Title" class="form-label modal-body-label">
+              <div className="mb-3">
+                <label for="Title" className="form-label modal-body-label">
                   Title
-                  <label class="form-label modal-body-info-label">
+                  <label className="form-label modal-body-info-label">
                     (Maximum 10 words)
                   </label>
                 </label>
                 <input
                   type="text"
-                  class="form-control modal-body-input shadow-none"
+                  className="form-control modal-body-input shadow-none"
                   id="Title"
                   placeholder=""
                 />
               </div>
-              <div class="mb-3">
-                <label for="textarea" class="form-label modal-body-label">
+              <div className="mb-3">
+                <label for="textarea" className="form-label modal-body-label">
                   Announcement Message
                 </label>
                 <textarea
-                  class="form-control modal-body-textarea shadow-none"
+                  className="form-control modal-body-textarea shadow-none"
                   id="textarea"
                   rows="5"
                 ></textarea>
@@ -107,7 +107,7 @@ const Announcements = () => {
             </ComponentModal>
           ) : null}
         </div>
-        <div class="p-2">
+        <div className="p-2">
           <Row>
             <Col lg="12">
               <ProjectTables
