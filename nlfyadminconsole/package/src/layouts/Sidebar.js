@@ -33,7 +33,7 @@ const navigation = [
   },
   {
     title: "Life Groups",
-    href: "/buttons",
+    href: "/lifeGroups",
     icon: faPeopleGroup,
   },
   // {
@@ -45,6 +45,9 @@ const navigation = [
   //   title: "Events",
   //   href: "/cards",
   //   icon: faCalendarDays,
+  //   title: "Life Groups",
+  //   href: "/buttons"
+  //   icon: faPeopleGroup,
   // },
   {
     title: "Events",

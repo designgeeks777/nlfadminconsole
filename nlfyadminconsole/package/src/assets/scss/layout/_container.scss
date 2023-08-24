@@ -115,3 +115,67 @@ color: $white;
 .custom-event-container span:active,.custom-event-container span:focus {
   background-color: $primary;
 }
+.custom-table-card {
+  // border-width: 1px solid $table-border-color;
+  position: relative;
+  left: 20px;
+  top: 20px;
+  padding: 1px;
+}
+
+.custom-table {
+  border: 1px solid $table-border-color;
+}
+.custom-table>thead {
+  border-bottom: 1px solid $table-border-color;
+}
+
+.custom-table>tbody>tr>td {
+  border-left: 1px solid $table-border-color;
+  border-right: 1px solid $table-border-color;
+}
+
+.custom-table>tbody>tr>td:first-child,.custom-table>tbody>tr>td:last-child {
+  border-left: none;
+  border-right: none;
+}
+
+.custom-table>tbody>tr:last-child{
+  border-bottom : none
+}
+
+.custom-table>tbody>tr>th {
+  border-left: 1px solid $table-border-color;
+  border-right: 1px solid $table-border-color;
+  border-bottom: 1px solid $table-border-color;
+}
+
+.custom-table>tbody>tr>td>span {
+  font-weight: $headings-font-weight;
+  position: relative;
+  left: 20%;
+}
+
+.custom-table > :not(caption) > * > * {
+  padding: 1rem 1rem;
+}
+
+.custom-table > tbody > tr > td:first-child {
+  border-right: 1px solid $table-border-color;
+}
+
+.buttons {
+  width: $btn-width;
+  height: $btn-height;
+  border-radius: $btn-border-radius;
+}
+
+.jrlg-buttons {
+  width: $jrlg-btn-width;
+  height: $jrlg-btn-height;
+  border-radius: $btn-border-radius;
+}
+
+.alert-success, .alert-danger {
+  --bs-alert-bg: inherit;
+}

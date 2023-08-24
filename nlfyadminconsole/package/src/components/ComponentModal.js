@@ -12,7 +12,7 @@ const ComponentModal = ({
   return (
     <>
       <div>
-        <Modal isOpen={state} toggle={toggle}>
+        <Modal centered isOpen={state} toggle={toggle}>
           <ModalHeader toggle={toggle}>{title}</ModalHeader>
           <ModalBody>
             <div>{children}</div>
