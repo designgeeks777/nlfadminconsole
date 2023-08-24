@@ -111,17 +111,12 @@ const Events = () => {
     console.log(selectedDayValue.current);
   };
 
-  //   useEffect(() => {
-  //     console.log(count, "useeffetc");
-  //   }, [count]);
-
   return (
     <div className="d-flex flex-column mb-4">
-      <div className="p-2 align-self-end mb-3">
+      <div className="align-self-end mb-3">
         <Button
-          className="btn"
+          className="btn buttons"
           color="primary"
-          size="lg"
           onClick={() => {
             setState(true);
           }}
@@ -312,7 +307,10 @@ const Events = () => {
                         id="flexRadioDefault1"
                         checked
                       />
-                      <label className="form-check-label" for="flexRadioDefault1">
+                      <label
+                        className="form-check-label"
+                        for="flexRadioDefault1"
+                      >
                         Never
                       </label>
                     </div>
@@ -323,7 +321,10 @@ const Events = () => {
                         name="flexRadioDefault"
                         id="flexRadioDefault2"
                       />
-                      <label className="form-check-label" for="flexRadioDefault2">
+                      <label
+                        className="form-check-label"
+                        for="flexRadioDefault2"
+                      >
                         On
                       </label>
                     </div>
