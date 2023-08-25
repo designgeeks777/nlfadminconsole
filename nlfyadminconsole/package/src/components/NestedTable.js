@@ -51,7 +51,22 @@ const NestedTable = ({
                 <span className="text-info">Remove</span>
               </td>
             ) : (
-              <td key={item}>{capitalize(data[item])}</td>
+              <td key={item}>
+                {item === "response" ? (
+                  <>
+                    <div class="tooltip-container">
+                      {capitalize(data[item])}
+                      <span class="custom-tooltip">
+                        <span class="tooltiptext p-2">
+                          {capitalize(data[item])}
+                        </span>
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  <>{capitalize(data[item])}</>
+                )}
+              </td>
             );
           })}
         </tr>
