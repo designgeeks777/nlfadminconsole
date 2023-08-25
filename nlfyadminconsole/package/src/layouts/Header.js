@@ -28,7 +28,7 @@ const Header = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };
   return (
-    <Navbar color="primary" dark expand="md">
+    <Navbar className="bg-gradient text-white" dark expand="md">
       <div className="d-flex align-items-center">
         <NavbarBrand href="/" className="d-lg-none">
           {/* <LogoWhite /> */}
@@ -67,7 +67,7 @@ const Header = () => {
 
       <Collapse navbar isOpen={isOpen}>
         <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-          <DropdownToggle color="primary">
+          <DropdownToggle color="transparent">
             <img
               src={avatar}
               alt="profile"
