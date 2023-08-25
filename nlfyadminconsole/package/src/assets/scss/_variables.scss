@@ -56,7 +56,7 @@ $min-contrast-ratio: 2;
 /********************/
 $body-bg: $gray-100 !default;
 $body-color: $gray-900 !default;
-
+$gradient : linear-gradient(180deg, $primary 0%, rgba(242, 105, 36, 0.7) 100%); 
 /*******************/
 // Theme common variable
 /********************/

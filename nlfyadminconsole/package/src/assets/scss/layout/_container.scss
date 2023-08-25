@@ -79,6 +79,42 @@ color: $white;
   font-weight: $headings-font-weight;
 }
 
+.event-card {
+  border-radius: 12px;
+  width: 80px;
+  height: 80px;
+  background: $gradient;               
+}
+
+.event-container {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 450px;
+}
+
+.custom-event-container {
+  border: 1px solid rgba(242, 105, 36, 0.2);
+}
+
+.custom-event-container p, .custom-event-container p.active,.custom-event-container p.focus {
+  border: 1px solid $modal-border-color;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.custom-event-container i {
+  cursor: pointer;
+  pointer-events: all;
+}
+
+.custom-event-container span {
+  background-color: $gray-300;
+  pointer-events: visible;
+  cursor: pointer;
+}
+.custom-event-container span:active,.custom-event-container span:focus {
+  background-color: $primary;
+}
 .custom-table-card {
   // border-width: 1px solid $table-border-color;
   position: relative;

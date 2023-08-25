@@ -37,13 +37,21 @@ const navigation = [
     icon: faPeopleGroup,
   },
   // {
+  //   title: "Events",
+  //   href: "/forms",
+  //   icon: faCalendarDays,
+  // },
+  // {
+  //   title: "Events",
+  //   href: "/cards",
+  //   icon: faCalendarDays,
   //   title: "Life Groups",
   //   href: "/buttons"
   //   icon: faPeopleGroup,
   // },
   {
     title: "Events",
-    href: "/cards",
+    href: "/events",
     icon: faCalendarDays,
   },
   // {
