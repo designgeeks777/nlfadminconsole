@@ -25,12 +25,12 @@ const tableData = [
           response: "Praying",
           date: "23/11/2022",
         },
-        {
-          name: "Ria",
-          phoneNumber: "+919986169736",
-          response: "Praying for you daily, dont worry",
-          date: "23/11/2022",
-        },
+        // {
+        //   name: "Ria",
+        //   phoneNumber: "+919986169736",
+        //   response: "Praying for you daily, dont worry",
+        //   date: "23/11/2022",
+        // },
       ],
     ],
     raisedOn: "21/01/2022",
@@ -81,6 +81,7 @@ const PrayerRequests = () => {
                 title="Prayer Requests"
                 tableData={tableData}
                 tableColumns={tableColumns}
+                fromPrayerRequestPage={true}
               />
             </Col>
           </Row>

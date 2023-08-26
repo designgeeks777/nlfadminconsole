@@ -1,5 +1,5 @@
 import { Card, CardBody, CardTitle, Table } from "reactstrap";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 const NestedTable = ({
@@ -8,8 +8,9 @@ const NestedTable = ({
   tableData,
   title,
   fromLifeGroupDetailsPage,
+  fromPrayerRequestPage,
 }) => {
-  console.log(tableData, "from lgd");
+  // console.log(tableData, "from lgd");
   const tableColumnsCount = useRef(0);
 
   const capitalize = (str) => {
@@ -22,7 +23,7 @@ const NestedTable = ({
     (o, key) => ({ ...o, [key]: capitalize(key) }),
     {}
   );
-  console.log("OBJECT >>>", obj);
+  // console.log("OBJECT >>>", obj);
 
   useEffect(() => {
     tableColumnsCount.current = tableColumns.length;
@@ -39,6 +40,18 @@ const NestedTable = ({
     });
   };
 
+  const textElementRef = useRef();
+  const [isHovering, setIsHovering] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
+  useEffect(() => {
+    if (fromPrayerRequestPage) {
+      const compare =
+        textElementRef.current.scrollWidth > textElementRef.current.clientWidth;
+      setIsHovering(compare);
+    }
+  }, [selectedId, fromPrayerRequestPage]);
+
   // get table row data
   const tdData = () => {
     return tableData.map((data, index) => {
@@ -54,10 +67,31 @@ const NestedTable = ({
               <td key={item}>
                 {item === "response" ? (
                   <>
-                    <div class="tooltip-container">
+                    <div
+                      className="tooltip-container"
+                      ref={textElementRef}
+                      onMouseOver={() => {
+                        setSelectedId(index);
+                      }}
+                      onMouseOut={() => {
+                        setSelectedId(null);
+                      }}
+                    >
                       {capitalize(data[item])}
-                      <span class="custom-tooltip">
-                        <span class="tooltiptext p-2">
+                      <span
+                        className="custom-tooltip"
+                        style={{
+                          display:
+                            selectedId === index && isHovering
+                              ? "inline-block"
+                              : "none",
+                          visibility:
+                            selectedId === index && isHovering
+                              ? "visible"
+                              : "hidden",
+                        }}
+                      >
+                        <span className="tooltiptext p-2">
                           {capitalize(data[item])}
                         </span>
                       </span>
@@ -73,6 +107,7 @@ const NestedTable = ({
       );
     });
   };
+
   return (
     // <Card className="shadow-none custom-table-card">
     //   <CardBody className="p-0">
