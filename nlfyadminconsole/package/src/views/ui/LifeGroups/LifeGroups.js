@@ -4,6 +4,10 @@ import {
   CardBody,
   CardText,
   CardTitle,
+  Carousel,
+  CarouselControl,
+  CarouselIndicators,
+  CarouselItem,
   Col,
   Row,
   Table,
@@ -12,6 +16,7 @@ import ProjectTables from "../../../components/dashboard/ProjectTable";
 import { useState } from "react";
 import LifeGroupDetails from "./LifeGroupDetails";
 import AddLifeGroup from "./AddLifeGroup";
+import JoiningRequests from "./JoiningRequests";
 
 const tableData = [
   {
@@ -66,7 +71,32 @@ const tableColumns = [
   { path: "members", name: "Members" },
   { path: "action", name: "Edit/Delete" },
 ];
-
+const joiningRequestsArray = [
+  {
+    location: "Amruthahalli",
+    leaders: "Anzi & Vegin",
+    name: "Ridan",
+    phoneNumber: "919986169736",
+  },
+  {
+    location: "Kannur",
+    leaders: "Suraj & Rose",
+    name: "Ridan",
+    phoneNumber: "919986169736",
+  },
+  {
+    location: "Yelahanka",
+    leaders: "Anna & Sandeep",
+    name: "Ridan",
+    phoneNumber: "919986169736",
+  },
+  {
+    location: "Vidyaranyapura",
+    leaders: "Anna & Sandeep",
+    name: "Ridan",
+    phoneNumber: "919986169736",
+  },
+];
 const LifeGroups = () => {
   const [lifeGroupDetailPageData, setLifeGroupDetailPageData] = useState(null);
   const [state, setState] = useState(false);
@@ -78,7 +108,6 @@ const LifeGroups = () => {
     setState(showChild);
     setLifeGroupDetailPageData(childData);
   };
-
   return (
     <>
       {addLifeGroup ? (
@@ -87,72 +116,8 @@ const LifeGroups = () => {
         <div className="d-flex flex-column mb-3">
           {!state ? (
             <>
-              <CardTitle tag="h4" className="text-primary">
-                Joining Requests
-              </CardTitle>
-              <Row className="mt-3">
-                <Col sm="6" lg="4">
-                  <Card body color="white" className="p-4">
-                    <CardTitle tag="h5">Amruthahalli</CardTitle>
-                    <CardText className="text-dark">
-                      Lead by: Anzi & Vegin
-                    </CardText>
-                    <CardText className="text-primary fw-bold">Ridan</CardText>
-                    <CardText className="text-primary">
-                      (+919986169736)
-                    </CardText>
-                    <div className="button-group d-flex">
-                      <Button className="btn jrlg-buttons mx-2" color="primary">
-                        Accept
-                      </Button>
-                      <Button className="btn jrlg-buttons" color="secondary">
-                        Decline
-                      </Button>
-                    </div>
-                  </Card>
-                </Col>
-                <Col sm="6" lg="4">
-                  <Card body color="white" className="p-4">
-                    <CardTitle tag="h5">Vidyanarayanpura</CardTitle>
-                    <CardText className="text-dark">
-                      Lead by: Sandeep & Anna
-                    </CardText>
-                    <CardText className="text-primary fw-bold">Ridan</CardText>
-                    <CardText className="text-primary">
-                      (+919986169736)
-                    </CardText>
-                    <div className="button-group d-flex">
-                      <Button className="btn jrlg-buttons mx-2" color="primary">
-                        Accept
-                      </Button>
-                      <Button className="btn jrlg-buttons" color="secondary">
-                        Decline
-                      </Button>
-                    </div>
-                  </Card>
-                </Col>
-                <Col sm="6" lg="4">
-                  <Card body color="white" className="p-4">
-                    <CardTitle tag="h5">Yelahanka</CardTitle>
-                    <CardText className="text-dark">
-                      Lead by: Sudhakar & Sherly
-                    </CardText>
-                    <CardText className="text-primary fw-bold">Ridan</CardText>
-                    <CardText className="text-primary">
-                      (+919986169736)
-                    </CardText>
-                    <div className="button-group d-flex">
-                      <Button className="btn jrlg-buttons mx-2" color="primary">
-                        Accept
-                      </Button>
-                      <Button className="btn jrlg-buttons" color="secondary">
-                        Decline
-                      </Button>
-                    </div>
-                  </Card>
-                </Col>
-              </Row>
-              <div className="p-2 align-self-end">
+              <JoiningRequests />
+              <div className="p-2 mb-3 align-self-end">
                 <Button
                   className="btn buttons"
                   color="primary"

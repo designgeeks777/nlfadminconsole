@@ -26,11 +26,11 @@ const navigation = [
     href: "/announcements",
     icon: faBullhorn,
   },
-  {
-    title: "Reminders",
-    href: "/badges",
-    icon: faBell,
-  },
+  // {
+  //   title: "Reminders",
+  //   href: "/badges",
+  //   icon: faBell,
+  // },
   {
     title: "Life Groups",
     href: "/lifeGroups",

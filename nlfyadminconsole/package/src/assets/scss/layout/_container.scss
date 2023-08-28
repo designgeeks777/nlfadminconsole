@@ -241,3 +241,12 @@ color: $white;
 // .tooltip:hover .tooltiptext {
 //   visibility: visible;
 // }
+.slick-slide {
+  padding: 0px 12px;
+}
+.slick-card {
+  height: 313px;
+}
+.slick-prev:before, .slick-next:before {
+  color: $primary;
+}

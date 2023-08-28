@@ -21,8 +21,10 @@
     "react-apexcharts": "1.4.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.12.1",
+    "react-slick": "^0.29.0",
     "reactstrap": "9.1.10",
     "sass": "1.63.2",
+    "slick-carousel": "^1.8.1",
     "web-vitals": "3.3.2"
   },
   "scripts": {
