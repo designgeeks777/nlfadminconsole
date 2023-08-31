@@ -36,7 +36,7 @@ const ProjectTables = ({
   // const fileUrl = require(filePath);
 
   const capitalize = (str) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    return str[0].toUpperCase() + str.slice(1);
   };
 
   // get table tableColumns
@@ -79,7 +79,7 @@ const ProjectTables = ({
               return (
                 // <td className="p-2" key={path}>
                 <td className="py-3" key={path}>
-                  {path === "user" || path === "requestBy" ? (
+                  {path === "user" || path === "raisedBy" ? (
                     <div className="d-flex align-items-center p-2">
                       <img
                         // src={require(data[path][0])}
@@ -91,7 +91,7 @@ const ProjectTables = ({
                         height="45"
                       />
                       <div className="ms-3">
-                        <h6 className="mb-0">{capitalize(data[path][1])}</h6>
+                        <h6 className="mb-0">{capitalize(data[path])}</h6>
                       </div>
                     </div>
                   ) : path === "action" ? (
@@ -106,8 +106,8 @@ const ProjectTables = ({
                       {data[path].toUpperCase()}
                     </div>
                   ) : path === "responses" || path === "members" ? (
-                    <span className="ps-3">
-                      {data[path][0] === "0" ? null : (
+                    <span className="ps-4">
+                      {data[path].length === 0 ? null : (
                         <i
                           className={`bi ${
                             selectedId === index
@@ -120,10 +120,10 @@ const ProjectTables = ({
                           }}
                         />
                       )}
-                      {data[path][0]}
+                      {data[path].length}
                       {selectedId === index ? (
                         <NestedTable
-                          tableData={data[path][1]}
+                          tableData={data[path]}
                           fromPrayerRequestPage={fromPrayerRequestPage}
                         />
                       ) : null}

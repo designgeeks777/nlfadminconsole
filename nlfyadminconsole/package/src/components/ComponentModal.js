@@ -2,18 +2,22 @@ import PropTypes from "prop-types";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 const ComponentModal = ({
-  state,
+  show,
   toggle,
   children,
   title,
+  disabled,
   submitButtonTitle,
+  submitButtonClick,
   cancelButtonTitle,
+  cancelButtonClick,
 }) => {
   return (
     <>
       <div>
-        <Modal centered isOpen={state} toggle={toggle}>
-          <ModalHeader toggle={toggle}>{title}</ModalHeader>
+        <Modal centered isOpen={show} toggle={toggle}>
+          {/* <ModalHeader toggle={toggle}>{title}</ModalHeader> */}
+          <ModalHeader>{title}</ModalHeader>
           <ModalBody>
             <div>{children}</div>
           </ModalBody>
@@ -21,14 +25,15 @@ const ComponentModal = ({
             <Button
               color="secondary"
               className="modal-btn-secondary"
-              onClick={toggle}
+              onClick={cancelButtonClick}
             >
               {cancelButtonTitle}
             </Button>
             <Button
               color="primary"
               className="modal-btn-primary"
-              onClick={toggle}
+              onClick={submitButtonClick}
+              disabled={disabled}
             >
               {submitButtonTitle}
             </Button>{" "}
@@ -40,7 +45,7 @@ const ComponentModal = ({
 };
 
 ComponentModal.propTypes = {
-  state: PropTypes.bool,
+  show: PropTypes.bool,
   toggle: PropTypes.func,
   children: PropTypes.node,
   title: PropTypes.string,
