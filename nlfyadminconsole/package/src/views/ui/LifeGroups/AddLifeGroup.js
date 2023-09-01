@@ -1,4 +1,4 @@
-import { Button } from "reactstrap";
+import { Button, FormGroup, Input, Label } from "reactstrap";
 import { useState } from "react";
 import ComponentCard from "../../../components/ComponentCard";
 import { BASEURL } from "../../../APIKey";
@@ -82,11 +82,11 @@ const AddLifeGroup = () => {
           />
         )}
         <ComponentCard title="Add New Life Group">
-          <div className="mb-4">
-            <label htmlFor="place" className="form-label text-dark fw-bold">
+          <FormGroup>
+            <Label for="place" className="form-label text-dark fw-bold">
               Life Group Name
-            </label>
-            <input
+            </Label>
+            <Input
               type="text"
               className="form-control p-2 modal-body-input shadow-none"
               id="place"
@@ -94,12 +94,12 @@ const AddLifeGroup = () => {
               value={newLifeGroupData.place}
               onChange={handlePlaceChange}
             />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="leaders" className="form-label text-dark fw-bold">
+          </FormGroup>
+          <FormGroup>
+            <Label for="leaders" className="form-label text-dark fw-bold">
               Leaders
-            </label>
-            <input
+            </Label>
+            <Input
               type="text"
               className="form-control p-2 modal-body-input shadow-none"
               id="leaders"
@@ -107,15 +107,12 @@ const AddLifeGroup = () => {
               value={newLifeGroupData.leaders}
               onChange={handleLifeGroupLeadersChange}
             />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="meetingDays"
-              className="form-label text-dark fw-bold"
-            >
+          </FormGroup>
+          <FormGroup>
+            <Label for="meetingDays" className="form-label text-dark fw-bold">
               Meeting Days
-            </label>
-            <input
+            </Label>
+            <Input
               type="text"
               className="form-control p-2 modal-body-input shadow-none"
               id="meetingDays"
@@ -123,7 +120,7 @@ const AddLifeGroup = () => {
               value={newLifeGroupData.meetingDay}
               onChange={handleLifeGroupMeetingDayChange}
             />
-          </div>
+          </FormGroup>
         </ComponentCard>
         <div className="button-group align-self-end">
           <Button

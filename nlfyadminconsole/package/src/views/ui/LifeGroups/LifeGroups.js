@@ -1,8 +1,6 @@
 import { Button, Col, Row } from "reactstrap";
 import ProjectTables from "../../../components/dashboard/ProjectTable";
 import { useEffect, useState } from "react";
-import LifeGroupDetails from "./LifeGroupDetails";
-import AddLifeGroup from "./AddLifeGroup";
 import JoiningRequests from "./JoiningRequests";
 import axios from "axios";
 import { BASEURL } from "../../../APIKey";

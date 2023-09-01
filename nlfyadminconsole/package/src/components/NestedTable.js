@@ -124,8 +124,6 @@ const NestedTable = ({
   };
 
   return (
-    // <Card className="shadow-none custom-table-card">
-    //   <CardBody className="p-0">
     <Table
       className={`no-wrap my-0 align-middle custom-table ${
         fromLifeGroupDetailsPage ? "w-50" : ""
@@ -138,8 +136,6 @@ const NestedTable = ({
       </thead>
       <tbody>{tdData()}</tbody>
     </Table>
-    //   </CardBody>
-    // </Card>
   );
 };
 

@@ -1,4 +1,4 @@
-import { Button } from "reactstrap";
+import { Button, FormGroup, Input, Label } from "reactstrap";
 import { useState } from "react";
 import ComponentCard from "../../../components/ComponentCard";
 import ComponentModal from "../../../components/ComponentModal";
@@ -197,11 +197,11 @@ const LifeGroupDetails = () => {
           ) : null}
         </div>
         <ComponentCard title={`Life Group - ${selectedLifeGroupData?.place}`}>
-          <div className="mb-4">
-            <label htmlFor="leaders" className="form-label text-dark fw-bold">
+          <FormGroup>
+            <Label for="leaders" className="form-label text-dark fw-bold">
               Leaders
-            </label>
-            <input
+            </Label>
+            <Input
               type="text"
               className="form-control p-2 modal-body-input shadow-none"
               id="leaders"
@@ -209,15 +209,15 @@ const LifeGroupDetails = () => {
               value={selectedLifeGroupData?.leaders}
               onChange={handleLifeGroupLeadersChange}
             />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="meetingDays"
+          </FormGroup>
+          <FormGroup>
+            <Label
+              for="meetingDays"
               className="form-label text-dark fw-bold"
             >
               Meeting Days
-            </label>
-            <input
+            </Label>
+            <Input
               type="text"
               className="form-control p-2 modal-body-input shadow-none"
               id="meetingDays"
@@ -225,15 +225,15 @@ const LifeGroupDetails = () => {
               value={selectedLifeGroupData?.meetingDay}
               onChange={handleLifeGroupMeetingDayChange}
             />
-          </div>
+          </FormGroup>
           {selectedLifeGroupData?.members.length === 0 ? null : (
             <div>
-              <label
-                htmlFor="membersTable"
+              <Label
+                for="membersTable"
                 className="form-label text-dark fw-bold"
               >
                 Members
-              </label>
+              </Label>
               <NestedTable
                 tableData={selectedLifeGroupData?.members}
                 fromLifeGroupDetailsPage={true}

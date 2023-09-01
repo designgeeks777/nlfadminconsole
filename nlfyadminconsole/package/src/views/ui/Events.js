@@ -217,7 +217,7 @@ const Events = () => {
                 </select>
               </div>
               {selectedValue === "custom" ? (
-                <div className="custom-event-container rounded p-3">
+                <div className="custom-event-container p-3">
                   <h5 className="modal-body-label py-2">Custom Reccurance</h5>
                   <div className="d-flex align-items-center mb-3">
                     <label className="form-label me-2 mb-0">Repeat every</label>
