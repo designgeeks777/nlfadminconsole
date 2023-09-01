@@ -41,7 +41,7 @@ const ThemeRoutes = [
       { path: "/churchPrayers", exact: true, element: <ChurchPrayers /> },
       { path: "/prayerRequests", exact: true, element: <PrayerRequests /> },
       { path: "/lifeGroups", exact: true, element: <LifeGroups /> },
-      { path: "/addLifeGroups", exact: true, element: <AddLifeGroup /> },
+      { path: "/addLifeGroup", exact: true, element: <AddLifeGroup /> },
       // { path: "/test", exact: true, element: <Test /> },
       {
         path: "/lifeGroupsDetails/:id",

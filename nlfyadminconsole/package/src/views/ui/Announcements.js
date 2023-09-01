@@ -74,7 +74,7 @@ const Announcements = () => {
           </Button>
           {state ? (
             <ComponentModal
-              state={state}
+              show={state}
               toggle={toggle}
               title="Announce"
               submitButtonTitle="Announce"

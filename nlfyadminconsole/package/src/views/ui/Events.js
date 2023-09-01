@@ -125,7 +125,7 @@ const Events = () => {
         </Button>
         {state ? (
           <ComponentModal
-            state={state}
+            show={state}
             toggle={toggle}
             title="Add Event"
             submitButtonTitle="Save"

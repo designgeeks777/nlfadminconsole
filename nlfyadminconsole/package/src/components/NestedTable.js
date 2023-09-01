@@ -9,8 +9,9 @@ const NestedTable = ({
   title,
   fromLifeGroupDetailsPage,
   fromPrayerRequestPage,
+  parentCallback,
 }) => {
-  console.log("NESTED TABLE", tableData);
+  // console.log("NESTED TABLE", tableData);
   var filteredTableColumns = [];
 
   const tableColumnsCount = useRef(0);
@@ -28,7 +29,7 @@ const NestedTable = ({
   // get table tableColumns
   const tableColumns = Object.keys(tableData[0]);
   filteredTableColumns = tableColumns.filter((key) => key !== "uid");
-  console.log("tableColumns", filteredTableColumns);
+  // console.log("tableColumns", filteredTableColumns);
 
   useEffect(() => {
     tableColumnsCount.current = filteredTableColumns.length;
@@ -65,8 +66,15 @@ const NestedTable = ({
           {filteredTableColumns.map((item) => {
             return fromLifeGroupDetailsPage && item === "mobileNumber" ? (
               <td key={item}>
-                {capitalize(data[item])}
-                <span className="text-info">Remove</span>
+                {data[item]}
+                <span
+                  className="text-info"
+                  onClick={() => {
+                    parentCallback(tableData[index]);
+                  }}
+                >
+                  Remove
+                </span>
               </td>
             ) : (
               <td key={item}>
@@ -105,7 +113,7 @@ const NestedTable = ({
                 ) : item === "responseBy" ? (
                   capitalize(data[item]["name"])
                 ) : (
-                  <>{data[item]}</>
+                  <>{capitalize(data[item])}</>
                 )}
               </td>
             );
