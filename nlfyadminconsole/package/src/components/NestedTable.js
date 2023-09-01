@@ -10,6 +10,7 @@ const NestedTable = ({
   fromLifeGroupDetailsPage,
   fromPrayerRequestPage,
 }) => {
+  console.log("NESTED TABLE", tableData);
   var filteredTableColumns = [];
 
   const tableColumnsCount = useRef(0);
@@ -69,7 +70,7 @@ const NestedTable = ({
               </td>
             ) : (
               <td key={item}>
-                {item === "response" ? (
+                {item === "responseMessage" ? (
                   <>
                     <div
                       className="tooltip-container"
@@ -101,8 +102,10 @@ const NestedTable = ({
                       </span>
                     </div>
                   </>
+                ) : item === "responseBy" ? (
+                  capitalize(data[item]["name"])
                 ) : (
-                  <>{capitalize(data[item])}</>
+                  <>{data[item]}</>
                 )}
               </td>
             );

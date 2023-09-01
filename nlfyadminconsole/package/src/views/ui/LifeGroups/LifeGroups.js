@@ -83,6 +83,38 @@ const LifeGroups = () => {
   const url = `${BASEURL}lifeGroups/`;
 
   useEffect(() => {
+    const source = axios.CancelToken.source();
+    const loadData = async () => {
+      try {
+        const response = await axios.get(url, {
+          cancelToken: source.token,
+        });
+        var data = [];
+        data = response.data;
+        data.forEach((object) => {
+          object["action"] = "edit/delete";
+        });
+        setTableData(data.reverse());
+        // console.log("LG Response", data);
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log("Request canceled");
+        } else {
+          console.error(error);
+        }
+      }
+    };
+
+    loadData();
+
+    const intervalId = setInterval(loadData, 60000);
+
+    return () => {
+      clearInterval(intervalId);
+      source.cancel("Component unmounted");
+    };
+  }, [url]);
+  useEffect(() => {
     axios
       .get(url)
       .then((res) => {

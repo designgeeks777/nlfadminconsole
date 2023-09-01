@@ -101,7 +101,7 @@ const ChurchPrayers = () => {
 
     loadData();
 
-    const intervalId = setInterval(loadData, 6000);
+    const intervalId = setInterval(loadData, 60000);
 
     return () => {
       clearInterval(intervalId);
