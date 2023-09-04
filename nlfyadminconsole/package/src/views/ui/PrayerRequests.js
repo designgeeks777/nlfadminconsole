@@ -36,7 +36,7 @@ const PrayerRequests = () => {
               user: modifiedData.filter(({ uid }) => d.raisedByUid === uid),
             };
           });
-          setTableData(resultData);
+          setTableData(resultData.reverse());
           console.log(resultData);
         });
       } catch (error) {
