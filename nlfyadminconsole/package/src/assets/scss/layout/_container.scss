@@ -59,8 +59,13 @@ color: $white;
 }
 
 .btn-primary {
-  --bs-btn-hover-bg: #f97e3a;
-  --bs-btn-hover-border-color: #f97e3a;
+  border-color: transparent !important;
+  background:  $gradient !important;
+}
+
+.btn-primary:hover, btn-primary:active, btn-primary:focus  {
+  background-color: $primary !important;
+  border-color: $primary !important;
 }
 
 .btn-secondary {
@@ -77,6 +82,11 @@ color: $white;
   color: $button-actions;
   cursor: pointer;
   font-weight: $headings-font-weight;
+}
+
+.table-actions-button:hover {
+  // color: #008BCE;
+  opacity: 90%;
 }
 
 .event-card {
@@ -168,6 +178,7 @@ color: $white;
   width: $btn-width;
   height: $btn-height;
   border-radius: $btn-border-radius;
+  // background-image: $gradient !important;
 }
 
 .jrlg-buttons {
@@ -178,4 +189,64 @@ color: $white;
 
 .alert-success, .alert-danger {
   --bs-alert-bg: inherit;
+}
+
+.tooltip-container {
+  display: block;
+  width: 10em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.custom-tooltip {
+  visibility: hidden;
+  // visibility: visible;
+  position: absolute;
+  // display: inline-block;
+  white-space: normal !important;
+  left: 72%;
+}
+
+.tooltip-container:hover .custom-tooltip {
+  // visibility: visible;
+}
+
+.custom-tooltip .tooltiptext {
+  // visibility: hidden;
+  width: 200px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 999;
+  // top: 0px;
+  // left: 100%;
+  overflow-y: auto;
+  max-height: 250px;
+}
+
+.custom-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 6%;
+  right: 100%;
+  margin-top: 8px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent black transparent transparent;
+}
+
+// .tooltip:hover .tooltiptext {
+//   visibility: visible;
+// }
+.slick-slide {
+  padding: 0px 12px;
+}
+.slick-card {
+  height: 313px;
+}
+.slick-prev:before, .slick-next:before {
+  color: $primary;
 }

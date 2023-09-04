@@ -20,6 +20,7 @@ const ProjectTables = ({
   tableData,
   tableColumns,
   title,
+  fromPrayerRequestPage,
 }) => {
   const [selectedId, setSelectedId] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
@@ -121,7 +122,10 @@ const ProjectTables = ({
                       )}
                       {data[path][0]}
                       {selectedId === index ? (
-                        <NestedTable tableData={data[path][1]} />
+                        <NestedTable
+                          tableData={data[path][1]}
+                          fromPrayerRequestPage={fromPrayerRequestPage}
+                        />
                       ) : null}
                     </span>
                   ) : (

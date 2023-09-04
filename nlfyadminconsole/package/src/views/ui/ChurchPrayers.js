@@ -54,6 +54,11 @@ const ChurchPrayers = () => {
   const toggle = () => {
     setState(!state);
   };
+  const handleCallback = (showChild, childData) => {
+    // Update the data.
+    console.log("handleCallback", showChild, childData);
+  };
+
   return (
     <div>
       <div className="d-flex flex-column mb-3">
@@ -102,6 +107,7 @@ const ChurchPrayers = () => {
                 title="Church Prayers"
                 tableData={tableData}
                 tableColumns={tableColumns}
+                parentCallback={handleCallback}
               />
             </Col>
           </Row>

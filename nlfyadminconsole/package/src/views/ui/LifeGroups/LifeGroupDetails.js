@@ -1,10 +1,10 @@
 import { Button } from "reactstrap";
 import { useState } from "react";
-import ComponentCard from "../../components/ComponentCard";
-import ComponentModal from "../../components/ComponentModal";
+import ComponentCard from "../../../components/ComponentCard";
+import ComponentModal from "../../../components/ComponentModal";
 import PropTypes from "prop-types";
-import Alerts from "./Alerts";
-import NestedTable from "../../components/NestedTable";
+import Alerts from "../Alerts";
+import NestedTable from "../../../components/NestedTable";
 
 const LifeGroupDetails = ({ props }) => {
   console.log("LGD", props);
@@ -16,9 +16,7 @@ const LifeGroupDetails = ({ props }) => {
   const openresetModal = () => {
     setOpenResetModal(!openResetModal);
   };
-  return props === null || undefined ? (
-    <div>ADD LifeGroup</div>
-  ) : (
+  return (
     <>
       <Alerts
         props={{

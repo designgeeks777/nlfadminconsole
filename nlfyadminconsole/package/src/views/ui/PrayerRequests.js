@@ -25,12 +25,12 @@ const tableData = [
           response: "Praying",
           date: "23/11/2022",
         },
-        {
-          name: "Ria",
-          phoneNumber: "+919986169736",
-          response: "Praying",
-          date: "23/11/2022",
-        },
+        // {
+        //   name: "Ria",
+        //   phoneNumber: "+919986169736",
+        //   response: "Praying for you daily, dont worry",
+        //   date: "23/11/2022",
+        // },
       ],
     ],
     raisedOn: "21/01/2022",
@@ -45,7 +45,15 @@ const tableData = [
         {
           name: "Ria",
           phoneNumber: "+919986169736",
-          response: "Praying",
+          response:
+            "Praying Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis n",
+          date: "23/11/2022",
+        },
+        {
+          name: "Robin",
+          phoneNumber: "+919986169736",
+          response:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis n",
           date: "23/11/2022",
         },
       ],
@@ -53,6 +61,7 @@ const tableData = [
     raisedOn: "02/02/2022",
   },
 ];
+
 
 const tableColumns = [
   { path: "requestBy", name: "Request By" },
@@ -72,6 +81,7 @@ const PrayerRequests = () => {
                 title="Prayer Requests"
                 tableData={tableData}
                 tableColumns={tableColumns}
+                fromPrayerRequestPage={true}
               />
             </Col>
           </Row>
