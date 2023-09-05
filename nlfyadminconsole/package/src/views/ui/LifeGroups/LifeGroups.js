@@ -33,7 +33,7 @@ const LifeGroups = () => {
           object["action"] = "edit/delete";
         });
         setTableData(data.reverse());
-        console.log("Data", data);
+        // console.log("Data", data);
 
         //for Joining Requests
         var joiningRequestData = [];
@@ -50,7 +50,7 @@ const LifeGroups = () => {
             }
           })
         );
-        console.log("joiningRequestData", joiningRequests);
+        // console.log("joiningRequestData", joiningRequests);
         setJoiningRequestsData(joiningRequests.reverse());
       } catch (error) {
         if (axios.isCancel(error)) {
@@ -75,7 +75,7 @@ const LifeGroups = () => {
   // useEffect(() => {});
   const handleCallback = (showChild, selectedLifeGroupData) => {
     // Update the data and show LifeGroupDetails component.
-    console.log("handleCallback", showChild, selectedLifeGroupData);
+    // console.log("handleCallback", showChild, selectedLifeGroupData);
     navigate(`/lifeGroupsDetails/${selectedLifeGroupData._id}`, {
       state: { selectedLifeGroupData },
     });
