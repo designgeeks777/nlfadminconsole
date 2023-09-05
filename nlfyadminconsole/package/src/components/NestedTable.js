@@ -9,7 +9,9 @@ const NestedTable = ({
   title,
   fromLifeGroupDetailsPage,
   fromPrayerRequestPage,
+  parentCallback,
 }) => {
+  // console.log("NESTED TABLE", tableData);
   var filteredTableColumns = [];
 
   const tableColumnsCount = useRef(0);
@@ -27,7 +29,7 @@ const NestedTable = ({
   // get table tableColumns
   const tableColumns = Object.keys(tableData[0]);
   filteredTableColumns = tableColumns.filter((key) => key !== "uid");
-  console.log("tableColumns", filteredTableColumns);
+  // console.log("tableColumns", filteredTableColumns);
 
   useEffect(() => {
     tableColumnsCount.current = filteredTableColumns.length;
@@ -64,12 +66,19 @@ const NestedTable = ({
           {filteredTableColumns.map((item) => {
             return fromLifeGroupDetailsPage && item === "mobileNumber" ? (
               <td key={item}>
-                {capitalize(data[item])}
-                <span className="text-info">Remove</span>
+                {data[item]}
+                <span
+                  className="text-info"
+                  onClick={() => {
+                    parentCallback(tableData[index]);
+                  }}
+                >
+                  Remove
+                </span>
               </td>
             ) : (
               <td key={item}>
-                {item === "response" ? (
+                {item === "responseMessage" ? (
                   <>
                     <div
                       className="tooltip-container"
@@ -101,6 +110,8 @@ const NestedTable = ({
                       </span>
                     </div>
                   </>
+                ) : item === "responseBy" ? (
+                  capitalize(data[item]["name"])
                 ) : (
                   <>{capitalize(data[item])}</>
                 )}
@@ -113,8 +124,6 @@ const NestedTable = ({
   };
 
   return (
-    // <Card className="shadow-none custom-table-card">
-    //   <CardBody className="p-0">
     <Table
       className={`no-wrap my-0 align-middle custom-table ${
         fromLifeGroupDetailsPage ? "w-50" : ""
@@ -127,8 +136,6 @@ const NestedTable = ({
       </thead>
       <tbody>{tdData()}</tbody>
     </Table>
-    //   </CardBody>
-    // </Card>
   );
 };
 

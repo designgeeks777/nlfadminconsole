@@ -73,6 +73,7 @@ $body-font-weight: 600 !default;
 
 $card-border-width: 0 !default;
 $card-box-shadow: $box-shadow !default;
+$card-border-radius: 10px !default;
 $grid-gutter-width: 1.85rem !default;
 $card-bg: $white;
 
@@ -102,10 +103,12 @@ $btn-modal-border-radius: 10px;
 /*******************/
 // Theme modal
 /********************/
+$modal-border-width: 1px;
 $modal-border-radius: 10px;
 $modal-bg: $white;
-$modal-border-color: #C9CAC8;
-
+$modal-content-border-color: #C9CAC8;
+$modal-header-border-color: #F4F4F4;
+$modal-label-color: #676767;
 /*******************/
 // Theme sidebar width
 /********************/

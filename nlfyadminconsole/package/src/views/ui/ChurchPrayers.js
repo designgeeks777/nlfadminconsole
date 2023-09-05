@@ -15,46 +15,6 @@ import { BASEURL } from "../../APIKey";
 import axios from "axios";
 import Alerts from "./Alerts";
 
-const tableData = [
-  {
-    datePosted: "12/07/2022",
-    prayerPoint:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis n",
-    action: "delete",
-  },
-  {
-    datePosted: "23/04/2022",
-    prayerPoint:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis n",
-
-    action: "delete",
-  },
-  {
-    datePosted: "21/02/2022",
-    prayerPoint:
-      "ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis n",
-    action: "delete",
-  },
-  {
-    datePosted: "13/08/2022",
-    prayerPoint:
-      "orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis n",
-    action: "delete",
-  },
-  {
-    datePosted: "20/06/2022",
-    prayerPoint:
-      "Lrem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis n",
-    action: "delete",
-  },
-  {
-    datePosted: "02/11/2022",
-    prayerPoint:
-      "em ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis n",
-    action: "delete",
-  },
-];
-
 const tableColumns = [
   { path: "datePosted", name: "Posted On" },
   { path: "prayerPoint", name: "Prayer Point" },
@@ -101,7 +61,7 @@ const ChurchPrayers = () => {
 
     loadData();
 
-    const intervalId = setInterval(loadData, 6000);
+    const intervalId = setInterval(loadData, 60000);
 
     return () => {
       clearInterval(intervalId);

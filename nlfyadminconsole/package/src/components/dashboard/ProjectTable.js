@@ -70,73 +70,76 @@ const ProjectTables = ({
 
   // get table row data
   const tdData = () => {
-    return tableData
-      .slice(currentPage * pageSize, (currentPage + 1) * pageSize)
-      .map((data, index) => {
-        return (
-          <tr key={index} className="border-top">
-            {tableColumns.map(({ path }) => {
-              return (
-                // <td className="p-2" key={path}>
-                <td className="py-3" key={path}>
-                  {path === "user" || path === "raisedBy" ? (
-                    <div className="d-flex align-items-center p-2">
-                      <img
-                        // src={require(data[path][0])}
-                        // src={fileUrl}
-                        src={avatar}
-                        className="rounded-circle"
-                        alt="avatar"
-                        width="45"
-                        height="45"
+    let paginatedTableData = tableData.slice(
+      currentPage * pageSize,
+      (currentPage + 1) * pageSize
+    );
+    // console.log("paginatedTableData", paginatedTableData);
+    return paginatedTableData.map((data, index) => {
+      return (
+        <tr key={index} className="border-top">
+          {tableColumns.map(({ path }) => {
+            return (
+              // <td className="p-2" key={path}>
+              <td className="py-3" key={path}>
+                {path === "user" || path === "raisedBy" ? (
+                  <div className="d-flex align-items-center p-2">
+                    <img
+                      // src={require(data[path][0])}
+                      // src={fileUrl}
+                      src={avatar}
+                      className="rounded-circle"
+                      alt="avatar"
+                      width="45"
+                      height="45"
+                    />
+                    <div className="ms-3">
+                      <h6 className="mb-0">{capitalize(data[path])}</h6>
+                    </div>
+                  </div>
+                ) : path === "action" ? (
+                  <div
+                    className="table-actions-button d-flex justify-content-center"
+                    size="sm"
+                    onClick={() => {
+                      parentCallback(true, paginatedTableData[index]);
+                      // console.log("clicked", paginatedTableData[index]);
+                    }}
+                  >
+                    {data[path].toUpperCase()}
+                  </div>
+                ) : path === "responses" || path === "members" ? (
+                  <span className="ps-4">
+                    {data[path].length === 0 ? null : (
+                      <i
+                        className={`bi ${
+                          selectedId === index
+                            ? "bi-chevron-down"
+                            : "bi-chevron-right"
+                        } text-primary`}
+                        style={{ paddingRight: 6 }}
+                        onClick={() => {
+                          onSelectItem(index);
+                        }}
                       />
-                      <div className="ms-3">
-                        <h6 className="mb-0">{capitalize(data[path])}</h6>
-                      </div>
-                    </div>
-                  ) : path === "action" ? (
-                    <div
-                      className="table-actions-button d-flex justify-content-center"
-                      size="sm"
-                      onClick={() => {
-                        parentCallback(true, tableData[index]);
-                        console.log("clicked", tableData[index]);
-                      }}
-                    >
-                      {data[path].toUpperCase()}
-                    </div>
-                  ) : path === "responses" || path === "members" ? (
-                    <span className="ps-4">
-                      {data[path].length === 0 ? null : (
-                        <i
-                          className={`bi ${
-                            selectedId === index
-                              ? "bi-chevron-down"
-                              : "bi-chevron-right"
-                          } text-primary`}
-                          style={{ paddingRight: 6 }}
-                          onClick={() => {
-                            onSelectItem(index);
-                          }}
-                        />
-                      )}
-                      {data[path].length}
-                      {selectedId === index ? (
-                        <NestedTable
-                          tableData={data[path]}
-                          fromPrayerRequestPage={fromPrayerRequestPage}
-                        />
-                      ) : null}
-                    </span>
-                  ) : (
-                    capitalize(data[path])
-                  )}
-                </td>
-              );
-            })}
-          </tr>
-        );
-      });
+                    )}
+                    {data[path].length}
+                    {selectedId === index ? (
+                      <NestedTable
+                        tableData={data[path]}
+                        fromPrayerRequestPage={fromPrayerRequestPage}
+                      />
+                    ) : null}
+                  </span>
+                ) : (
+                  capitalize(data[path])
+                )}
+              </td>
+            );
+          })}
+        </tr>
+      );
+    });
   };
 
   return (

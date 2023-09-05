@@ -11,6 +11,7 @@
 .card {
   box-shadow: $card-box-shadow;
   margin-bottom: 30px;
+  border-radius: $card-border-radius;
 }
 
 .circle-box {
@@ -104,10 +105,11 @@ color: $white;
 
 .custom-event-container {
   border: 1px solid rgba(242, 105, 36, 0.2);
+  border-radius: 8px;
 }
 
 .custom-event-container p, .custom-event-container p.active,.custom-event-container p.focus {
-  border: 1px solid $modal-border-color;
+  border-color: 1px solid $modal-content-border-color;
   border-radius: 4px;
   padding: 2px 6px;
 }
@@ -125,16 +127,10 @@ color: $white;
 .custom-event-container span:active,.custom-event-container span:focus {
   background-color: $primary;
 }
-.custom-table-card {
-  // border-width: 1px solid $table-border-color;
-  position: relative;
-  left: 20px;
-  top: 20px;
-  padding: 1px;
-}
 
 .custom-table {
   border: 1px solid $table-border-color;
+  border-radius: 4px;
 }
 .custom-table>thead {
   border-bottom: 1px solid $table-border-color;
@@ -217,7 +213,7 @@ textarea.form-control.is-invalid {
   position: absolute;
   // display: inline-block;
   white-space: normal !important;
-  left: 72%;
+  left: 66%;
 }
 
 .tooltip-container:hover .custom-tooltip {
