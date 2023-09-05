@@ -3,17 +3,20 @@ import ProjectTables from "../../components/dashboard/ProjectTable";
 import user1 from "../../assets/images/users/user1.jpg";
 import user2 from "../../assets/images/users/user2.jpg";
 import user4 from "../../assets/images/users/user4.jpg";
+import axios from "axios";
+import { BASEURL } from "../../APIKey";
+import { useEffect, useState } from "react";
 
-const tableData = [
+const tableDatas = [
   {
-    requestBy: [user2, "Hanna"],
+    raisedBy: [user2, "Hanna"],
     requestMessage:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis n",
     responses: "0",
     raisedOn: "23/11/2022",
   },
   {
-    requestBy: [user1, "Hanna"],
+    raisedBy: [user1, "Hanna"],
     requestMessage:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis n",
     responses: [
@@ -36,7 +39,7 @@ const tableData = [
     raisedOn: "21/01/2022",
   },
   {
-    requestBy: [user4, "Hanna"],
+    raisedBy: [user4, "Hanna"],
     requestMessage:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis n",
     responses: [
@@ -62,15 +65,30 @@ const tableData = [
   },
 ];
 
-
 const tableColumns = [
-  { path: "requestBy", name: "Request By" },
+  { path: "raisedBy", name: "Request By" },
   { path: "requestMessage", name: "Request Message" },
   { path: "responses", name: "Responses" },
-  { path: "raisedOn", name: "Raised On" },
+  { path: "dateOfPosting", name: "Raised On" },
 ];
 
 const PrayerRequests = () => {
+  const url = `${BASEURL}prayerRequests/`;
+  const [tableData, setTableData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(url)
+      .then((res) => {
+        var data = [];
+        data = res.data;
+        setTableData(data);
+        console.log(tableData);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
   return (
     <div>
       <div className="d-flex flex-column mb-3">

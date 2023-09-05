@@ -10,31 +10,35 @@ const NestedTable = ({
   fromLifeGroupDetailsPage,
   fromPrayerRequestPage,
 }) => {
-  // console.log(tableData, "from lgd");
+  var filteredTableColumns = [];
+
   const tableColumnsCount = useRef(0);
 
   const capitalize = (str) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    return str[0].toUpperCase() + str.slice(1);
+  };
+
+  const camelToFlat = (c) => {
+    c = c.replace(/[A-Z]/g, " $&");
+    c = c[0].toUpperCase() + c.slice(1);
+    return c;
   };
 
   // get table tableColumns
   const tableColumns = Object.keys(tableData[0]);
-  const obj = tableColumns.reduce(
-    (o, key) => ({ ...o, [key]: capitalize(key) }),
-    {}
-  );
-  // console.log("OBJECT >>>", obj);
+  filteredTableColumns = tableColumns.filter((key) => key !== "uid");
+  console.log("tableColumns", filteredTableColumns);
 
   useEffect(() => {
-    tableColumnsCount.current = tableColumns.length;
-  }, [tableColumns.length]);
+    tableColumnsCount.current = filteredTableColumns.length;
+  }, [filteredTableColumns.length]);
 
   // get table heading data
   const thData = () => {
-    return tableColumns.map((data) => {
+    return filteredTableColumns.map((data) => {
       return (
         <th key={data} className="text-primary nowrap">
-          {capitalize(data)}
+          {camelToFlat(data)}
         </th>
       );
     });
@@ -57,8 +61,8 @@ const NestedTable = ({
     return tableData.map((data, index) => {
       return (
         <tr key={index} className={`rowSpan=${tableColumnsCount}`}>
-          {tableColumns.map((item) => {
-            return fromLifeGroupDetailsPage && item === "phoneNumber" ? (
+          {filteredTableColumns.map((item) => {
+            return fromLifeGroupDetailsPage && item === "mobileNumber" ? (
               <td key={item}>
                 {capitalize(data[item])}
                 <span className="text-info">Remove</span>
@@ -129,7 +133,7 @@ const NestedTable = ({
 };
 
 NestedTable.propTypes = {
-  tableData: PropTypes.any,
+  // tableData: PropTypes.any,
 };
 
 export default NestedTable;
