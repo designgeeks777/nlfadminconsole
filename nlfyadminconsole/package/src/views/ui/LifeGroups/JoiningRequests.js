@@ -93,10 +93,11 @@ const JoiningRequests = ({ joiningRequestsArray, lifeGroup }) => {
 
     let joiningRequests = selectedLifeGroup.joiningRequests;
     joiningRequests = selectedLifeGroup.joiningRequests.map((obj) => {
+      const { uid, name, mobileNumber, accepted } = obj;
       if (obj.uid === item.uid) {
-        return { ...obj, accepted: "true" };
+        return { uid, name, mobileNumber, accepted: "true" };
       }
-      return obj;
+      return { uid, name, mobileNumber, accepted };
     });
 
     let members = selectedLifeGroup.members;
@@ -104,9 +105,9 @@ const JoiningRequests = ({ joiningRequestsArray, lifeGroup }) => {
 
     let updateBody;
     updateBody = { joiningRequests, members };
-    // console.log(updateBody, i);
+    console.log(updateBody, i);
     axios
-      .patch(lifeGroupUrl, updateBody, { timeout: 5000 })
+      .patch(lifeGroupUrl, updateBody)
       .then((apiresponse) => {
         console.log(apiresponse);
       })
