@@ -18,6 +18,7 @@ const LifeGroups = () => {
   const [tableData, setTableData] = useState([]);
   const url = `${BASEURL}lifeGroups/`;
   let navigate = useNavigate();
+  const [joiningRequestsData, setJoiningRequestsData] = useState([]);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -32,7 +33,25 @@ const LifeGroups = () => {
           object["action"] = "edit/delete";
         });
         setTableData(data.reverse());
-        // console.log("LG Response", data);
+        console.log("Data", data);
+
+        //for Joining Requests
+        var joiningRequestData = [];
+        var joiningRequests = [];
+
+        joiningRequestData = response.data;
+        joiningRequestData.forEach((object) =>
+          object.joiningRequests.forEach((JRobject) => {
+            if (JRobject.accepted === "false") {
+              JRobject["_id"] = object._id;
+              JRobject["leaders"] = object.leaders;
+              JRobject["place"] = object.place;
+              joiningRequests.push(JRobject);
+            }
+          })
+        );
+        console.log("joiningRequestData", joiningRequests);
+        setJoiningRequestsData(joiningRequests.reverse());
       } catch (error) {
         if (axios.isCancel(error)) {
           console.log("Request canceled");
@@ -53,6 +72,7 @@ const LifeGroups = () => {
   }, [url]);
   // console.log("data", tableData);
 
+  // useEffect(() => {});
   const handleCallback = (showChild, selectedLifeGroupData) => {
     // Update the data and show LifeGroupDetails component.
     console.log("handleCallback", showChild, selectedLifeGroupData);
@@ -64,7 +84,10 @@ const LifeGroups = () => {
     <>
       <div className="d-flex flex-column mb-3">
         <>
-          <JoiningRequests />
+          <JoiningRequests
+            joiningRequestsArray={joiningRequestsData}
+            lifeGroup={tableData}
+          />
           <div className="p-2 mb-3 align-self-end">
             <Button
               className="btn buttons"

@@ -1,45 +1,47 @@
+import axios from "axios";
 import React from "react";
 import Slider from "react-slick";
 import { Card, CardTitle, CardText, Button } from "reactstrap";
-const joiningRequestsArray = [
+import { BASEURL } from "../../../APIKey";
+const joiningRequestsArrays = [
   {
     id: 1,
     location: "Amruthahalli",
     leaders: "Anzi & Vegin",
     name: "Ridan",
-    phoneNumber: "+91919986169736",
+    mobileNumber: "+91919986169736",
   },
   {
     id: 2,
     location: "Kannur",
     leaders: "Suraj & Rose",
     name: "Ridan",
-    phoneNumber: "+91919986169736",
+    mobileNumber: "+91919986169736",
   },
   {
     id: 3,
     location: "Yelahanka",
     leaders: "Anna & Sandeep",
     name: "Ridan",
-    phoneNumber: "+91919986169736",
+    mobileNumber: "+91919986169736",
   },
   {
     id: 4,
     location: "Vidyaranyapura",
     leaders: "Anna & Sandeep",
     name: "Ridan",
-    phoneNumber: "+91919986169736",
+    mobileNumber: "+91919986169736",
   },
   {
     id: 5,
     location: "Sanjaynagar",
     leaders: "Anna & Sandeep",
     name: "Ridan",
-    phoneNumber: "+91919986169736",
+    mobileNumber: "+91919986169736",
   },
 ];
 
-const JoiningRequests = () => {
+const JoiningRequests = ({ joiningRequestsArray, lifeGroup }) => {
   const settings = {
     dots: true,
     infinite: false,
@@ -74,6 +76,43 @@ const JoiningRequests = () => {
       },
     ],
   };
+  const acceptJoiningRequest = (item, i) => {
+    let selectedLifeGroup = lifeGroup.find((lg) => lg._id === item._id);
+    const lifeGroupUrl = `${BASEURL}lifeGroups/${item._id}`;
+    // let joiningRequestsData = {
+    //   uid: item.uid,
+    //   name: item.name,
+    //   mobileNumber: item.mobileNumber,
+    //   accepted: "true",
+    // };
+    let membersData = {
+      uid: item.uid,
+      name: item.name,
+      mobileNumber: item.mobileNumber,
+    };
+
+    let joiningRequests = selectedLifeGroup.joiningRequests;
+    joiningRequests = selectedLifeGroup.joiningRequests.map((obj) => {
+      if (obj.uid === item.uid) {
+        return { ...obj, accepted: "true" };
+      }
+      return obj;
+    });
+
+    let members = selectedLifeGroup.members;
+    members.push(membersData);
+
+    let updateBody;
+    updateBody = { joiningRequests, members };
+    // console.log(updateBody, i);
+    axios
+      .patch(lifeGroupUrl, updateBody, { timeout: 5000 })
+      .then((apiresponse) => {
+        console.log(apiresponse);
+      })
+      .catch((err) => console.error(err));
+  };
+
   return (
     <div
       className="px-2 mb-3"
@@ -94,7 +133,7 @@ const JoiningRequests = () => {
             className="p-4 slick-card d-flex justify-content-around"
             style={{ height: 313 + "px" }}
           >
-            <CardTitle tag="h5">{item.location}</CardTitle>
+            <CardTitle tag="h5">{item.place}</CardTitle>
             <CardText className="text-dark fs-6 mb-0">
               Lead by: {item.leaders}
             </CardText>
@@ -103,11 +142,17 @@ const JoiningRequests = () => {
                 {item.name}
               </CardText>
               <CardText className="text-primary fs-6 mb-0">
-                ({item.phoneNumber})
+                ({item.mobileNumber})
               </CardText>
             </div>
             <div className="button-group d-flex justify-content-between">
-              <Button className="btn jrlg-buttons" color="primary">
+              <Button
+                className="btn jrlg-buttons"
+                color="primary"
+                onClick={() => {
+                  acceptJoiningRequest(item, i);
+                }}
+              >
                 Accept
               </Button>
               <Button className="btn jrlg-buttons" color="secondary">
