@@ -21,6 +21,7 @@ const ProjectTables = ({
   tableColumns,
   title,
   fromPrayerRequestPage,
+  fromUsers,
 }) => {
   const [selectedId, setSelectedId] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
@@ -67,7 +68,6 @@ const ProjectTables = ({
     if (id === selectedId) return setSelectedId(null);
     setSelectedId(id);
   };
-
   // get table row data
   const tdData = () => {
     let paginatedTableData = tableData.slice(
@@ -80,24 +80,40 @@ const ProjectTables = ({
         <tr key={index} className="border-top">
           {tableColumns.map(({ path }) => {
             return (
-              // <td className="p-2" key={path}>
               <td className="py-3" key={path}>
-                {path === "user" || path === "raisedBy" ? (
-                  <div className="d-flex align-items-center p-2">
-                    <img
-                      // src={require(data[path][0])}
-                      // src={fileUrl}
-                      src={avatar}
-                      className="rounded-circle"
-                      alt="avatar"
-                      width="45"
-                      height="45"
-                    />
-                    <div className="ms-3">
-                      <h6 className="mb-0">{capitalize(data[path])}</h6>
-                    </div>
+                {path === "user" ? (
+                  <div className="d-flex align-items-center py-2">
+                    {data[path].length !== 0 && (
+                      <img
+                        src={data[path][0]?.profilePic}
+                        className="rounded-circle"
+                        alt="avatar"
+                        width="45"
+                        height="45"
+                      />
+                    )}
+                    {data[path].length !== 0 && (
+                      <div className="ms-2">
+                        <h6 className="mb-0">
+                          {capitalize(data[path][0]?.name)}
+                        </h6>
+                      </div>
+                    )}
                   </div>
-                ) : path === "action" ? (
+                ) : // : path === "raisedBy" ? (
+                //   <div className="d-flex align-items-center p-2">
+                //     <img
+                //       src={data[path]}
+                //       className="rounded-circle"
+                //       alt="avatar"
+                //       width="45"
+                //       height="45"
+                //     />
+                //     <div className="ms-3">
+                //       <h6 className="mb-0">{capitalize(data[path])}</h6>
+                //     </div>
+                //   </div>
+                path === "action" ? (
                   <div
                     className="table-actions-button d-flex justify-content-center"
                     size="sm"
@@ -132,7 +148,7 @@ const ProjectTables = ({
                     ) : null}
                   </span>
                 ) : (
-                  capitalize(data[path])
+                  <>{capitalize(data[path])}</>
                 )}
               </td>
             );

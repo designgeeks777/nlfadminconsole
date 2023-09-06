@@ -195,7 +195,7 @@ color: $white;
   border: 1px solid $danger;
 }
 
-textarea.form-control.is-invalid {
+textarea.form-control.is-invalid, .form-control.is-invalid {
   border-color: $danger !important;
 }
 

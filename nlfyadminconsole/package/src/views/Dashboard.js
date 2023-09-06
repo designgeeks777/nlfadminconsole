@@ -13,6 +13,7 @@ import user2 from "../assets/images/users/user2.jpg";
 import user3 from "../assets/images/users/user3.jpg";
 import user4 from "../assets/images/users/user4.jpg";
 import user5 from "../assets/images/users/user5.jpg";
+import Users from "./ui/Users";
 
 const BlogData = [
   {
@@ -148,16 +149,7 @@ const Dashboard = () => {
       </Row>
 
       {/***Table ***/}
-      <Row>
-        <Col lg="12">
-          <ProjectTables
-            id="id"
-            title="Users List"
-            tableData={tableData}
-            tableColumns={tableColumns}
-          />
-        </Col>
-      </Row>
+      <Users />
     </div>
   );
 };

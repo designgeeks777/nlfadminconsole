@@ -1,34 +1,44 @@
 import { Col, Row } from "reactstrap";
 import ProjectTables from "../../components/dashboard/ProjectTable";
-import user1 from "../../assets/images/users/user1.jpg";
-import user2 from "../../assets/images/users/user2.jpg";
-import user4 from "../../assets/images/users/user4.jpg";
 import axios from "axios";
 import { BASEURL } from "../../APIKey";
 import { useEffect, useState } from "react";
 
 const tableColumns = [
-  { path: "raisedBy", name: "Request By" },
+  { path: "user", name: "Request By" },
   { path: "requestMessage", name: "Request Message" },
   { path: "responses", name: "Responses" },
   { path: "dateOfPosting", name: "Raised On" },
 ];
 
 const PrayerRequests = () => {
-  const url = `${BASEURL}prayerRequests/`;
+  const prayerRequestsUrl = `${BASEURL}prayerRequests/`;
+  const usersUrl = `${BASEURL}users/`;
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
+    var modifiedData = [];
+    var resultData = [];
     const source = axios.CancelToken.source();
     const loadData = async () => {
       try {
-        const response = await axios.get(url, {
-          cancelToken: source.token,
+        axios.get(usersUrl).then((response) => {
+          modifiedData = response.data.map((user) => {
+            const { name, profilePic, uid } = user;
+            return { name, profilePic, uid };
+          });
+          console.log("modifiedData", modifiedData);
         });
-        var data = [];
-        data = response.data;
-        setTableData(data.reverse());
-        // console.log("PR Response", data);
+        axios.get(prayerRequestsUrl).then((response) => {
+          resultData = response.data.map((d) => {
+            return {
+              ...d,
+              user: modifiedData.filter(({ uid }) => d.raisedByUid === uid),
+            };
+          });
+          setTableData(resultData.reverse());
+          console.log(resultData);
+        });
       } catch (error) {
         if (axios.isCancel(error)) {
           console.log("Request canceled");
@@ -37,7 +47,6 @@ const PrayerRequests = () => {
         }
       }
     };
-
     loadData();
 
     const intervalId = setInterval(loadData, 60000);
@@ -46,7 +55,7 @@ const PrayerRequests = () => {
       clearInterval(intervalId);
       source.cancel("Component unmounted");
     };
-  }, [url]);
+  }, [usersUrl, prayerRequestsUrl]);
 
   return (
     <div>
