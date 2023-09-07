@@ -53,7 +53,6 @@ const JoiningRequests = ({ joiningRequestsArray, lifeGroup }) => {
     joiningRequests = selectedLifeGroup.joiningRequests.map((obj) => {
       if (obj.uid === item.uid) {
         obj["accepted"] = "true";
-        return obj;
       }
       return obj;
     });
