@@ -1,133 +1,74 @@
 import { Col, Row } from "reactstrap";
-import SalesChart from "../components/dashboard/SalesChart";
-import Feeds from "../components/dashboard/Feeds";
-import ProjectTables from "../components/dashboard/ProjectTable";
 import TopCards from "../components/dashboard/TopCards";
-import Blog from "../components/dashboard/Blog";
-import bg1 from "../assets/images/bg/bg1.jpg";
-import bg2 from "../assets/images/bg/bg2.jpg";
-import bg3 from "../assets/images/bg/bg3.jpg";
-import bg4 from "../assets/images/bg/bg4.jpg";
-import user1 from "../assets/images/users/user1.jpg";
-import user2 from "../assets/images/users/user2.jpg";
-import user3 from "../assets/images/users/user3.jpg";
-import user4 from "../assets/images/users/user4.jpg";
-import user5 from "../assets/images/users/user5.jpg";
 import Users from "./ui/Users";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { BASEURL } from "../APIKey";
 
-const BlogData = [
-  {
-    image: bg1,
-    title: "This is simple blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg2,
-    title: "Lets be simple blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg3,
-    title: "Don't Lamp blog",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-  {
-    image: bg4,
-    title: "Simple is beautiful",
-    subtitle: "2 comments, 1 Like",
-    description:
-      "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary",
-  },
-];
-const tableData = [
-  {
-    user: [user4, "Han Gover"],
-    phoneNumber: "+919986169736",
-    gender: "male",
-  },
-  {
-    user: [user1, "Hanna"],
-    phoneNumber: "+919986169736",
-    gender: "female",
-  },
-  {
-    user: [user5, "Han Gover"],
-    phoneNumber: "+919986169736",
-    gender: "male",
-  },
-  {
-    user: [user3, "Hanna"],
-    phoneNumber: "+919986169736",
-    gender: "female",
-  },
-  {
-    user: [user4, "Han Gover"],
-    phoneNumber: "+919986169736",
-    gender: "male",
-  },
-  {
-    user: [user3, "Hanna"],
-    phoneNumber: "+919986169736",
-    gender: "female",
-  },
-  {
-    user: [user2, "Han Gover"],
-    phoneNumber: "+919986169736",
-    gender: "male",
-  },
-  {
-    user: [user3, "Hanna"],
-    phoneNumber: "+919986169736",
-    gender: "female",
-  },
-  {
-    user: [user5, "Han Gover"],
-    phoneNumber: "+919986169736",
-    gender: "male",
-  },
-  {
-    user: [user1, "Hanna"],
-    phoneNumber: "+919986169736",
-    gender: "female",
-  },
-  {
-    user: [user5, "Han Gover"],
-    phoneNumber: "+919986169736",
-    gender: "male",
-  },
-  {
-    user: [user1, "anna"],
-    phoneNumber: "+919986169736",
-    gender: "female",
-  },
-];
-
-const tableColumns = [
-  { path: "user", name: "User" },
-  { path: "phoneNumber", name: "Phone number" },
-  { path: "gender", name: "Gender" },
-];
 const Dashboard = () => {
+  const [joiningRequests, setJoininingRequests] = useState(0);
+  const [users, setUsers] = useState(0);
+  const [announcements, setAnnouncements] = useState(0);
+  const lifeGroupsUrl = `${BASEURL}getLifeGroupsCount/`;
+  const usersUrl = `${BASEURL}getUsersCount/`;
+  const announcementsUrl = `${BASEURL}getAnnouncementsCount/`;
+
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+    const loadData = async () => {
+      try {
+        axios
+          .get(lifeGroupsUrl, {
+            cancelToken: source.token,
+          })
+          .then((response) => {
+            setJoininingRequests(response.data);
+          })
+          .catch((error) => console.log(error));
+        axios
+          .get(announcementsUrl, {
+            cancelToken: source.token,
+          })
+          .then((response) => {
+            setAnnouncements(response.data);
+          })
+          .catch((error) => console.log(error));
+        axios
+          .get(usersUrl, {
+            cancelToken: source.token,
+          })
+          .then((response) => {
+            setUsers(response.data);
+          })
+          .catch((error) => console.log(error));
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log("Request canceled");
+        } else {
+          console.error(error);
+        }
+      }
+    };
+    loadData();
+
+    const intervalId = setInterval(loadData, 60000);
+
+    return () => {
+      clearInterval(intervalId);
+      source.cancel("Component unmounted");
+    };
+  }, [usersUrl, lifeGroupsUrl, announcementsUrl]);
+
   return (
     <div>
-      {/***Top Cards***/}
       <Row>
         <Col sm="6" lg="4">
           <TopCards
             bg="bg-light-success text-success"
             title="New Life Group Requests"
             subtitle="New Life Group Requests"
-            count="3"
+            count={joiningRequests}
+            routeName="/lifeGroups"
           />
         </Col>
         <Col sm="6" lg="4">
@@ -135,7 +76,8 @@ const Dashboard = () => {
             bg="bg-light-danger text-danger"
             title="Users"
             subtitle="Users"
-            count="60"
+            count={users}
+            routeName="/"
           />
         </Col>
         <Col sm="6" lg="4">
@@ -143,12 +85,12 @@ const Dashboard = () => {
             bg="bg-light-warning text-warning"
             title="Announcements"
             subtitle="Announcements"
-            count="30"
+            count={announcements}
+            routeName="/announcements"
           />
         </Col>
       </Row>
 
-      {/***Table ***/}
       <Users />
     </div>
   );

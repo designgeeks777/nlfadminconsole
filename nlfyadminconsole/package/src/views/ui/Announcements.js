@@ -87,7 +87,7 @@ const Announcements = () => {
     };
 
     axios
-      .post(url, postbody, { timeout: 5000 })
+      .post(url, postbody)
       .then(() => {
         setShow(false);
         maxWords.current = 0;

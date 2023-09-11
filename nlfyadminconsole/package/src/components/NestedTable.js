@@ -47,16 +47,16 @@ const NestedTable = ({
   };
 
   const textElementRef = useRef();
-  const [isHovering, setIsHovering] = useState(false);
+  // const [isHovering, setIsHovering] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
-  useEffect(() => {
-    if (fromPrayerRequestPage) {
-      const compare =
-        textElementRef.current.scrollWidth > textElementRef.current.clientWidth;
-      setIsHovering(compare);
-    }
-  }, [selectedId, fromPrayerRequestPage]);
+  // useEffect(() => {
+  //   if (fromPrayerRequestPage) {
+  //     const compare =
+  //       textElementRef.current.scrollWidth > textElementRef.current.clientWidth;
+  //     setIsHovering(compare);
+  //   }
+  // }, [selectedId, fromPrayerRequestPage]);
 
   // get table row data
   const tdData = () => {
@@ -95,13 +95,9 @@ const NestedTable = ({
                         className="custom-tooltip"
                         style={{
                           display:
-                            selectedId === index && isHovering
-                              ? "inline-block"
-                              : "none",
+                            selectedId === index ? "inline-block" : "none",
                           visibility:
-                            selectedId === index && isHovering
-                              ? "visible"
-                              : "hidden",
+                            selectedId === index ? "visible" : "hidden",
                         }}
                       >
                         <span className="tooltiptext p-2">
