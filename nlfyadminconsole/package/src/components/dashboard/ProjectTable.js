@@ -114,7 +114,7 @@ const ProjectTables = ({
                             ? "bi-chevron-down"
                             : "bi-chevron-right"
                         } text-primary`}
-                        style={{ paddingRight: 6 }}
+                        style={{ paddingRight: 6, cursor: "pointer" }}
                         onClick={() => {
                           onSelectItem(index);
                         }}
