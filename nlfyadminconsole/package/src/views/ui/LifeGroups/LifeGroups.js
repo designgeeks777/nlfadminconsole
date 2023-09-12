@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 
 const tableColumns = [
   { path: "place", name: "Location" },
-  // { path: "meetingDay", name: "MeetingDay" },
   { path: "leaders", name: "Leaders" },
   { path: "members", name: "Members" },
   { path: "action", name: "Edit/Delete" },
@@ -18,6 +17,7 @@ const LifeGroups = () => {
   const [tableData, setTableData] = useState([]);
   const url = `${BASEURL}lifeGroups/`;
   let navigate = useNavigate();
+  const [joiningRequestsData, setJoiningRequestsData] = useState([]);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -27,12 +27,27 @@ const LifeGroups = () => {
           cancelToken: source.token,
         });
         var data = [];
-        data = response.data;
+        data = JSON.parse(JSON.stringify(response.data));
         data.forEach((object) => {
           object["action"] = "edit/delete";
         });
         setTableData(data.reverse());
-        // console.log("LG Response", data);
+
+        //for Joining Requests
+        var joiningRequestData = [];
+        var joiningRequests = [];
+        joiningRequestData = JSON.parse(JSON.stringify(response.data));
+        joiningRequestData.forEach((object) =>
+          object.joiningRequests.forEach((JRobject) => {
+            if (JRobject.accepted === "false") {
+              JRobject["_id"] = object._id;
+              JRobject["leaders"] = object.leaders;
+              JRobject["place"] = object.place;
+              joiningRequests.push(JRobject);
+            }
+          })
+        );
+        setJoiningRequestsData(joiningRequests.reverse());
       } catch (error) {
         if (axios.isCancel(error)) {
           console.log("Request canceled");
@@ -51,12 +66,10 @@ const LifeGroups = () => {
       source.cancel("Component unmounted");
     };
   }, [url]);
-  // console.log("data", tableData);
 
   const handleCallback = (showChild, selectedLifeGroupData) => {
     // Update the data and show LifeGroupDetails component.
-    console.log("handleCallback", showChild, selectedLifeGroupData);
-    navigate(`/lifeGroupsDetails/${selectedLifeGroupData._id}`, {
+    navigate(`/lifeGroupsDetails/${selectedLifeGroupData.place}`, {
       state: { selectedLifeGroupData },
     });
   };
@@ -64,7 +77,10 @@ const LifeGroups = () => {
     <>
       <div className="d-flex flex-column mb-3">
         <>
-          <JoiningRequests />
+          <JoiningRequests
+            joiningRequestsArray={joiningRequestsData}
+            lifeGroup={tableData}
+          />
           <div className="p-2 mb-3 align-self-end">
             <Button
               className="btn buttons"
