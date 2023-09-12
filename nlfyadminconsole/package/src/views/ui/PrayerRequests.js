@@ -67,7 +67,6 @@ const PrayerRequests = () => {
                 title="Prayer Requests"
                 tableData={tableData}
                 tableColumns={tableColumns}
-                fromPrayerRequestPage={true}
               />
             </Col>
           </Row>

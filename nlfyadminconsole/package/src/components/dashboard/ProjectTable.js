@@ -143,7 +143,7 @@ const ProjectTables = ({
                     {selectedId === index ? (
                       <NestedTable
                         tableData={data[path]}
-                        fromPrayerRequestPage={fromPrayerRequestPage}
+                        // fromPrayerRequestPage={fromPrayerRequestPage}
                       />
                     ) : null}
                   </span>

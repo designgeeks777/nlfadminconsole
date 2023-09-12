@@ -258,3 +258,8 @@ textarea.form-control.is-invalid, .form-control.is-invalid {
 .slick-prev:before, .slick-next:before {
   color: $primary;
 }
+
+.topcards-link {
+  text-decoration: none;
+  color: inherit;
+}
