@@ -263,3 +263,10 @@ textarea.form-control.is-invalid, .form-control.is-invalid {
   text-decoration: none;
   color: inherit;
 }
+
+.table-spinner {
+  display: block;
+  position: absolute;
+  left: calc(50% - 35px);
+  top: 50%;
+}

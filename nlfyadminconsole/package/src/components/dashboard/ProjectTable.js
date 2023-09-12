@@ -6,16 +6,14 @@ import {
   Pagination,
   PaginationItem,
   PaginationLink,
+  Spinner,
 } from "reactstrap";
 import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import avatar from "../../assets/images/users/user1.jpg";
 import NestedTable from "../NestedTable";
-import { useNavigate } from "react-router-dom";
 
 const ProjectTables = ({
   children,
-  id,
   parentCallback,
   tableData,
   tableColumns,
@@ -32,9 +30,6 @@ const ProjectTables = ({
     e.preventDefault();
     setCurrentPage(index);
   };
-
-  // const filePath = user1;
-  // const fileUrl = require(filePath);
 
   const capitalize = (str) => {
     return str[0].toUpperCase() + str.slice(1);
@@ -74,7 +69,6 @@ const ProjectTables = ({
       currentPage * pageSize,
       (currentPage + 1) * pageSize
     );
-    // console.log("paginatedTableData", paginatedTableData);
     return paginatedTableData.map((data, index) => {
       return (
         <tr key={index} className="border-top">
@@ -100,20 +94,7 @@ const ProjectTables = ({
                       </div>
                     )}
                   </div>
-                ) : // : path === "raisedBy" ? (
-                //   <div className="d-flex align-items-center p-2">
-                //     <img
-                //       src={data[path]}
-                //       className="rounded-circle"
-                //       alt="avatar"
-                //       width="45"
-                //       height="45"
-                //     />
-                //     <div className="ms-3">
-                //       <h6 className="mb-0">{capitalize(data[path])}</h6>
-                //     </div>
-                //   </div>
-                path === "action" ? (
+                ) : path === "action" ? (
                   <div
                     className="table-actions-button d-flex justify-content-center"
                     size="sm"
@@ -163,41 +144,54 @@ const ProjectTables = ({
       <Card>
         <CardBody>
           <CardTitle tag="h5">{title}</CardTitle>
-          <Table className="no-wrap mt-3 align-middle" responsive borderless>
-            <thead>
-              <tr>
-                {tableColumns.map(({ path, name }) =>
-                  path === "action" ? null : thData(path, name)
-                )}
-              </tr>
-            </thead>
-            <tbody>{tdData()}</tbody>
-          </Table>
-          <Pagination className="d-flex justify-content-end">
-            <PaginationItem disabled={currentPage <= 0}>
-              <PaginationLink
-                onClick={(e) => handleClick(e, currentPage - 1)}
-                previous
-                href="#"
-              />
-            </PaginationItem>
+          {tableData.length === 0 ? (
+            <div style={{ height: 250 }}>
+              <Spinner color="primary" className="table-spinner" />
+            </div>
+          ) : (
+            <>
+              <Table
+                className="no-wrap mt-3 align-middle"
+                responsive
+                borderless
+              >
+                <thead>
+                  <tr>
+                    {tableColumns.map(({ path, name }) =>
+                      path === "action" ? null : thData(path, name)
+                    )}
+                  </tr>
+                </thead>
+                <tbody>{tdData()}</tbody>
+              </Table>
 
-            {[...Array(pagesCount)].map((page, i) => (
-              <PaginationItem active={i === currentPage} key={i}>
-                <PaginationLink onClick={(e) => handleClick(e, i)} href="#">
-                  {i + 1}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
+              <Pagination className="d-flex justify-content-end">
+                <PaginationItem disabled={currentPage <= 0}>
+                  <PaginationLink
+                    onClick={(e) => handleClick(e, currentPage - 1)}
+                    previous
+                    href="#"
+                  />
+                </PaginationItem>
 
-            <PaginationItem disabled={currentPage >= pagesCount - 1}>
-              <PaginationLink
-                onClick={(e) => handleClick(e, currentPage + 1)}
-                next
-                href="#"
-              />
-            </PaginationItem>
-          </Pagination>
+                {[...Array(pagesCount)].map((page, i) => (
+                  <PaginationItem active={i === currentPage} key={i}>
+                    <PaginationLink onClick={(e) => handleClick(e, i)} href="#">
+                      {i + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+
+                <PaginationItem disabled={currentPage >= pagesCount - 1}>
+                  <PaginationLink
+                    onClick={(e) => handleClick(e, currentPage + 1)}
+                    next
+                    href="#"
+                  />
+                </PaginationItem>
+              </Pagination>
+            </>
+          )}
         </CardBody>
       </Card>
     </>
