@@ -3,7 +3,13 @@ import { Card, CardBody } from "reactstrap";
 
 const TopCards = (props) => {
   return (
-    <Link className="topcards-link" to={`${props.routeName}`}>
+    <Link
+      className="topcards-link"
+      to={`${props.routeName}`}
+      style={{
+        pointerEvents: `${props.routeName}` === "/" ? "none" : "visible",
+      }}
+    >
       <Card>
         <CardBody>
           <div className="ms-3 p-4 text-center">
