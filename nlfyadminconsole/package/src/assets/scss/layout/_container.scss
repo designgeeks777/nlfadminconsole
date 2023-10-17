@@ -108,15 +108,45 @@ color: $white;
   border-radius: 8px;
 }
 
-.custom-event-container p, .custom-event-container p.active,.custom-event-container p.focus {
-  border: 1px solid $modal-content-border-color;
+.custom-event-container input.count {
+  border: 1px solid #C9CAC8;
   border-radius: 4px;
-  padding: 2px 6px;
+  padding: 6px;
+  width: 10%;
+  text-align: center;
+}
+
+.custom-event-container input.count {
+  border: 1px solid #C9CAC8;
+  border-radius: 4px;
+  padding: 6px;
+  width: 10%;
+  text-align: center;
+}
+
+.custom-event-container input:active, .custom-event-container input:focus {
+  outline: none !important;
+}
+
+//to hide number arrows
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
 }
 
 .custom-event-container i {
   cursor: pointer;
   pointer-events: all;
+}
+
+.custom-event-container i.disabled {
+  opacity: 50%;
+  border-radius: 10px;
+  background-color: #dee2e6;
+  padding: 1px;
 }
 
 .custom-event-container span {
@@ -270,3 +300,13 @@ textarea.form-control.is-invalid, .form-control.is-invalid {
   left: calc(50% - 35px);
   top: 50%;
 }
+
+.selected {
+  background-color: $primary !important;
+  color: $white !important;
+}
+
+.background-grey {
+  background-color: #dee2e6;
+}
+
