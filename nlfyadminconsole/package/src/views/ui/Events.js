@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Card, CardBody, CardTitle, Col, Form, Row } from "reactstrap";
 import ComponentModal from "../../components/ComponentModal";
 import { BASEURL } from "../../APIKey";
@@ -405,7 +405,7 @@ const Events = () => {
                 <Row>
                   <Col md="4" lg="4">
                     <label
-                      htmlFor="date"
+                      htmlFor="dateOfEvent"
                       className="form-label modal-body-label"
                     >
                       Date
@@ -455,6 +455,8 @@ const Events = () => {
               </div>
               <div className="mb-3">
                 <input
+                  id="checkbox"
+                  name="checkbox"
                   type="checkbox"
                   className="form-check-input text-primary shadow-none"
                   checked={recurringEvent}
@@ -462,7 +464,7 @@ const Events = () => {
                     setRecurringEvent(!recurringEvent);
                   }}
                 />{" "}
-                <label className="form-check-label">
+                <label htmlFor="checkbox" className="form-check-label">
                   Is this recurring event?
                 </label>
               </div>
@@ -499,7 +501,9 @@ const Events = () => {
                 <div className="custom-event-container p-3">
                   <h5 className="modal-body-label py-2">Custom Reccurance</h5>
                   <div className="d-flex align-items-center mb-3">
-                    <label className="form-label me-2 mb-0">Repeat every</label>
+                    <label htmlFor="count" className="form-label me-2 mb-0">
+                      Repeat every
+                    </label>
                     <input
                       className="count shadow-none me-2 mb-0"
                       type="number"
