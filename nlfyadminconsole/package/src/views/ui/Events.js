@@ -394,7 +394,26 @@ const Events = () => {
     axios
       .post(url, postbody)
       .then((res) => {
+        var date = new Date();
+        var day = date.getDate().toString().padStart(2, "0"),
+          month = (date.getMonth() + 1).toString().padStart(2, "0"),
+          year = date.getFullYear(),
+          hour = date.getHours().toString().padStart(2, "0"),
+          min = date.getMinutes().toString().padStart(2, "0");
+        var today = year + "-" + month + "-" + day,
+          displayTime = hour + ":" + min;
         setState(false);
+        setDateOfEvent(today);
+        setPlaceOfEvent("");
+        setStartTimeOfEvent(displayTime);
+        setEndTimeOfEvent(displayTime);
+        setRecurringEvent(false);
+        setNameOfEvent("");
+        setSelectedValue("");
+        setSelectedRepeatValue("day");
+        setSelectedRepeatMonthlyValue("");
+        setSelectedRadioOption("never");
+        setEndDate("");
         console.log(res.data);
       })
       .catch((err) => {
