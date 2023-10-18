@@ -696,8 +696,8 @@ const Events = () => {
                   {selectedRepeatValue === "month" && (
                     <div className="mb-3">
                       <select
-                        id="exampleSelect"
-                        name="exampleSelect"
+                        id="repeatMonthlySelect"
+                        name="repeatMonthlySelect"
                         className="form-select shadow-none w-50"
                         value={selectedRepeatMonthlyValue}
                         onChange={handleRepeatMonthlyValueChange}
@@ -797,8 +797,8 @@ const Events = () => {
                             {event.nameOfEvent}
                           </legend>
                           <small className="text-muted text-black fw-bold">
-                            {event.typeOfEvent}{" "}
-                            {event.typeOfEvent === "" ? "" : ","}
+                            {event.typeOfEvent}
+                            {event.typeOfEvent === "" ? "" : ","}{" "}
                             {event.startTimeOfEvent.split(":")[0] % 12 || 12}:
                             {event.startTimeOfEvent.split(":")[1]}
                             {event.startTimeOfEvent.split(":")[0] >= 12
