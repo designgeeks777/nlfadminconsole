@@ -17,7 +17,8 @@ const Events = () => {
   const [recurringEvent, setRecurringEvent] = useState(false);
   const [dateOfEvent, setDateOfEvent] = useState("");
   const [placeOfEvent, setPlaceOfEvent] = useState("");
-  const [timeOfEvent, setTimeOfEvent] = useState("");
+  const [startTimeOfEvent, setStartTimeOfEvent] = useState("");
+  const [endTimeOfEvent, setEndTimeOfEvent] = useState("");
   const [nameOfEvent, setNameOfEvent] = useState("");
   useEffect(() => {
     var date = new Date();
@@ -30,7 +31,8 @@ const Events = () => {
       displayTime = hour + ":" + min;
     // console.log(today, displayTime);
     setDateOfEvent(today);
-    setTimeOfEvent(displayTime);
+    setStartTimeOfEvent(displayTime);
+    setEndTimeOfEvent(displayTime);
     // console.log(dateOfEvent);
   }, []);
   useEffect(() => {
@@ -241,8 +243,11 @@ const Events = () => {
   const handlePlaceOfEvent = (event) => {
     setPlaceOfEvent(event.target.value);
   };
-  const handleTimeOfEvent = (event) => {
-    setTimeOfEvent(event.target.value);
+  const handleStartTimeOfEvent = (event) => {
+    setStartTimeOfEvent(event.target.value);
+  };
+  const handleEndTimeOfEvent = (event) => {
+    setEndTimeOfEvent(event.target.value);
   };
   const handleNameOfEvent = (event) => {
     setNameOfEvent(event.target.value);
@@ -288,7 +293,8 @@ const Events = () => {
     let postbody = {
       dateOfEvent: dateOfEvent,
       placeOfEvent: placeOfEvent,
-      timeOfEvent: timeOfEvent,
+      startTimeOfEvent: startTimeOfEvent,
+      endTimeOfEvent: endTimeOfEvent,
       recurringEvent: recurranceBody,
       nameOfEvent: nameOfEvent,
       typeOfEvent:
@@ -357,6 +363,13 @@ const Events = () => {
             cancelButtonTitle="Cancel"
             cancelButtonClick={toggle}
             submitButtonClick={onSubmit}
+            disabled={
+              dateOfEvent === "" ||
+              placeOfEvent === "" ||
+              startTimeOfEvent === "" ||
+              endTimeOfEvent === "" ||
+              nameOfEvent === ""
+            }
           >
             <Form>
               <div className="mb-3">
@@ -373,6 +386,19 @@ const Events = () => {
                   className="form-control modal-body-input shadow-none"
                   value={nameOfEvent}
                   onChange={handleNameOfEvent}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="place" className="form-label modal-body-label">
+                  Place
+                </label>
+                <input
+                  id="place"
+                  name="place"
+                  type="text"
+                  className="form-control shadow-none modal-body-input"
+                  value={placeOfEvent}
+                  onChange={handlePlaceOfEvent}
                 />
               </div>
               <div className="mb-3">
@@ -395,34 +421,34 @@ const Events = () => {
                   </Col>
                   <Col md="4" lg="4">
                     <label
-                      htmlFor="time"
+                      htmlFor="startTimeOfEvent"
                       className="form-label modal-body-label"
                     >
-                      Time
+                      Start Time
                     </label>
                     <input
-                      id="timeOfEvent"
-                      name="time"
+                      id="startTimeOfEvent"
+                      name="startTimeOfEvent"
                       type="time"
                       className="form-control shadow-none modal-body-input"
-                      value={timeOfEvent}
-                      onChange={handleTimeOfEvent}
+                      value={startTimeOfEvent}
+                      onChange={handleStartTimeOfEvent}
                     />
                   </Col>
                   <Col md="4" lg="4">
                     <label
-                      htmlFor="place"
+                      htmlFor="endTimeOfEvent"
                       className="form-label modal-body-label"
                     >
-                      Place
+                      End Time
                     </label>
                     <input
-                      id="place"
-                      name="place"
-                      type="text"
+                      id="endTimeOfEvent"
+                      name="endTimeOfEvent"
+                      type="time"
                       className="form-control shadow-none modal-body-input"
-                      value={placeOfEvent}
-                      onChange={handlePlaceOfEvent}
+                      value={endTimeOfEvent}
+                      onChange={handleEndTimeOfEvent}
                     />
                   </Col>
                 </Row>
@@ -458,7 +484,11 @@ const Events = () => {
                     }}
                   >
                     {selectOptions.map((option) => (
-                      <option append-to="body" value={option.value}>
+                      <option
+                        append-to="body"
+                        key={option.value}
+                        value={option.value}
+                      >
                         {option.label}
                       </option>
                     ))}
@@ -517,7 +547,11 @@ const Events = () => {
                         styles={customStyles}
                       >
                         {repeatOptions.map((option) => (
-                          <option append-to="body" value={option.value}>
+                          <option
+                            append-to="body"
+                            key={option.value}
+                            value={option.value}
+                          >
                             {count === 1 ||
                             count === null ||
                             count === undefined ||
