@@ -129,6 +129,11 @@ const AddLifeGroup = () => {
             onClick={() => {
               addLifeGroup();
             }}
+            disabled={
+              newLifeGroupData.place === "" ||
+              newLifeGroupData.leaders === "" ||
+              newLifeGroupData.meetingDay === ""
+            }
           >
             Add
           </Button>

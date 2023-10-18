@@ -1,5 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { Button, Card, CardBody, CardTitle, Col, Form, Row } from "reactstrap";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardTitle,
+  Col,
+  Form,
+  Row,
+  Spinner,
+} from "reactstrap";
 import ComponentModal from "../../components/ComponentModal";
 import { BASEURL } from "../../APIKey";
 import axios from "axios";
@@ -7,6 +16,7 @@ import axios from "axios";
 const Events = () => {
   const url = `${BASEURL}events/`;
   const [state, setState] = useState(false);
+  const [tableData, setTableData] = useState([]);
   const toggle = () => {
     setState(!state);
   };
@@ -20,6 +30,20 @@ const Events = () => {
   const [startTimeOfEvent, setStartTimeOfEvent] = useState("");
   const [endTimeOfEvent, setEndTimeOfEvent] = useState("");
   const [nameOfEvent, setNameOfEvent] = useState("");
+  const monthNames = {
+    1: "JAN",
+    2: "FEB",
+    3: "MAR",
+    4: "APR",
+    5: "MAY",
+    6: "JUN",
+    7: "JUL",
+    8: "AUG",
+    9: "SEP",
+    10: "OCT",
+    11: "NOV",
+    12: "DEC",
+  };
   useEffect(() => {
     var date = new Date();
     var day = date.getDate().toString().padStart(2, "0"),
@@ -35,6 +59,35 @@ const Events = () => {
     setEndTimeOfEvent(displayTime);
     // console.log(dateOfEvent);
   }, []);
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+    const loadData = async () => {
+      try {
+        const response = await axios.get(url, {
+          cancelToken: source.token,
+        });
+        var data = [];
+        data = response.data;
+        setTableData(data);
+        console.log("Response", tableData);
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log("Request canceled");
+        } else {
+          console.error(error);
+        }
+      }
+    };
+
+    loadData();
+
+    const intervalId = setInterval(loadData, 60000);
+
+    return () => {
+      clearInterval(intervalId);
+      source.cancel("Component unmounted");
+    };
+  }, [url]);
   useEffect(() => {
     const dayNumbers = [
       "Sunday",
@@ -258,7 +311,12 @@ const Events = () => {
     setEndDate(event.target.value);
   };
   const onSubmit = () => {
-    console.log("onSubmit", selectedRepeatMonthlyValue);
+    console.log(
+      "onSubmit",
+      selectedRepeatMonthlyValue,
+      weekOfMonth.current,
+      dayOfTheWeek.current
+    );
     let weeklyOptions = options
       .filter((day) => day.selected === true)
       .map((dayData) => {
@@ -271,7 +329,11 @@ const Events = () => {
       endDate: selectedRadioOption === "endsOn" ? endDate : "",
       recurrenceDays:
         selectedValue === "custom" && selectedRepeatValue === "week"
-          ? weeklyOptions
+          ? options
+              .filter((day) => day.selected === true)
+              .map((dayData) => {
+                return dayData.value;
+              })
           : selectedValue === "custom" &&
             selectedRepeatValue === "month" &&
             !/\d/.test(selectedRepeatMonthlyValue)
@@ -332,6 +394,7 @@ const Events = () => {
     axios
       .post(url, postbody)
       .then((res) => {
+        setState(false);
         console.log(res.data);
       })
       .catch((err) => {
@@ -621,7 +684,11 @@ const Events = () => {
                         onChange={handleRepeatMonthlyValueChange}
                       >
                         {repeatMontlyOptions.map((option) => (
-                          <option append-to="body" value={option.value}>
+                          <option
+                            append-to="body"
+                            key={option.value}
+                            value={option.value}
+                          >
                             {option.label}
                           </option>
                         ))}
@@ -689,152 +756,50 @@ const Events = () => {
             //   className="p-2"
             // style={{ overflowX: "auto", whiteSpace: "nowrap" }}
             >
-              <Col md="4" lg="5" className="p-4">
-                <div className="d-flex">
-                  <div
-                    //   style={{
-                    //     borderRadius: 12,
-                    //     width: 80,
-                    //     height: 80,
-                    //     background:
-                    //       "linear-gradient(180deg, #F26924 0%, rgba(242, 105, 36, 0.7) 100%)",
-                    //   }}
-                    className="d-flex event-card flex-column px-2 justify-content-center align-items-center"
-                  >
-                    <span className="text-white">OCT</span>
-                    <span className="text-white">02</span>
-                  </div>
-                  <div className="mx-3 d-flex flex-column">
-                    <legend className="mb-0 fw-bold">Bible Study</legend>
-                    <small className="text-muted text-black fw-bold">
-                      Every Wednesday, 7:30 - 9:30 PM
-                    </small>
-                    <small className="text-muted text-black fw-bold">
-                      Zoom
-                    </small>
-                  </div>
+              {tableData.length === 0 ? (
+                <div>
+                  <div className="m-3 fw-bold">No events created</div>
                 </div>
-              </Col>
-              <Col md="4" lg="5" className="p-4">
-                <div className="d-flex">
-                  <div className="d-flex event-card flex-column px-2 justify-content-center align-items-center">
-                    <span className="text-white">OCT</span>
-                    <span className="text-white">02</span>
-                  </div>
-                  <div className="mx-3 d-flex flex-column">
-                    <legend className="mb-0 fw-bold">Friday Prayers</legend>
-                    <small className="text-muted text-black fw-bold">
-                      Every Wednesday, 7:30 - 9:30 PM
-                    </small>
-                    <small className="text-muted text-black fw-bold">
-                      Zoom
-                    </small>
-                  </div>
-                </div>
-              </Col>
-              <Col md="4" lg="5" className="p-4">
-                <div className="d-flex">
-                  <div className="d-flex event-card flex-column px-2 justify-content-center align-items-center">
-                    <span className="text-white">OCT</span>
-                    <span className="text-white">02</span>
-                  </div>
-                  <div className="mx-3 d-flex flex-column">
-                    <legend className="mb-0 fw-bold">Bible Study</legend>
-                    <small className="text-muted text-black fw-bold">
-                      Every Wednesday, 7:30 - 9:30 PM
-                    </small>
-                    <small className="text-muted text-black fw-bold">
-                      Zoom
-                    </small>
-                  </div>
-                </div>
-              </Col>
-              <Col md="4" lg="5" className="p-4">
-                <div className="d-flex">
-                  <div className="d-flex event-card flex-column px-2 justify-content-center align-items-center">
-                    <span className="text-white">OCT</span>
-                    <span className="text-white">02</span>
-                  </div>
-                  <div className="mx-3 d-flex flex-column">
-                    <legend className="mb-0 fw-bold">Bible Study</legend>
-                    <small className="text-muted text-black fw-bold">
-                      Every Wednesday, 7:30 - 9:30 PM
-                    </small>
-                    <small className="text-muted text-black fw-bold">
-                      Zoom
-                    </small>
-                  </div>
-                </div>
-              </Col>
-              <Col md="4" lg="5" className="p-4">
-                <div className="d-flex">
-                  <div className="d-flex event-card flex-column px-2 justify-content-center align-items-center">
-                    <span className="text-white">OCT</span>
-                    <span className="text-white">02</span>
-                  </div>
-                  <div className="mx-3 d-flex flex-column">
-                    <legend className="mb-0 fw-bold">Bible Study</legend>
-                    <small className="text-muted text-black fw-bold">
-                      Every Wednesday, 7:30 - 9:30 PM
-                    </small>
-                    <small className="text-muted text-black fw-bold">
-                      Zoom
-                    </small>
-                  </div>
-                </div>
-              </Col>
-
-              <Col md="4" lg="5" className="p-4">
-                <div className="d-flex">
-                  <div className="d-flex event-card flex-column px-2 justify-content-center align-items-center">
-                    <span className="text-white">OCT</span>
-                    <span className="text-white">02</span>
-                  </div>
-                  <div className="mx-3 d-flex flex-column">
-                    <legend className="mb-0 fw-bold">Bible Study</legend>
-                    <small className="text-muted text-black fw-bold">
-                      Every Wednesday, 7:30 - 9:30 PM
-                    </small>
-                    <small className="text-muted text-black fw-bold">
-                      Zoom
-                    </small>
-                  </div>
-                </div>
-              </Col>
-              <Col md="4" lg="5" className="p-4">
-                <div className="d-flex">
-                  <div className="d-flex event-card flex-column px-2 justify-content-center align-items-center">
-                    <span className="text-white">OCT</span>
-                    <span className="text-white">02</span>
-                  </div>
-                  <div className="mx-3 d-flex flex-column">
-                    <legend className="mb-0 fw-bold">Bible Study</legend>
-                    <small className="text-muted text-black fw-bold">
-                      Every Wednesday, 7:30 - 9:30 PM
-                    </small>
-                    <small className="text-muted text-black fw-bold">
-                      Zoom
-                    </small>
-                  </div>
-                </div>
-              </Col>
-              <Col md="4" lg="5" className="p-4">
-                <div className="d-flex">
-                  <div className="d-flex event-card flex-column px-2 justify-content-center align-items-center">
-                    <span className="text-white">OCT</span>
-                    <span className="text-white">02</span>
-                  </div>
-                  <div className="mx-3 d-flex flex-column">
-                    <legend className="mb-0 fw-bold">Bible Study</legend>
-                    <small className="text-muted text-black fw-bold">
-                      Every Wednesday, 7:30 - 9:30 PM
-                    </small>
-                    <small className="text-muted text-black fw-bold">
-                      Zoom
-                    </small>
-                  </div>
-                </div>
-              </Col>
+              ) : (
+                tableData.map((event, index) => {
+                  return (
+                    <Col md="4" lg="5" className="p-4" key={index}>
+                      <div className="d-flex">
+                        <div className="d-flex event-card flex-column px-2 justify-content-center align-items-center">
+                          <span className="text-white">
+                            {monthNames[event.dateOfEvent.split("/")[1]]}
+                          </span>
+                          <span className="text-white">
+                            {event.dateOfEvent.split("/")[0]}
+                          </span>
+                        </div>
+                        <div className="mx-3 d-flex flex-column">
+                          <legend className="mb-0 fw-bold">
+                            {event.nameOfEvent}
+                          </legend>
+                          <small className="text-muted text-black fw-bold">
+                            {event.typeOfEvent}{" "}
+                            {event.typeOfEvent === "" ? "" : ","}
+                            {event.startTimeOfEvent.split(":")[0] % 12 || 12}:
+                            {event.startTimeOfEvent.split(":")[1]}
+                            {event.startTimeOfEvent.split(":")[0] >= 12
+                              ? " PM"
+                              : " AM"}{" "}
+                            - {event.endTimeOfEvent.split(":")[0] % 12 || 12}:
+                            {event.endTimeOfEvent.split(":")[1]}
+                            {event.endTimeOfEvent.split(":")[0] >= 12
+                              ? " PM"
+                              : " AM"}{" "}
+                          </small>
+                          <small className="text-muted text-black fw-bold">
+                            {event.placeOfEvent}
+                          </small>
+                        </div>
+                      </div>
+                    </Col>
+                  );
+                })
+              )}
             </Row>
           </div>
         </CardBody>

@@ -72,6 +72,26 @@ const JoiningRequests = ({ joiningRequestsArray, lifeGroup }) => {
       .catch((err) => console.error(err));
   };
 
+  const declineJoiningRequest = (item, i) => {
+    let selectedLifeGroup = lifeGroup.find((lg) => lg._id === item._id);
+    const lifeGroupUrl = `${BASEURL}lifeGroups/${item._id}`;
+
+    let joiningRequests = selectedLifeGroup.joiningRequests;
+    joiningRequests = selectedLifeGroup.joiningRequests.filter((obj) => {
+      return obj.uid !== joiningRequestsArray[i].uid;
+    });
+    // console.log("joiningRequests", joiningRequests);
+    let updateBody;
+    updateBody = { joiningRequests };
+    // console.log(updateBody, i);
+    axios
+      .patch(lifeGroupUrl, updateBody)
+      .then((apiresponse) => {
+        console.log(apiresponse);
+      })
+      .catch((err) => console.error(err));
+  };
+
   return (
     <div
       className="px-2 mb-3"
@@ -114,7 +134,13 @@ const JoiningRequests = ({ joiningRequestsArray, lifeGroup }) => {
               >
                 Accept
               </Button>
-              <Button className="btn jrlg-buttons" color="secondary">
+              <Button
+                className="btn jrlg-buttons"
+                color="secondary"
+                onClick={() => {
+                  declineJoiningRequest(item, i);
+                }}
+              >
                 Decline
               </Button>
             </div>

@@ -205,22 +205,21 @@ const LifeGroupDetails = () => {
               type="text"
               className="form-control p-2 modal-body-input shadow-none"
               id="leaders"
+              name="leaders"
               placeholder="Anzi & Vegin"
               value={selectedLifeGroupData?.leaders}
               onChange={handleLifeGroupLeadersChange}
             />
           </FormGroup>
           <FormGroup>
-            <Label
-              for="meetingDays"
-              className="form-label text-dark fw-bold"
-            >
+            <Label for="meetingDays" className="form-label text-dark fw-bold">
               Meeting Days
             </Label>
             <Input
               type="text"
               className="form-control p-2 modal-body-input shadow-none"
               id="meetingDays"
+              name="meetingDays"
               placeholder="Alternate Thursdays"
               value={selectedLifeGroupData?.meetingDay}
               onChange={handleLifeGroupMeetingDayChange}
@@ -228,12 +227,7 @@ const LifeGroupDetails = () => {
           </FormGroup>
           {selectedLifeGroupData?.members.length === 0 ? null : (
             <div>
-              <Label
-                for="membersTable"
-                className="form-label text-dark fw-bold"
-              >
-                Members
-              </Label>
+              <div className="form-label text-dark fw-bold">Members</div>
               <NestedTable
                 tableData={selectedLifeGroupData?.members}
                 fromLifeGroupDetailsPage={true}
@@ -256,6 +250,10 @@ const LifeGroupDetails = () => {
             className="btn px-4 py-2 buttons"
             color="primary"
             onClick={() => updateLifeGroup()}
+            disabled={
+              selectedLifeGroupData?.leaders === "" ||
+              selectedLifeGroupData?.meetingDay === ""
+            }
           >
             Update
           </Button>

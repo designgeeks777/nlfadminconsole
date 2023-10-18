@@ -178,13 +178,17 @@ const ChurchPrayers = () => {
               <FormGroup>
                 <Label for="prayerPoint" size="md" className="modal-body-label">
                   Prayer Point{" "}
-                  <Label size="sm" className="modal-body-info-label">
+                  <Label
+                    for="prayerPoint"
+                    size="sm"
+                    className="modal-body-info-label"
+                  >
                     (Maximum 12 words.Please keep it short and simple)
                   </Label>
                 </Label>
                 <Input
                   id="prayerPoint"
-                  name="text"
+                  name="prayerPoint"
                   type="textarea"
                   rows={5}
                   invalid={maxWords.current > 12}
