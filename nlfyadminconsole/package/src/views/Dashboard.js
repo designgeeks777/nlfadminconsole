@@ -51,7 +51,7 @@ const Dashboard = () => {
     };
     loadData();
 
-    const intervalId = setInterval(loadData, 60000);
+    const intervalId = setInterval(loadData, 6000);
 
     return () => {
       clearInterval(intervalId);

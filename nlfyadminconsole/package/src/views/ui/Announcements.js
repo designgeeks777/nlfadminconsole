@@ -9,10 +9,11 @@ import {
 } from "reactstrap";
 import ProjectTables from "../../components/dashboard/ProjectTable";
 import ComponentModal from "../../components/ComponentModal";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { BASEURL } from "../../APIKey";
 import axios from "axios";
 import Alerts from "./Alerts";
+import { LoaderContext } from "../../LoaderContext";
 
 const tableColumns = [
   { path: "datePosted", name: "Announced On" },
@@ -21,6 +22,7 @@ const tableColumns = [
 ];
 
 const Announcements = () => {
+  const { isLoading, setIsLoading } = useContext(LoaderContext);
   const [show, setShow] = useState(false);
   const [tableData, setTableData] = useState([]);
   const maxWords = useRef(0);
@@ -44,6 +46,7 @@ const Announcements = () => {
 
   useEffect(() => {
     const source = axios.CancelToken.source();
+    setIsLoading(true);
     const loadData = async () => {
       try {
         const response = await axios.get(url, {
@@ -52,19 +55,23 @@ const Announcements = () => {
         var data = [];
         data = response.data;
         setTableData(data.reverse());
+        setIsLoading(false);
         // console.log("Response", data);
       } catch (error) {
+        setIsLoading(false);
         if (axios.isCancel(error)) {
           console.log("Request canceled");
         } else {
           console.error(error);
         }
+      } finally {
+        setIsLoading(false);
       }
     };
 
     loadData();
 
-    const intervalId = setInterval(loadData, 60000);
+    const intervalId = setInterval(loadData, 6000);
 
     return () => {
       clearInterval(intervalId);
@@ -80,6 +87,8 @@ const Announcements = () => {
   const formattedDate = `${day}/${month}/${year}`;
 
   const addAnnounce = () => {
+    setIsLoading(true);
+    setShow(false);
     const postbody = {
       title: newAnnouncement.title.trim(),
       announcement: newAnnouncement.announcement.trim(),
@@ -89,11 +98,31 @@ const Announcements = () => {
     axios
       .post(url, postbody)
       .then(() => {
-        setShow(false);
+        // setShow(false);
+        // setIsLoading(false);
         maxWords.current = 0;
+        setShowAlert({
+          ...showAlert,
+          isOpen: true,
+          type: "success",
+          message: "Announcement added successfully",
+        });
+        setTimeout(() => {
+          setShowAlert({ isOpen: false, type: "", message: "" });
+        }, 4000);
         setNewAnnouncement({ announcement: "", title: "" });
       })
       .catch((err) => {
+        setShowAlert({
+          ...showAlert,
+          isOpen: true,
+          type: "danger",
+          message: err.message,
+        });
+        setTimeout(() => {
+          setShowAlert({ isOpen: false, type: "", message: "" });
+        }, 4000);
+        setIsLoading(false);
         console.error("POST Error:", err);
       });
   };
@@ -103,7 +132,7 @@ const Announcements = () => {
       ...newAnnouncement,
       title: event.target.value,
     });
-    maxWords.current = newAnnouncement.title.trim().split(/\s+/).length;
+    maxWords.current = newAnnouncement?.title?.trim().split(/\s+/).length;
     console.log("handleChange", maxWords.current);
   };
 

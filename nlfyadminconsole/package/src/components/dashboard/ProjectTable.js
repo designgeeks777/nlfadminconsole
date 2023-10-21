@@ -8,9 +8,10 @@ import {
   PaginationLink,
   Spinner,
 } from "reactstrap";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import NestedTable from "../NestedTable";
+import { LoaderContext } from "../../LoaderContext";
 
 const ProjectTables = ({
   children,
@@ -21,6 +22,7 @@ const ProjectTables = ({
   fromPrayerRequestPage,
   fromUsers,
 }) => {
+  const { isLoading, setIsLoading } = useContext(LoaderContext);
   const [selectedId, setSelectedId] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const pageSize = 5;
@@ -30,7 +32,7 @@ const ProjectTables = ({
     e.preventDefault();
     setCurrentPage(index);
   };
-
+  console.log(isLoading, "isloading");
   const capitalize = (str) => {
     return str[0].toUpperCase() + str.slice(1);
   };
@@ -99,6 +101,7 @@ const ProjectTables = ({
                     className="table-actions-button d-flex justify-content-center"
                     size="sm"
                     onClick={() => {
+                      setIsLoading(true);
                       parentCallback(true, paginatedTableData[index]);
                       // console.log("clicked", paginatedTableData[index]);
                     }}
@@ -139,17 +142,32 @@ const ProjectTables = ({
     });
   };
 
+  if (isLoading) {
+    return (
+      <Card>
+        <CardBody>
+          <CardTitle tag="h5">{title}</CardTitle>
+          <div style={{ height: 250 }}>
+            <Spinner color="primary" className="table-spinner" />
+          </div>
+        </CardBody>
+      </Card>
+    );
+  }
+
   return (
     <>
       <Card>
         <CardBody>
           <CardTitle tag="h5">{title}</CardTitle>
-          {tableData.length === 0 ? (
-            <div style={{ height: 250 }}>
+          <>
+            {isLoading ? (
+              <div style={{ height: 250 }}>
               <Spinner color="primary" className="table-spinner" />
             </div>
-          ) : (
-            <>
+            ) : tableData.length === 0 ? (
+              <div>No {title}</div>
+            ) : (
               <Table
                 className="no-wrap mt-3 align-middle"
                 responsive
@@ -164,34 +182,34 @@ const ProjectTables = ({
                 </thead>
                 <tbody>{tdData()}</tbody>
               </Table>
+            )}
+            <Pagination className="d-flex justify-content-end">
+              <PaginationItem disabled={currentPage <= 0}>
+                <PaginationLink
+                  onClick={(e) => handleClick(e, currentPage - 1)}
+                  previous
+                  href="#"
+                />
+              </PaginationItem>
 
-              <Pagination className="d-flex justify-content-end">
-                <PaginationItem disabled={currentPage <= 0}>
-                  <PaginationLink
-                    onClick={(e) => handleClick(e, currentPage - 1)}
-                    previous
-                    href="#"
-                  />
+              {[...Array(pagesCount)].map((page, i) => (
+                <PaginationItem active={i === currentPage} key={i}>
+                  <PaginationLink onClick={(e) => handleClick(e, i)} href="#">
+                    {i + 1}
+                  </PaginationLink>
                 </PaginationItem>
+              ))}
 
-                {[...Array(pagesCount)].map((page, i) => (
-                  <PaginationItem active={i === currentPage} key={i}>
-                    <PaginationLink onClick={(e) => handleClick(e, i)} href="#">
-                      {i + 1}
-                    </PaginationLink>
-                  </PaginationItem>
-                ))}
-
-                <PaginationItem disabled={currentPage >= pagesCount - 1}>
-                  <PaginationLink
-                    onClick={(e) => handleClick(e, currentPage + 1)}
-                    next
-                    href="#"
-                  />
-                </PaginationItem>
-              </Pagination>
-            </>
-          )}
+              <PaginationItem disabled={currentPage >= pagesCount - 1}>
+                <PaginationLink
+                  onClick={(e) => handleClick(e, currentPage + 1)}
+                  next
+                  href="#"
+                />
+              </PaginationItem>
+            </Pagination>
+          </>
+          {/* {tableData.length === 0 && <div>No {title}</div>} */}
         </CardBody>
       </Card>
     </>
