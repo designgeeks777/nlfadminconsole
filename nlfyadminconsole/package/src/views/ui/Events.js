@@ -823,7 +823,7 @@ const Events = () => {
                     <Spinner color="primary" className="table-spinner" />
                   </div>
                 ) : tableData.length === 0 ? (
-                  <div>No Events</div>
+                  <div style={{ height: 250 }}>No Events</div>
                 ) : (
                   tableData.map((event, index) => {
                     return (
