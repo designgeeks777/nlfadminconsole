@@ -10,10 +10,11 @@ import {
 } from "reactstrap";
 import ProjectTables from "../../components/dashboard/ProjectTable";
 import ComponentModal from "../../components/ComponentModal";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { BASEURL } from "../../APIKey";
 import axios from "axios";
 import Alerts from "./Alerts";
+import { LoaderContext } from "../../LoaderContext";
 
 const tableColumns = [
   { path: "datePosted", name: "Posted On" },
@@ -35,9 +36,11 @@ const ChurchPrayers = () => {
     datePosted: "",
     prayerPoint: "",
   });
+  const { isLoading, setIsLoading } = useContext(LoaderContext);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
+    setIsLoading(true);
     const loadData = async () => {
       try {
         const response = await axios.get(url, {
@@ -49,19 +52,23 @@ const ChurchPrayers = () => {
           object["action"] = "delete";
         });
         setTableData(data.reverse());
+        setIsLoading(false);
         // console.log("Response", data);
       } catch (error) {
+        setIsLoading(false);
         if (axios.isCancel(error)) {
           console.log("Request canceled");
         } else {
           console.error(error);
         }
+      } finally {
+        setIsLoading(false);
       }
     };
 
     loadData();
 
-    const intervalId = setInterval(loadData, 60000);
+    const intervalId = setInterval(loadData, 6000);
 
     return () => {
       clearInterval(intervalId);
@@ -75,23 +82,28 @@ const ChurchPrayers = () => {
     setNewPrayer({ prayerPoint: "" });
   };
 
-  const handleCallback = (showChild, childData) => {
+  const handleCallback = (showChild, childData, isLoading, setIssLoading) => {
+    setIsLoading(true);
     // Delete the record.
     axios
       .delete(url + childData._id)
       .then((res) => {
-        console.log(showAlert);
+        // setTimeout(() => {
+        // setIsLoading(false);
         setShowAlert({
           ...showAlert,
           isOpen: true,
           type: "success",
           message: "Deleted successfully",
         });
+        // }, 3000);
+
         setTimeout(() => {
           setShowAlert({ isOpen: false, type: "", message: "" });
         }, 3000);
       })
       .catch((error) => {
+        setIsLoading(false);
         setShowAlert({
           ...showAlert,
           isOpen: true,
@@ -114,21 +126,42 @@ const ChurchPrayers = () => {
   const formattedDate = `${day}/${month}/${year}`;
 
   const onAddPrayer = () => {
+    setIsLoading(true);
+    setShow(false);
     const postbody = {
       prayerPoint: newPrayer.prayerPoint.trim(),
       datePosted: formattedDate,
     };
-
     // console.log("Post body:", postbody);
-
     axios
-      .post(url, postbody, { timeout: 5000 })
+      .post(url, postbody)
       .then(() => {
-        setShow(false);
+        // setShow(false);
+        // setIsLoading(false);
         setNewPrayer({ prayerPoint: "" });
         maxWords.current = 0;
+        setShowAlert({
+          ...showAlert,
+          isOpen: true,
+          type: "success",
+          message: "Added prayer successfully",
+        });
+
+        setTimeout(() => {
+          setShowAlert({ isOpen: false, type: "", message: "" });
+        }, 3000);
       })
       .catch((err) => {
+        setIsLoading(false);
+        setShowAlert({
+          ...showAlert,
+          isOpen: true,
+          type: "danger",
+          message: err.message,
+        });
+        setTimeout(() => {
+          setShowAlert({ isOpen: false, type: "", message: "" });
+        }, 3000);
         console.error("POST Error:", err);
       });
   };

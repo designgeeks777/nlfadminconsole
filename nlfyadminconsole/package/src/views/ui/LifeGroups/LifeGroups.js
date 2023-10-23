@@ -1,10 +1,11 @@
 import { Button, Col, Row } from "reactstrap";
 import ProjectTables from "../../../components/dashboard/ProjectTable";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import JoiningRequests from "./JoiningRequests";
 import axios from "axios";
 import { BASEURL } from "../../../APIKey";
 import { useNavigate } from "react-router-dom";
+import { LoaderContext } from "../../../LoaderContext";
 
 const tableColumns = [
   { path: "place", name: "Location" },
@@ -18,9 +19,11 @@ const LifeGroups = () => {
   const url = `${BASEURL}lifeGroups/`;
   let navigate = useNavigate();
   const [joiningRequestsData, setJoiningRequestsData] = useState([]);
+  const { isLoading, setIsLoading } = useContext(LoaderContext);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
+    setIsLoading(true);
     const loadData = async () => {
       try {
         const response = await axios.get(url, {
@@ -32,6 +35,7 @@ const LifeGroups = () => {
           object["action"] = "edit/delete";
         });
         setTableData(data.reverse());
+        setIsLoading(false);
 
         //for Joining Requests
         var joiningRequestData = [];
@@ -49,17 +53,20 @@ const LifeGroups = () => {
         );
         setJoiningRequestsData(joiningRequests.reverse());
       } catch (error) {
+        setIsLoading(false);
         if (axios.isCancel(error)) {
           console.log("Request canceled");
         } else {
           console.error(error);
         }
+      } finally {
+        setIsLoading(false);
       }
     };
 
     loadData();
 
-    const intervalId = setInterval(loadData, 60000);
+    const intervalId = setInterval(loadData, 6000);
 
     return () => {
       clearInterval(intervalId);
@@ -98,7 +105,7 @@ const LifeGroups = () => {
           <Col lg="12">
             <ProjectTables
               parentCallback={handleCallback}
-              title="LifeGroup List"
+              title="LifeGroups"
               tableData={tableData}
               tableColumns={tableColumns}
             />
