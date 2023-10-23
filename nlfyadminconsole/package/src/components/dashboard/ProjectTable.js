@@ -32,7 +32,6 @@ const ProjectTables = ({
     e.preventDefault();
     setCurrentPage(index);
   };
-  console.log(isLoading, "isloading");
   const capitalize = (str) => {
     return str[0].toUpperCase() + str.slice(1);
   };
@@ -142,18 +141,18 @@ const ProjectTables = ({
     });
   };
 
-  if (isLoading) {
-    return (
-      <Card>
-        <CardBody>
-          <CardTitle tag="h5">{title}</CardTitle>
-          <div style={{ height: 250 }}>
-            <Spinner color="primary" className="table-spinner" />
-          </div>
-        </CardBody>
-      </Card>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <Card>
+  //       <CardBody>
+  //         <CardTitle tag="h5">{title}</CardTitle>
+  //         <div style={{ height: 250 }}>
+  //           <Spinner color="primary" className="table-spinner" />
+  //         </div>
+  //       </CardBody>
+  //     </Card>
+  //   );
+  // }
 
   return (
     <>
@@ -163,10 +162,10 @@ const ProjectTables = ({
           <>
             {isLoading ? (
               <div style={{ height: 250 }}>
-              <Spinner color="primary" className="table-spinner" />
-            </div>
+                <Spinner color="primary" className="table-spinner" />
+              </div>
             ) : tableData.length === 0 ? (
-              <div>No {title}</div>
+              <div style={{ height: 250 }}>No {title}</div>
             ) : (
               <Table
                 className="no-wrap mt-3 align-middle"
@@ -183,33 +182,34 @@ const ProjectTables = ({
                 <tbody>{tdData()}</tbody>
               </Table>
             )}
-            <Pagination className="d-flex justify-content-end">
-              <PaginationItem disabled={currentPage <= 0}>
-                <PaginationLink
-                  onClick={(e) => handleClick(e, currentPage - 1)}
-                  previous
-                  href="#"
-                />
-              </PaginationItem>
-
-              {[...Array(pagesCount)].map((page, i) => (
-                <PaginationItem active={i === currentPage} key={i}>
-                  <PaginationLink onClick={(e) => handleClick(e, i)} href="#">
-                    {i + 1}
-                  </PaginationLink>
+            {tableData.length !== 0 && (
+              <Pagination className="d-flex justify-content-end">
+                <PaginationItem disabled={currentPage <= 0}>
+                  <PaginationLink
+                    onClick={(e) => handleClick(e, currentPage - 1)}
+                    previous
+                    href="#"
+                  />
                 </PaginationItem>
-              ))}
 
-              <PaginationItem disabled={currentPage >= pagesCount - 1}>
-                <PaginationLink
-                  onClick={(e) => handleClick(e, currentPage + 1)}
-                  next
-                  href="#"
-                />
-              </PaginationItem>
-            </Pagination>
+                {[...Array(pagesCount)].map((page, i) => (
+                  <PaginationItem active={i === currentPage} key={i}>
+                    <PaginationLink onClick={(e) => handleClick(e, i)} href="#">
+                      {i + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+
+                <PaginationItem disabled={currentPage >= pagesCount - 1}>
+                  <PaginationLink
+                    onClick={(e) => handleClick(e, currentPage + 1)}
+                    next
+                    href="#"
+                  />
+                </PaginationItem>
+              </Pagination>
+            )}
           </>
-          {/* {tableData.length === 0 && <div>No {title}</div>} */}
         </CardBody>
       </Card>
     </>

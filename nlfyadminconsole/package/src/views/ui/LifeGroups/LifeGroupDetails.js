@@ -8,6 +8,7 @@ import NestedTable from "../../../components/NestedTable";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASEURL } from "../../../APIKey";
+import { errorMsgs, successMsgs } from "../../../constants";
 
 const LifeGroupDetails = () => {
   const { state } = useLocation();
@@ -48,25 +49,25 @@ const LifeGroupDetails = () => {
           ...showAlert,
           isOpen: true,
           type: "success",
-          message: "Deleted Life Group successfully",
+          message: `Life Group ${successMsgs.deleted}`,
         });
         setOpenDeleteModal(false);
         setTimeout(() => {
           setShowAlert({ isOpen: false, type: "", message: "" });
           navigate("/lifeGroups");
-        }, 3000);
+        }, 2000);
       })
       .catch((error) => {
         setShowAlert({
           ...showAlert,
           isOpen: true,
           type: "danger",
-          message: error.message,
+          message: errorMsgs.deleted,
         });
         setOpenDeleteModal(false);
         setTimeout(() => {
           setShowAlert({ isOpen: false, type: "", message: "" });
-        }, 3000);
+        }, 2000);
         console.error(error);
       });
   };
@@ -80,23 +81,23 @@ const LifeGroupDetails = () => {
           ...showAlert,
           isOpen: true,
           type: "success",
-          message: "Updated Life Group successfully",
+          message: `Life Group ${successMsgs.update}`,
         });
         setTimeout(() => {
           setShowAlert({ isOpen: false, type: "", message: "" });
           // navigate("/lifeGroups");
-        }, 3000);
+        }, 2000);
       })
       .catch((error) => {
         setShowAlert({
           ...showAlert,
           isOpen: true,
           type: "danger",
-          message: error.message,
+          message: errorMsgs.update,
         });
         setTimeout(() => {
           setShowAlert({ isOpen: false, type: "", message: "" });
-        }, 3000);
+        }, 2000);
       });
   };
 
@@ -139,23 +140,23 @@ const LifeGroupDetails = () => {
           ...showAlert,
           isOpen: true,
           type: "success",
-          message: "Removed member from Life Group successfully",
+          message: successMsgs.removeLGMember,
         });
         setTimeout(() => {
           setShowAlert({ isOpen: false, type: "", message: "" });
           // navigate("/lifeGroups");
-        }, 3000);
+        }, 2000);
       })
       .catch((error) => {
         setShowAlert({
           ...showAlert,
           isOpen: true,
           type: "danger",
-          message: error.message,
+          message: errorMsgs.removeLGMember,
         });
         setTimeout(() => {
           setShowAlert({ isOpen: false, type: "", message: "" });
-        }, 3000);
+        }, 2000);
       });
   };
   return (

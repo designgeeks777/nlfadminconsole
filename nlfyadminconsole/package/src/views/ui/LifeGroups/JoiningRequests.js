@@ -4,10 +4,17 @@ import Slider from "react-slick";
 import { Card, CardTitle, CardText, Button, Spinner } from "reactstrap";
 import { BASEURL } from "../../../APIKey";
 import { LoaderContext } from "../../../LoaderContext";
+import { errorMsgs, successMsgs } from "../../../constants";
+import Alerts from "../Alerts";
 
-const JoiningRequests = ({ joiningRequestsArray, lifeGroup }) => {
+const JoiningRequests = ({ joiningRequestsArray, lifeGroup, loadData }) => {
   const { isLoading, setIsLoading } = useContext(LoaderContext);
   const [load, setLoad] = useState(false);
+  const [showAlert, setShowAlert] = useState({
+    isOpen: false,
+    type: "",
+    message: "",
+  });
   const settings = {
     dots: true,
     infinite: false,
@@ -42,7 +49,8 @@ const JoiningRequests = ({ joiningRequestsArray, lifeGroup }) => {
       },
     ],
   };
-  // console.log("joiningRequests out", joiningRequestsArray);
+
+  //accept joining request
   const acceptJoiningRequest = (item, i) => {
     setIsLoading(true);
     setLoad(true);
@@ -65,37 +73,50 @@ const JoiningRequests = ({ joiningRequestsArray, lifeGroup }) => {
       }
       return obj;
     });
-    console.log("joiningRequests", joiningRequestsArray);
 
     let members = selectedLifeGroup.members;
     members.push(membersData);
 
     let updateBody;
     updateBody = { joiningRequests, members };
-    // console.log(updateBody, i);
     axios
       .patch(lifeGroupUrl, updateBody)
-      .then((apiresponse) => {
-        setIsLoading(true);
+      .then(() => {
+        loadData();
+        // setIsLoading(true);
         if (isLoading.toString() === "false") {
-          console.log("accpet JR here", isLoading.toString());
-          setTimeout(() => {
           setLoad(false);
           item.show = false;
-          }, 6000);
         }
-        // console.log(apiresponse);
+        setShowAlert({
+          ...showAlert,
+          isOpen: true,
+          type: "success",
+          message: successMsgs.accept,
+        });
+        setTimeout(() => {
+          setShowAlert({ isOpen: false, type: "", message: "" });
+        }, 2000);
       })
       .catch((err) => {
         setIsLoading(false);
         setLoad(false);
         item.show = false;
         console.error(err);
+        setShowAlert({
+          ...showAlert,
+          isOpen: true,
+          type: "danger",
+          message: errorMsgs.accept,
+        });
+        setTimeout(() => {
+          setShowAlert({ isOpen: false, type: "", message: "" });
+        }, 2000);
       });
   };
 
+  //decline joining request
   const declineJoiningRequest = (item, i) => {
-    // setIsLoading(true);
     setLoad(true);
     joiningRequestsArray = joiningRequestsArray.filter((obj) => {
       return obj.uid !== item.uid;
@@ -103,30 +124,42 @@ const JoiningRequests = ({ joiningRequestsArray, lifeGroup }) => {
     let selectedLifeGroup = lifeGroup.find((lg) => lg._id === item._id);
     const lifeGroupUrl = `${BASEURL}lifeGroups/${item._id}`;
 
-    // let joiningRequests = selectedLifeGroup.joiningRequests;
     let joiningRequests = selectedLifeGroup.joiningRequests.filter((obj) => {
       return obj.uid !== item.uid;
     });
-    // console.log("joiningRequests", joiningRequestsArray);
-    // console.log("joiningRequests", joiningRequests);
     let updateBody;
     updateBody = { joiningRequests };
-    console.log(updateBody, i);
     axios
       .patch(lifeGroupUrl, updateBody)
-      .then((apiresponse) => {
-        // setIsLoading(false);
+      .then(() => {
+        loadData();
         setTimeout(() => {
           setLoad(false);
           item.show = false;
-        }, 5000);
-        console.log(apiresponse);
+        }, 2000);
+        setShowAlert({
+          ...showAlert,
+          isOpen: true,
+          type: "success",
+          message: successMsgs.decline,
+        });
+        setTimeout(() => {
+          setShowAlert({ isOpen: false, type: "", message: "" });
+        }, 2000);
       })
       .catch((err) => {
-        setIsLoading(false);
         setLoad(false);
         item.show = false;
         console.error(err);
+        setShowAlert({
+          ...showAlert,
+          isOpen: true,
+          type: "danger",
+          message: errorMsgs.decline,
+        });
+        setTimeout(() => {
+          setShowAlert({ isOpen: false, type: "", message: "" });
+        }, 2000);
       });
   };
 
@@ -138,15 +171,19 @@ const JoiningRequests = ({ joiningRequestsArray, lifeGroup }) => {
         display: "inline-block",
       }}
     >
+      {showAlert.isOpen && (
+        <Alerts
+          props={{
+            isOpen: showAlert.isOpen,
+            type: showAlert.type,
+            message: showAlert.message,
+          }}
+        />
+      )}
       <CardTitle tag="h4" className="text-primary mb-3">
         Joining Requests {load}
       </CardTitle>
       <Slider {...settings}>
-        {/* {isLoading ? (
-          <div style={{ height: 20 }}>
-            <Spinner color="primary" className="table-spinner" />
-          </div>
-        ) : ( */}
         {joiningRequestsArray.map((item, i) => (
           <Card
             key={i}

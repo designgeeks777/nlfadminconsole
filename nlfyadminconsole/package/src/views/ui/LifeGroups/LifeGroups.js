@@ -21,58 +21,48 @@ const LifeGroups = () => {
   const [joiningRequestsData, setJoiningRequestsData] = useState([]);
   const { isLoading, setIsLoading } = useContext(LoaderContext);
 
-  useEffect(() => {
-    const source = axios.CancelToken.source();
+  const loadData = async () => {
     setIsLoading(true);
-    const loadData = async () => {
-      try {
-        const response = await axios.get(url, {
-          cancelToken: source.token,
-        });
-        var data = [];
-        data = JSON.parse(JSON.stringify(response.data));
-        data.forEach((object) => {
-          object["action"] = "edit/delete";
-        });
-        setTableData(data.reverse());
-        setIsLoading(false);
+    try {
+      const response = await axios.get(url);
+      var data = [];
+      data = JSON.parse(JSON.stringify(response.data));
+      data.forEach((object) => {
+        object["action"] = "edit/delete";
+      });
+      setTableData(data.reverse());
+      setIsLoading(false);
 
-        //for Joining Requests
-        var joiningRequestData = [];
-        var joiningRequests = [];
-        joiningRequestData = JSON.parse(JSON.stringify(response.data));
-        joiningRequestData.forEach((object) =>
-          object.joiningRequests.forEach((JRobject) => {
-            if (JRobject.accepted === "false") {
-              JRobject["_id"] = object._id;
-              JRobject["leaders"] = object.leaders;
-              JRobject["place"] = object.place;
-              joiningRequests.push(JRobject);
-            }
-          })
-        );
-        setJoiningRequestsData(joiningRequests.reverse());
-      } catch (error) {
-        setIsLoading(false);
-        if (axios.isCancel(error)) {
-          console.log("Request canceled");
-        } else {
-          console.error(error);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
+      //for Joining Requests
+      var joiningRequestData = [];
+      var joiningRequests = [];
+      joiningRequestData = JSON.parse(JSON.stringify(response.data));
+      joiningRequestData.forEach((object) =>
+        object.joiningRequests.forEach((JRobject) => {
+          if (JRobject.accepted === "false") {
+            JRobject["_id"] = object._id;
+            JRobject["leaders"] = object.leaders;
+            JRobject["place"] = object.place;
+            joiningRequests.push(JRobject);
+          }
+        })
+      );
+      setJoiningRequestsData(joiningRequests.reverse());
+    } catch (error) {
+      setIsLoading(false);
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     loadData();
-
-    const intervalId = setInterval(loadData, 6000);
-
-    return () => {
-      clearInterval(intervalId);
-      source.cancel("Component unmounted");
-    };
   }, [url]);
+
+  const handleLoadDataCallback = () => {
+    loadData();
+  };
 
   const handleCallback = (showChild, selectedLifeGroupData) => {
     // Update the data and show LifeGroupDetails component.
@@ -87,6 +77,7 @@ const LifeGroups = () => {
           <JoiningRequests
             joiningRequestsArray={joiningRequestsData}
             lifeGroup={tableData}
+            loadData={handleLoadDataCallback}
           />
           <div className="p-2 mb-3 align-self-end">
             <Button

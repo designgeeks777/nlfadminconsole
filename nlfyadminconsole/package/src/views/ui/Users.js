@@ -17,14 +17,10 @@ const Users = () => {
   const { isLoading, setIsLoading } = useContext(LoaderContext);
 
   useEffect(() => {
-    const source = axios.CancelToken.source();
     setIsLoading(true);
     const loadData = async () => {
-      // setIsLoading(true);
       try {
-        const response = await axios.get(url, {
-          cancelToken: source.token,
-        });
+        const response = await axios.get(url);
         var data = [];
         var modifiedData = [];
         var resultData = [];
@@ -39,30 +35,17 @@ const Users = () => {
             user: modifiedData.filter(({ uid }) => d.uid === uid),
           };
         });
-        // console.log("Mod Data", modifiedData);
-        // console.log("final", resultData);
         setTableData(resultData.reverse());
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
-        if (axios.isCancel(error)) {
-          console.log("Request canceled");
-        } else {
-          console.error(error);
-        }
+        console.error(error);
       } finally {
         setIsLoading(false);
       }
     };
 
     loadData();
-
-    const intervalId = setInterval(loadData, 6000);
-
-    return () => {
-      clearInterval(intervalId);
-      source.cancel("Component unmounted");
-    };
   }, [url]);
 
   return (

@@ -14,6 +14,7 @@ import { BASEURL } from "../../APIKey";
 import axios from "axios";
 import { LoaderContext } from "../../LoaderContext";
 import Alerts from "./Alerts";
+import { errorMsgs, successMsgs } from "../../constants";
 
 const Events = () => {
   const { isLoading, setIsLoading } = useContext(LoaderContext);
@@ -63,40 +64,24 @@ const Events = () => {
     setEndTimeOfEvent(displayTime);
     // console.log(dateOfEvent);
   }, []);
-  useEffect(() => {
-    const source = axios.CancelToken.source();
+  const loadData = async () => {
     setIsLoading(true);
-    const loadData = async () => {
-      try {
-        const response = await axios.get(url, {
-          cancelToken: source.token,
-        });
-        var data = [];
-        data = response.data;
-        setTableData(data.reverse());
-        setIsLoading(false);
-        console.log("Response", tableData);
-      } catch (error) {
-        setIsLoading(false);
-        if (axios.isCancel(error)) {
-          console.log("Request canceled");
-        } else {
-          console.error(error);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
+    try {
+      const response = await axios.get(url);
+      var data = [];
+      data = response.data;
+      setTableData(data.reverse());
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
     loadData();
-
-    const intervalId = setInterval(loadData, 6000);
-
-    return () => {
-      clearInterval(intervalId);
-      source.cancel("Component unmounted");
-    };
-  }, [url]);
+  }, []);
   useEffect(() => {
     const dayNumbers = [
       "Sunday",
@@ -324,6 +309,29 @@ const Events = () => {
   const handleEndDate = (event) => {
     setEndDate(event.target.value);
   };
+
+  const resetModalData = () => {
+    var date = new Date();
+    var day = date.getDate().toString().padStart(2, "0"),
+      month = (date.getMonth() + 1).toString().padStart(2, "0"),
+      year = date.getFullYear(),
+      hour = date.getHours().toString().padStart(2, "0"),
+      min = date.getMinutes().toString().padStart(2, "0");
+    var today = year + "-" + month + "-" + day,
+      displayTime = hour + ":" + min;
+    setState(false);
+    setDateOfEvent(today);
+    setPlaceOfEvent("");
+    setStartTimeOfEvent(displayTime);
+    setEndTimeOfEvent(displayTime);
+    setRecurringEvent(false);
+    setNameOfEvent("");
+    setSelectedValue("");
+    setSelectedRepeatValue("day");
+    setSelectedRepeatMonthlyValue("");
+    setSelectedRadioOption("never");
+    setEndDate("");
+  };
   const onSubmit = () => {
     setState(false);
     setIsLoading(true);
@@ -411,48 +419,31 @@ const Events = () => {
       .post(url, postbody)
       .then((res) => {
         // setIsLoading(false);
-        var date = new Date();
-        var day = date.getDate().toString().padStart(2, "0"),
-          month = (date.getMonth() + 1).toString().padStart(2, "0"),
-          year = date.getFullYear(),
-          hour = date.getHours().toString().padStart(2, "0"),
-          min = date.getMinutes().toString().padStart(2, "0");
-        var today = year + "-" + month + "-" + day,
-          displayTime = hour + ":" + min;
-        setState(false);
-        setDateOfEvent(today);
-        setPlaceOfEvent("");
-        setStartTimeOfEvent(displayTime);
-        setEndTimeOfEvent(displayTime);
-        setRecurringEvent(false);
-        setNameOfEvent("");
-        setSelectedValue("");
-        setSelectedRepeatValue("day");
-        setSelectedRepeatMonthlyValue("");
-        setSelectedRadioOption("never");
-        setEndDate("");
+        loadData();
+        resetModalData();
         setShowAlert({
           ...showAlert,
           isOpen: true,
           type: "success",
-          message: "Added Event successfully",
+          message: `Event ${successMsgs.add}`,
         });
         setTimeout(() => {
           setShowAlert({ isOpen: false, type: "", message: "" });
-        }, 4000);
+        }, 2000);
         console.log(res.data);
       })
       .catch((err) => {
         setIsLoading(false);
+        resetModalData();
         setShowAlert({
           ...showAlert,
           isOpen: true,
           type: "danger",
-          message: "Failed to add Event",
+          message: errorMsgs.add,
         });
         setTimeout(() => {
           setShowAlert({ isOpen: false, type: "", message: "" });
-        }, 5000);
+        }, 2000);
         console.error("POST Error:", err);
       });
   };
@@ -706,7 +697,7 @@ const Events = () => {
                               width: 20,
                               backgroundColor:
                                 day.selected.toString() === "true"
-                                  ? "#F26E24"
+                                  ? "#D03925"
                                   : "#dee2e6",
                               color:
                                 day.selected.toString() === "true"
@@ -724,7 +715,7 @@ const Events = () => {
                               style={{
                                 backgroundColor:
                                   day.selected.toString() === "true"
-                                    ? "#F26E24"
+                                    ? "#D03925"
                                     : "#dee2e6",
                                 color:
                                   day.selected.toString() === "true"

@@ -14,6 +14,7 @@ import { BASEURL } from "../../APIKey";
 import axios from "axios";
 import Alerts from "./Alerts";
 import { LoaderContext } from "../../LoaderContext";
+import { errorMsgs, successMsgs } from "../../constants";
 
 const tableColumns = [
   { path: "datePosted", name: "Announced On" },
@@ -44,40 +45,25 @@ const Announcements = () => {
     message: "",
   });
 
-  useEffect(() => {
-    const source = axios.CancelToken.source();
+  const loadData = async () => {
     setIsLoading(true);
-    const loadData = async () => {
-      try {
-        const response = await axios.get(url, {
-          cancelToken: source.token,
-        });
-        var data = [];
-        data = response.data;
-        setTableData(data.reverse());
-        setIsLoading(false);
-        // console.log("Response", data);
-      } catch (error) {
-        setIsLoading(false);
-        if (axios.isCancel(error)) {
-          console.log("Request canceled");
-        } else {
-          console.error(error);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    try {
+      const response = await axios.get(url);
+      var data = [];
+      data = response.data;
+      setTableData(data.reverse());
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     loadData();
-
-    const intervalId = setInterval(loadData, 6000);
-
-    return () => {
-      clearInterval(intervalId);
-      source.cancel("Component unmounted");
-    };
-  }, [url]);
+  }, []);
 
   //get current date and add
   const currentDate = new Date();
@@ -85,6 +71,11 @@ const Announcements = () => {
   const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // add 1 to get the correct month since January is 0
   const year = currentDate.getFullYear();
   const formattedDate = `${day}/${month}/${year}`;
+
+  const resetModalData = () => {
+    maxWords.current = 0;
+    setNewAnnouncement({ announcement: "", title: "" });
+  };
 
   const addAnnounce = () => {
     setIsLoading(true);
@@ -98,30 +89,30 @@ const Announcements = () => {
     axios
       .post(url, postbody)
       .then(() => {
-        // setShow(false);
         // setIsLoading(false);
-        maxWords.current = 0;
+        loadData();
+        resetModalData();
         setShowAlert({
           ...showAlert,
           isOpen: true,
           type: "success",
-          message: "Announcement added successfully",
+          message: `Announcement ${successMsgs.add}`,
         });
         setTimeout(() => {
           setShowAlert({ isOpen: false, type: "", message: "" });
-        }, 4000);
-        setNewAnnouncement({ announcement: "", title: "" });
+        }, 2000);
       })
       .catch((err) => {
+        resetModalData();
         setShowAlert({
           ...showAlert,
           isOpen: true,
           type: "danger",
-          message: err.message,
+          message: errorMsgs.add,
         });
         setTimeout(() => {
           setShowAlert({ isOpen: false, type: "", message: "" });
-        }, 4000);
+        }, 2000);
         setIsLoading(false);
         console.error("POST Error:", err);
       });

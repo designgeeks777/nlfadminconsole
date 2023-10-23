@@ -19,51 +19,35 @@ const PrayerRequests = () => {
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    var modifiedData = [];
-    var resultData = [];
-    const source = axios.CancelToken.source();
     setIsLoading(true);
     const loadData = async () => {
       try {
-        axios.get(usersUrl).then((response) => {
-          modifiedData = response.data.map((user) => {
-            const { name, profilePic, uid } = user;
-            return { name, profilePic, uid };
-          });
-          console.log("modifiedData", modifiedData);
+        const usersResponse = await axios.get(usersUrl);
+        var modifiedUserData = [];
+        var resultData = [];
+        modifiedUserData = usersResponse.data.map((user) => {
+          const { name, profilePic, uid } = user;
+          return { name, profilePic, uid };
         });
-        axios.get(prayerRequestsUrl).then((response) => {
-          resultData = response.data.map((d) => {
-            return {
-              ...d,
-              user: modifiedData.filter(({ uid }) => d.raisedByUid === uid),
-            };
-          });
-          setTableData(resultData.reverse());
-          setIsLoading(false);
-          console.log(resultData);
+        // console.log("modifiedUserData", modifiedUserData);
+        const prayerRequestsResponse = await axios.get(prayerRequestsUrl);
+        resultData = prayerRequestsResponse.data.map((d) => {
+          return {
+            ...d,
+            user: modifiedUserData.filter(({ uid }) => d.raisedByUid === uid),
+          };
         });
-        // setIsLoading(false);
+        setTableData(resultData.reverse());
+        setIsLoading(false);
+        console.log(resultData);
       } catch (error) {
         setIsLoading(false);
-        if (axios.isCancel(error)) {
-          console.log("Request canceled");
-        } else {
-          console.error(error);
-        }
+        console.error(error);
+      } finally {
+        setIsLoading(false);
       }
-      // finally {
-      //   setIsLoading(false);
-      // }
     };
     loadData();
-
-    const intervalId = setInterval(loadData, 6000);
-
-    return () => {
-      clearInterval(intervalId);
-      source.cancel("Component unmounted");
-    };
   }, [usersUrl, prayerRequestsUrl]);
 
   return (

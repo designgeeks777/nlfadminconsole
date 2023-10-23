@@ -15,6 +15,7 @@ import { BASEURL } from "../../APIKey";
 import axios from "axios";
 import Alerts from "./Alerts";
 import { LoaderContext } from "../../LoaderContext";
+import { errorMsgs, successMsgs } from "../../constants";
 
 const tableColumns = [
   { path: "datePosted", name: "Posted On" },
@@ -38,69 +39,56 @@ const ChurchPrayers = () => {
   });
   const { isLoading, setIsLoading } = useContext(LoaderContext);
 
-  useEffect(() => {
-    const source = axios.CancelToken.source();
+  const loadData = async () => {
     setIsLoading(true);
-    const loadData = async () => {
-      try {
-        const response = await axios.get(url, {
-          cancelToken: source.token,
-        });
-        var data = [];
-        data = response.data;
-        data.forEach((object) => {
-          object["action"] = "delete";
-        });
-        setTableData(data.reverse());
-        setIsLoading(false);
-        // console.log("Response", data);
-      } catch (error) {
-        setIsLoading(false);
-        if (axios.isCancel(error)) {
-          console.log("Request canceled");
-        } else {
-          console.error(error);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    try {
+      const response = await axios.get(url);
+      var data = [];
+      data = response.data;
+      data.forEach((object) => {
+        object["action"] = "delete";
+      });
+      setTableData(data.reverse());
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     loadData();
-
-    const intervalId = setInterval(loadData, 6000);
-
-    return () => {
-      clearInterval(intervalId);
-      source.cancel("Component unmounted");
-    };
-  }, [url]);
+  }, []);
 
   const toggle = () => {
     setShow(!show);
     maxWords.current = 0;
     setNewPrayer({ prayerPoint: "" });
   };
-
+  const resetModalData = () => {
+    setNewPrayer({ prayerPoint: "" });
+    maxWords.current = 0;
+  };
   const handleCallback = (showChild, childData, isLoading, setIssLoading) => {
     setIsLoading(true);
     // Delete the record.
     axios
       .delete(url + childData._id)
       .then((res) => {
-        // setTimeout(() => {
         // setIsLoading(false);
+        loadData();
         setShowAlert({
           ...showAlert,
           isOpen: true,
           type: "success",
-          message: "Deleted successfully",
+          message: `Prayer ${successMsgs.deleted}`,
         });
-        // }, 3000);
 
         setTimeout(() => {
           setShowAlert({ isOpen: false, type: "", message: "" });
-        }, 3000);
+        }, 2000);
       })
       .catch((error) => {
         setIsLoading(false);
@@ -108,11 +96,11 @@ const ChurchPrayers = () => {
           ...showAlert,
           isOpen: true,
           type: "danger",
-          message: error.message,
+          message: errorMsgs.deleted,
         });
         setTimeout(() => {
           setShowAlert({ isOpen: false, type: "", message: "" });
-        }, 3000);
+        }, 2000);
         console.error(error);
       });
     // console.log("handleCallback", showChild, childData);
@@ -138,30 +126,31 @@ const ChurchPrayers = () => {
       .then(() => {
         // setShow(false);
         // setIsLoading(false);
-        setNewPrayer({ prayerPoint: "" });
-        maxWords.current = 0;
+        loadData();
+        resetModalData();
         setShowAlert({
           ...showAlert,
           isOpen: true,
           type: "success",
-          message: "Added prayer successfully",
+          message: `Prayer ${successMsgs.add}`,
         });
 
         setTimeout(() => {
           setShowAlert({ isOpen: false, type: "", message: "" });
-        }, 3000);
+        }, 2000);
       })
       .catch((err) => {
         setIsLoading(false);
+        resetModalData();
         setShowAlert({
           ...showAlert,
           isOpen: true,
           type: "danger",
-          message: err.message,
+          message: errorMsgs.add,
         });
         setTimeout(() => {
           setShowAlert({ isOpen: false, type: "", message: "" });
-        }, 3000);
+        }, 2000);
         console.error("POST Error:", err);
       });
   };
