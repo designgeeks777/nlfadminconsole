@@ -152,19 +152,24 @@ const Announcements = () => {
             >
               <FormGroup>
                 <Label
-                  for="Title"
+                  for="title"
                   size="md"
                   className="form-label modal-body-label"
                 >
                   Title
-                  <Label size="sm" className="form-label modal-body-info-label">
+                  <Label
+                    for="title"
+                    size="sm"
+                    className="form-label modal-body-info-label"
+                  >
                     (Maximum 10 words)
                   </Label>
                 </Label>
                 <Input
                   type="text"
                   className="form-control modal-body-input shadow-none"
-                  id="Title"
+                  id="title"
+                  name="title"
                   placeholder=""
                   invalid={maxWords.current > 10}
                   value={newAnnouncement.title}
@@ -178,7 +183,7 @@ const Announcements = () => {
                 </Label>
                 <Input
                   type="textarea"
-                  name="text"
+                  name="textarea"
                   className="form-control modal-body-textarea shadow-none"
                   id="textarea"
                   rows={5}
