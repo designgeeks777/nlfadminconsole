@@ -5,6 +5,7 @@ import { BASEURL } from "../../../APIKey";
 import axios from "axios";
 import Alerts from "../Alerts";
 import { useNavigate } from "react-router-dom";
+import { errorMsgs, successMsgs } from "../../../constants";
 
 const AddLifeGroup = () => {
   console.log("ALG");
@@ -31,23 +32,22 @@ const AddLifeGroup = () => {
           ...showAlert,
           isOpen: true,
           type: "success",
-          message: "Added Life Group successfully",
+          message: `Life Group ${successMsgs.add}`,
         });
         setTimeout(() => {
           setShowAlert({ isOpen: false, type: "", message: "" });
-          // navigate("/lifeGroups");
-        }, 3000);
+        }, 2000);
       })
       .catch((error) => {
         setShowAlert({
           ...showAlert,
           isOpen: true,
           type: "danger",
-          message: error.message,
+          message: errorMsgs.add,
         });
         setTimeout(() => {
           setShowAlert({ isOpen: false, type: "", message: "" });
-        }, 3000);
+        }, 2000);
       });
   };
 

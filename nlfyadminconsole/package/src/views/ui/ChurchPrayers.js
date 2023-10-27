@@ -10,10 +10,12 @@ import {
 } from "reactstrap";
 import ProjectTables from "../../components/dashboard/ProjectTable";
 import ComponentModal from "../../components/ComponentModal";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { BASEURL } from "../../APIKey";
 import axios from "axios";
 import Alerts from "./Alerts";
+import { LoaderContext } from "../../LoaderContext";
+import { errorMsgs, successMsgs } from "../../constants";
 
 const tableColumns = [
   { path: "datePosted", name: "Posted On" },
@@ -35,72 +37,70 @@ const ChurchPrayers = () => {
     datePosted: "",
     prayerPoint: "",
   });
+  const { isLoading, setIsLoading } = useContext(LoaderContext);
+
+  const loadData = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(url);
+      var data = [];
+      data = response.data;
+      data.forEach((object) => {
+        object["action"] = "delete";
+      });
+      setTableData(data.reverse());
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const source = axios.CancelToken.source();
-    const loadData = async () => {
-      try {
-        const response = await axios.get(url, {
-          cancelToken: source.token,
-        });
-        var data = [];
-        data = response.data;
-        data.forEach((object) => {
-          object["action"] = "delete";
-        });
-        setTableData(data.reverse());
-        // console.log("Response", data);
-      } catch (error) {
-        if (axios.isCancel(error)) {
-          console.log("Request canceled");
-        } else {
-          console.error(error);
-        }
-      }
-    };
-
     loadData();
-
-    const intervalId = setInterval(loadData, 60000);
-
-    return () => {
-      clearInterval(intervalId);
-      source.cancel("Component unmounted");
-    };
-  }, [url]);
+  }, []);
 
   const toggle = () => {
     setShow(!show);
     maxWords.current = 0;
     setNewPrayer({ prayerPoint: "" });
   };
-
-  const handleCallback = (showChild, childData) => {
+  const resetModalData = () => {
+    setNewPrayer({ prayerPoint: "" });
+    maxWords.current = 0;
+  };
+  const handleCallback = (showChild, childData, isLoading, setIssLoading) => {
+    setIsLoading(true);
     // Delete the record.
     axios
       .delete(url + childData._id)
       .then((res) => {
-        console.log(showAlert);
+        // setIsLoading(false);
+        loadData();
         setShowAlert({
           ...showAlert,
           isOpen: true,
           type: "success",
-          message: "Deleted successfully",
+          message: `Prayer ${successMsgs.deleted}`,
         });
+
         setTimeout(() => {
           setShowAlert({ isOpen: false, type: "", message: "" });
-        }, 3000);
+        }, 2000);
       })
       .catch((error) => {
+        setIsLoading(false);
         setShowAlert({
           ...showAlert,
           isOpen: true,
           type: "danger",
-          message: error.message,
+          message: errorMsgs.deleted,
         });
         setTimeout(() => {
           setShowAlert({ isOpen: false, type: "", message: "" });
-        }, 3000);
+        }, 2000);
         console.error(error);
       });
     // console.log("handleCallback", showChild, childData);
@@ -114,21 +114,43 @@ const ChurchPrayers = () => {
   const formattedDate = `${day}/${month}/${year}`;
 
   const onAddPrayer = () => {
+    setIsLoading(true);
+    setShow(false);
     const postbody = {
       prayerPoint: newPrayer.prayerPoint.trim(),
       datePosted: formattedDate,
     };
-
     // console.log("Post body:", postbody);
-
     axios
-      .post(url, postbody, { timeout: 5000 })
+      .post(url, postbody)
       .then(() => {
-        setShow(false);
-        setNewPrayer({ prayerPoint: "" });
-        maxWords.current = 0;
+        // setShow(false);
+        // setIsLoading(false);
+        loadData();
+        resetModalData();
+        setShowAlert({
+          ...showAlert,
+          isOpen: true,
+          type: "success",
+          message: `Prayer ${successMsgs.add}`,
+        });
+
+        setTimeout(() => {
+          setShowAlert({ isOpen: false, type: "", message: "" });
+        }, 2000);
       })
       .catch((err) => {
+        setIsLoading(false);
+        resetModalData();
+        setShowAlert({
+          ...showAlert,
+          isOpen: true,
+          type: "danger",
+          message: errorMsgs.add,
+        });
+        setTimeout(() => {
+          setShowAlert({ isOpen: false, type: "", message: "" });
+        }, 2000);
         console.error("POST Error:", err);
       });
   };

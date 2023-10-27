@@ -3,6 +3,7 @@ import ProjectTables from "../../components/dashboard/ProjectTable";
 import { useContext, useEffect, useState } from "react";
 import { BASEURL } from "../../APIKey";
 import axios from "axios";
+import { LoaderContext } from "../../LoaderContext";
 
 const tableColumns = [
   { path: "user", name: "User" },
@@ -13,14 +14,13 @@ const tableColumns = [
 const Users = () => {
   const url = `${BASEURL}users/`;
   const [tableData, setTableData] = useState([]);
+  const { isLoading, setIsLoading } = useContext(LoaderContext);
 
   useEffect(() => {
-    const source = axios.CancelToken.source();
+    setIsLoading(true);
     const loadData = async () => {
       try {
-        const response = await axios.get(url, {
-          cancelToken: source.token,
-        });
+        const response = await axios.get(url);
         var data = [];
         var modifiedData = [];
         var resultData = [];
@@ -35,26 +35,17 @@ const Users = () => {
             user: modifiedData.filter(({ uid }) => d.uid === uid),
           };
         });
-        // console.log("Mod Data", modifiedData);
-        // console.log("final", resultData);
         setTableData(resultData.reverse());
+        setIsLoading(false);
       } catch (error) {
-        if (axios.isCancel(error)) {
-          console.log("Request canceled");
-        } else {
-          console.error(error);
-        }
+        setIsLoading(false);
+        console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     loadData();
-
-    const intervalId = setInterval(loadData, 60000);
-
-    return () => {
-      clearInterval(intervalId);
-      source.cancel("Component unmounted");
-    };
   }, [url]);
 
   return (
@@ -64,7 +55,7 @@ const Users = () => {
           <Row>
             <Col lg="12">
               <ProjectTables
-                title="Users List"
+                title="Users"
                 tableData={tableData}
                 tableColumns={tableColumns}
                 fromUsers={true}

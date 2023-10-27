@@ -16,59 +16,26 @@ const navigation = [
     href: "/dashboard",
     icon: faColumns,
   },
-  // {
-  //   title: "Announcements",
-  //   href: "/alerts",
-  //   icon: faBullhorn,
-  // },
   {
     title: "Announcements",
     href: "/announcements",
     icon: faBullhorn,
   },
-  // {
-  //   title: "Reminders",
-  //   href: "/badges",
-  //   icon: faBell,
-  // },
   {
     title: "Life Groups",
     href: "/lifeGroups",
     icon: faPeopleGroup,
   },
-  // {
-  //   title: "Events",
-  //   href: "/forms",
-  //   icon: faCalendarDays,
-  // },
-  // {
-  //   title: "Events",
-  //   href: "/cards",
-  //   icon: faCalendarDays,
-  //   title: "Life Groups",
-  //   href: "/buttons"
-  //   icon: faPeopleGroup,
-  // },
   {
     title: "Events",
     href: "/events",
     icon: faCalendarDays,
   },
-  // {
-  //   title: "Prayer Requests",
-  //   href: "/grid",
-  //   icon: faPersonPraying,
-  // },
   {
     title: "Prayer Requests",
     href: "/prayerRequests",
     icon: faPersonPraying,
   },
-  // {
-  //   title: "Church Prayers",
-  //   href: "/table",
-  //   icon: faPeopleGroup,
-  // },
   {
     title: "Church Prayers",
     href: "/churchPrayers",
@@ -106,6 +73,7 @@ const Sidebar = () => {
                     ? "text-primary nav-link py-3"
                     : "nav-link text-secondary py-3"
                 }
+                onClick={() => showMobilemenu()}
               >
                 <FontAwesomeIcon
                   className="sidenav-icons-color"

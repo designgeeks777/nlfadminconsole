@@ -64,18 +64,21 @@ color: $white;
   background:  $gradient !important;
 }
 
-.btn-primary:hover, btn-primary:active, btn-primary:focus  {
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus  {
   background-color: $primary !important;
   border-color: $primary !important;
 }
 
 .btn-secondary {
-  --bs-btn-color: #F26E24;
-  --bs-btn-bg: #ffffff;
-  --bs-btn-border-color: #F26E24;
-  --bs-btn-hover-color: #F26E24;
-  --bs-btn-hover-bg: #fcfcfc;
-  --bs-btn-hover-border-color: #F26E24;
+  color: $primary !important;
+  background-color: $white !important;
+  border-color: $primary !important;
+} 
+
+.btn-secondary:hover, .btn-secondary:active, .btn-secondary:focus  {
+  background-color: $modal-btn-hover-bg-color !important;
+  border-color: $primary !important;
+  color: $primary !important;
 }
 
 .table-actions-button {
@@ -310,3 +313,6 @@ textarea.form-control.is-invalid, .form-control.is-invalid {
   background-color: #dee2e6;
 }
 
+.text-info:hover {
+  cursor: pointer;
+}

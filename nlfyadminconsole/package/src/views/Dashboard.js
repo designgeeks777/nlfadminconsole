@@ -14,49 +14,19 @@ const Dashboard = () => {
   const announcementsUrl = `${BASEURL}getAnnouncementsCount/`;
 
   useEffect(() => {
-    const source = axios.CancelToken.source();
     const loadData = async () => {
       try {
-        axios
-          .get(lifeGroupsUrl, {
-            cancelToken: source.token,
-          })
-          .then((response) => {
-            setJoininingRequests(response.data);
-          })
-          .catch((error) => console.log(error));
-        axios
-          .get(announcementsUrl, {
-            cancelToken: source.token,
-          })
-          .then((response) => {
-            setAnnouncements(response.data);
-          })
-          .catch((error) => console.log(error));
-        axios
-          .get(usersUrl, {
-            cancelToken: source.token,
-          })
-          .then((response) => {
-            setUsers(response.data);
-          })
-          .catch((error) => console.log(error));
+        const lifeGroupsResponse = await axios.get(lifeGroupsUrl);
+        setJoininingRequests(lifeGroupsResponse.data);
+        const announcementsResponse = await axios.get(announcementsUrl);
+        setAnnouncements(announcementsResponse.data);
+        const usersResponse = await axios.get(usersUrl);
+        setUsers(usersResponse.data);
       } catch (error) {
-        if (axios.isCancel(error)) {
-          console.log("Request canceled");
-        } else {
-          console.error(error);
-        }
+        console.error(error);
       }
     };
     loadData();
-
-    const intervalId = setInterval(loadData, 60000);
-
-    return () => {
-      clearInterval(intervalId);
-      source.cancel("Component unmounted");
-    };
   }, [usersUrl, lifeGroupsUrl, announcementsUrl]);
 
   return (

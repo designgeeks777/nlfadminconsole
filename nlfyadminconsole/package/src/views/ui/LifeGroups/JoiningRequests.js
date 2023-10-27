@@ -1,10 +1,20 @@
 import axios from "axios";
-import React from "react";
+import React, { useContext, useRef, useState } from "react";
 import Slider from "react-slick";
-import { Card, CardTitle, CardText, Button } from "reactstrap";
+import { Card, CardTitle, CardText, Button, Spinner } from "reactstrap";
 import { BASEURL } from "../../../APIKey";
+import { LoaderContext } from "../../../LoaderContext";
+import { errorMsgs, successMsgs } from "../../../constants";
+import Alerts from "../Alerts";
 
-const JoiningRequests = ({ joiningRequestsArray, lifeGroup }) => {
+const JoiningRequests = ({ joiningRequestsArray, lifeGroup, loadData }) => {
+  const { isLoading, setIsLoading } = useContext(LoaderContext);
+  const [load, setLoad] = useState(false);
+  const [showAlert, setShowAlert] = useState({
+    isOpen: false,
+    type: "",
+    message: "",
+  });
   const settings = {
     dots: true,
     infinite: false,
@@ -39,7 +49,14 @@ const JoiningRequests = ({ joiningRequestsArray, lifeGroup }) => {
       },
     ],
   };
+
+  //accept joining request
   const acceptJoiningRequest = (item, i) => {
+    setIsLoading(true);
+    setLoad(true);
+    joiningRequestsArray = joiningRequestsArray.filter((obj) => {
+      return obj.uid !== item.uid;
+    });
     let selectedLifeGroup = lifeGroup.find((lg) => lg._id === item._id);
     const lifeGroupUrl = `${BASEURL}lifeGroups/${item._id}`;
 
@@ -56,40 +73,94 @@ const JoiningRequests = ({ joiningRequestsArray, lifeGroup }) => {
       }
       return obj;
     });
-    // console.log("joiningRequests", joiningRequests);
 
     let members = selectedLifeGroup.members;
     members.push(membersData);
 
     let updateBody;
     updateBody = { joiningRequests, members };
-    // console.log(updateBody, i);
     axios
       .patch(lifeGroupUrl, updateBody)
-      .then((apiresponse) => {
-        console.log(apiresponse);
+      .then(() => {
+        loadData();
+        // setIsLoading(true);
+        if (isLoading.toString() === "false") {
+          setLoad(false);
+          item.show = false;
+        }
+        setShowAlert({
+          ...showAlert,
+          isOpen: true,
+          type: "success",
+          message: successMsgs.accept,
+        });
+        setTimeout(() => {
+          setShowAlert({ isOpen: false, type: "", message: "" });
+        }, 2000);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        setIsLoading(false);
+        setLoad(false);
+        item.show = false;
+        console.error(err);
+        setShowAlert({
+          ...showAlert,
+          isOpen: true,
+          type: "danger",
+          message: errorMsgs.accept,
+        });
+        setTimeout(() => {
+          setShowAlert({ isOpen: false, type: "", message: "" });
+        }, 2000);
+      });
   };
 
+  //decline joining request
   const declineJoiningRequest = (item, i) => {
+    setLoad(true);
+    joiningRequestsArray = joiningRequestsArray.filter((obj) => {
+      return obj.uid !== item.uid;
+    });
     let selectedLifeGroup = lifeGroup.find((lg) => lg._id === item._id);
     const lifeGroupUrl = `${BASEURL}lifeGroups/${item._id}`;
 
-    let joiningRequests = selectedLifeGroup.joiningRequests;
-    joiningRequests = selectedLifeGroup.joiningRequests.filter((obj) => {
-      return obj.uid !== joiningRequestsArray[i].uid;
+    let joiningRequests = selectedLifeGroup.joiningRequests.filter((obj) => {
+      return obj.uid !== item.uid;
     });
-    // console.log("joiningRequests", joiningRequests);
     let updateBody;
     updateBody = { joiningRequests };
-    // console.log(updateBody, i);
     axios
       .patch(lifeGroupUrl, updateBody)
-      .then((apiresponse) => {
-        console.log(apiresponse);
+      .then(() => {
+        loadData();
+        setTimeout(() => {
+          setLoad(false);
+          item.show = false;
+        }, 2000);
+        setShowAlert({
+          ...showAlert,
+          isOpen: true,
+          type: "success",
+          message: successMsgs.decline,
+        });
+        setTimeout(() => {
+          setShowAlert({ isOpen: false, type: "", message: "" });
+        }, 2000);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        setLoad(false);
+        item.show = false;
+        console.error(err);
+        setShowAlert({
+          ...showAlert,
+          isOpen: true,
+          type: "danger",
+          message: errorMsgs.decline,
+        });
+        setTimeout(() => {
+          setShowAlert({ isOpen: false, type: "", message: "" });
+        }, 2000);
+      });
   };
 
   return (
@@ -100,8 +171,17 @@ const JoiningRequests = ({ joiningRequestsArray, lifeGroup }) => {
         display: "inline-block",
       }}
     >
+      {showAlert.isOpen && (
+        <Alerts
+          props={{
+            isOpen: showAlert.isOpen,
+            type: showAlert.type,
+            message: showAlert.message,
+          }}
+        />
+      )}
       <CardTitle tag="h4" className="text-primary mb-3">
-        Joining Requests
+        Joining Requests {load}
       </CardTitle>
       <Slider {...settings}>
         {joiningRequestsArray.map((item, i) => (
@@ -112,38 +192,48 @@ const JoiningRequests = ({ joiningRequestsArray, lifeGroup }) => {
             className="p-4 slick-card d-flex justify-content-around"
             style={{ height: 313 + "px" }}
           >
-            <CardTitle tag="h5">{item.place}</CardTitle>
-            <CardText className="text-dark fs-6 mb-0">
-              Lead by: {item.leaders}
-            </CardText>
-            <div>
-              <CardText className="text-primary fw-bold fs-6 mb-0">
-                {item.name}
-              </CardText>
-              <CardText className="text-primary fs-6 mb-0">
-                ({item.mobileNumber})
-              </CardText>
-            </div>
-            <div className="button-group d-flex justify-content-between">
-              <Button
-                className="btn jrlg-buttons"
-                color="primary"
-                onClick={() => {
-                  acceptJoiningRequest(item, i);
-                }}
-              >
-                Accept
-              </Button>
-              <Button
-                className="btn jrlg-buttons"
-                color="secondary"
-                onClick={() => {
-                  declineJoiningRequest(item, i);
-                }}
-              >
-                Decline
-              </Button>
-            </div>
+            {load ? (
+              <div style={{ position: "relative", left: "8%", bottom: "8%" }}>
+                <Spinner color="primary" className="table-spinner" />
+              </div>
+            ) : (
+              <>
+                <CardTitle tag="h5">{item.place}</CardTitle>
+                <CardText className="text-dark fs-6 mb-0">
+                  Lead by: {item.leaders}
+                </CardText>
+                <div>
+                  <CardText className="text-primary fw-bold fs-6 mb-0">
+                    {item.name}
+                  </CardText>
+                  <CardText className="text-primary fs-6 mb-0">
+                    ({item.mobileNumber})
+                  </CardText>
+                </div>
+                <div className="button-group d-flex justify-content-between">
+                  <Button
+                    className="btn jrlg-buttons"
+                    color="primary"
+                    onClick={() => {
+                      acceptJoiningRequest(item, i);
+                      item.show = true;
+                    }}
+                  >
+                    Accept
+                  </Button>
+                  <Button
+                    className="btn jrlg-buttons"
+                    color="secondary"
+                    onClick={() => {
+                      declineJoiningRequest(item, i);
+                      item.show = true;
+                    }}
+                  >
+                    Decline
+                  </Button>
+                </div>
+              </>
+            )}
           </Card>
         ))}
       </Slider>

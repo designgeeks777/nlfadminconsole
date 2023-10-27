@@ -2,7 +2,8 @@ import { Col, Row } from "reactstrap";
 import ProjectTables from "../../components/dashboard/ProjectTable";
 import axios from "axios";
 import { BASEURL } from "../../APIKey";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { LoaderContext } from "../../LoaderContext";
 
 const tableColumns = [
   { path: "user", name: "Request By" },
@@ -12,49 +13,41 @@ const tableColumns = [
 ];
 
 const PrayerRequests = () => {
+  const { isLoading, setIsLoading } = useContext(LoaderContext);
   const prayerRequestsUrl = `${BASEURL}prayerRequests/`;
   const usersUrl = `${BASEURL}users/`;
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    var modifiedData = [];
-    var resultData = [];
-    const source = axios.CancelToken.source();
+    setIsLoading(true);
     const loadData = async () => {
       try {
-        axios.get(usersUrl).then((response) => {
-          modifiedData = response.data.map((user) => {
-            const { name, profilePic, uid } = user;
-            return { name, profilePic, uid };
-          });
-          console.log("modifiedData", modifiedData);
+        const usersResponse = await axios.get(usersUrl);
+        var modifiedUserData = [];
+        var resultData = [];
+        modifiedUserData = usersResponse.data.map((user) => {
+          const { name, profilePic, uid } = user;
+          return { name, profilePic, uid };
         });
-        axios.get(prayerRequestsUrl).then((response) => {
-          resultData = response.data.map((d) => {
-            return {
-              ...d,
-              user: modifiedData.filter(({ uid }) => d.raisedByUid === uid),
-            };
-          });
-          setTableData(resultData.reverse());
-          console.log(resultData);
+        // console.log("modifiedUserData", modifiedUserData);
+        const prayerRequestsResponse = await axios.get(prayerRequestsUrl);
+        resultData = prayerRequestsResponse.data.map((d) => {
+          return {
+            ...d,
+            user: modifiedUserData.filter(({ uid }) => d.raisedByUid === uid),
+          };
         });
+        setTableData(resultData.reverse());
+        setIsLoading(false);
+        console.log(resultData);
       } catch (error) {
-        if (axios.isCancel(error)) {
-          console.log("Request canceled");
-        } else {
-          console.error(error);
-        }
+        setIsLoading(false);
+        console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     loadData();
-
-    const intervalId = setInterval(loadData, 60000);
-
-    return () => {
-      clearInterval(intervalId);
-      source.cancel("Component unmounted");
-    };
   }, [usersUrl, prayerRequestsUrl]);
 
   return (
