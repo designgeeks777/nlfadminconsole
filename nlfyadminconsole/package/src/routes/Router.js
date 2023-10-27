@@ -18,6 +18,9 @@ const LifeGroupDetails = lazy(() =>
   import("../views/ui/LifeGroups/LifeGroupDetails")
 );
 const Events = lazy(() => import("../views/ui/Events"));
+const GuestCounterDetails = lazy(() =>
+  import("../views/ui/GuestCounter/GuestCounterDetails")
+);
 /*****Routes******/
 
 const ThemeRoutes = [
@@ -40,6 +43,11 @@ const ThemeRoutes = [
         element: <LifeGroupDetails />,
       },
       { path: "/events", exact: true, element: <Events /> },
+      {
+        path: "/guestCounterDetails/:id",
+        exact: true,
+        element: <GuestCounterDetails />,
+      },
     ],
   },
 ];

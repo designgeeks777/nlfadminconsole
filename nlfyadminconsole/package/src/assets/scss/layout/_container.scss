@@ -316,3 +316,32 @@ textarea.form-control.is-invalid, .form-control.is-invalid {
 .text-info:hover {
   cursor: pointer;
 }
+
+/* GUEST COUNTER TABS */
+.tabnav {
+  border-top: 1px solid $modal-header-border-color;
+  border-bottom: 1px solid $modal-header-border-color;    
+  flex-wrap: nowrap;
+}
+
+.tabnav-link, .tabnav-link:hover, .tabnav-link:focus{
+  color: $modal-label-color;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.tabnav-link.active, .tabnav-link:focus {
+  border-bottom: 4px solid $primary;
+}
+
+textarea::placeholder {
+  color: $placeholder-color !important;
+}
+
+textarea::-ms-input-placeholder { /* Edge 12 -18 */
+  color: $placeholder-color !important;
+}
+
+button:hover {
+  cursor: pointer;
+}
