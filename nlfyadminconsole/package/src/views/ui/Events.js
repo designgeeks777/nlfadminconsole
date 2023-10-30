@@ -452,6 +452,14 @@ const Events = () => {
     return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
   }
 
+  // Sort the tableData array based on the dateOfEvent before rendering
+  const sortedEvents = tableData.slice().sort((eventA, eventB) => {
+    const dateA = eventA.dateOfEvent.split("/").reverse().join("-");
+    const dateB = eventB.dateOfEvent.split("/").reverse().join("-");
+
+    return new Date(dateA) - new Date(dateB);
+  });
+
   return (
     <div className="d-flex flex-column mb-4">
       {showAlert.isOpen && (
@@ -808,63 +816,53 @@ const Events = () => {
         <CardBody className="p-4">
           <CardTitle tag="h5">{title}</CardTitle>
           <div className="event-container">
-            <Row
-            //   className="p-2"
-            // style={{ overflowX: "auto", whiteSpace: "nowrap" }}
-            >
-              {
-                // tableData.length === 0 ? (
-                //   <div>
-                //     <div className="m-3 fw-bold">No events created</div>
-                //   </div>
-                // ) :
-                isLoading ? (
-                  <div style={{ height: 250 }}>
-                    <Spinner color="primary" className="table-spinner" />
-                  </div>
-                ) : tableData.length === 0 ? (
-                  <div style={{ height: 250 }}>No Events</div>
-                ) : (
-                  tableData.map((event, index) => {
-                    return (
-                      <Col md="4" lg="5" className="p-4" key={index}>
-                        <div className="d-flex">
-                          <div className="d-flex event-card flex-column px-2 justify-content-center align-items-center">
-                            <span className="text-white">
-                              {monthNames[event.dateOfEvent.split("/")[1]]}
-                            </span>
-                            <span className="text-white">
-                              {event.dateOfEvent.split("/")[0]}
-                            </span>
-                          </div>
-                          <div className="mx-3 d-flex flex-column">
-                            <legend className="mb-0 fw-bold">
-                              {event.nameOfEvent}
-                            </legend>
-                            <small className="text-muted text-black fw-bold">
-                              {event.typeOfEvent}
-                              {event.typeOfEvent === "" ? "" : ","}{" "}
-                              {event.startTimeOfEvent.split(":")[0] % 12 || 12}:
-                              {event.startTimeOfEvent.split(":")[1]}
-                              {event.startTimeOfEvent.split(":")[0] >= 12
-                                ? " PM"
-                                : " AM"}{" "}
-                              - {event.endTimeOfEvent.split(":")[0] % 12 || 12}:
-                              {event.endTimeOfEvent.split(":")[1]}
-                              {event.endTimeOfEvent.split(":")[0] >= 12
-                                ? " PM"
-                                : " AM"}{" "}
-                            </small>
-                            <small className="text-muted text-black fw-bold">
-                              {event.placeOfEvent}
-                            </small>
-                          </div>
+            <Row>
+              {isLoading ? (
+                <div style={{ height: 250 }}>
+                  <Spinner color="primary" className="table-spinner" />
+                </div>
+              ) : sortedEvents.length === 0 ? (
+                <div style={{ height: 250 }}>No Events</div>
+              ) : (
+                sortedEvents.map((event, index) => {
+                  return (
+                    <Col md="4" lg="5" className="p-4" key={index}>
+                      <div className="d-flex">
+                        <div className="d-flex event-card flex-column px-2 justify-content-center align-items-center">
+                          <span className="text-white">
+                            {monthNames[event.dateOfEvent.split("/")[1]]}
+                          </span>
+                          <span className="text-white">
+                            {event.dateOfEvent.split("/")[0]}
+                          </span>
                         </div>
-                      </Col>
-                    );
-                  })
-                )
-              }
+                        <div className="mx-3 d-flex flex-column">
+                          <legend className="mb-0 fw-bold">
+                            {event.nameOfEvent}
+                          </legend>
+                          <small className="text-muted text-black fw-bold">
+                            {event.typeOfEvent}
+                            {event.typeOfEvent === "" ? "" : ","}{" "}
+                            {event.startTimeOfEvent.split(":")[0] % 12 || 12}:
+                            {event.startTimeOfEvent.split(":")[1]}
+                            {event.startTimeOfEvent.split(":")[0] >= 12
+                              ? " PM"
+                              : " AM"}{" "}
+                            - {event.endTimeOfEvent.split(":")[0] % 12 || 12}:
+                            {event.endTimeOfEvent.split(":")[1]}
+                            {event.endTimeOfEvent.split(":")[0] >= 12
+                              ? " PM"
+                              : " AM"}{" "}
+                          </small>
+                          <small className="text-muted text-black fw-bold">
+                            {event.placeOfEvent}
+                          </small>
+                        </div>
+                      </div>
+                    </Col>
+                  );
+                })
+              )}
             </Row>
           </div>
         </CardBody>
