@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Nav, NavItem, NavLink } from "reactstrap";
 
 const Tabs = ({ tabs, guestFirstName, parentCallback }) => {
-  const [active, setActive] = useState(tabs[0].value);
+  const [active, setActive] = useState(tabs[1].value);
   return (
     <div>
       <Nav className="tabnav">

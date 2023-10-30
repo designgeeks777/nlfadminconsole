@@ -328,10 +328,13 @@ textarea.form-control.is-invalid, .form-control.is-invalid {
   color: $modal-label-color;
   background-color: transparent;
   cursor: pointer;
+  text-align: center;
 }
 
 .tabnav-link.active, .tabnav-link:focus {
   border-bottom: 4px solid $primary;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 
 textarea::placeholder {
@@ -344,4 +347,116 @@ textarea::-ms-input-placeholder { /* Edge 12 -18 */
 
 button:hover {
   cursor: pointer;
+}
+
+.infoCard {
+  border-radius: 20px;
+  border: 1px solid $modal-content-border-color;
+  min-height: 200px;
+  max-width: 462px;
+  color: $modal-label-color;
+}
+
+.infoCardLabel {
+  position: relative;
+  top: -12px;
+  margin: 0 30px;
+}
+
+.infoCardChildren {
+    padding: 0px 16px;
+    display: flex;
+    // flex-wrap: wrap;
+    // align-content: stretch;
+    width: 100%;
+    min-height: inherit;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.infoCardChildren div {
+  width: 100%;
+  // height: calc(90% - 200px);
+  display: flex;
+}
+
+.infoCardChildren div label{
+  flex: 1 0;
+}
+
+div.viewDetails div.infoCard:first-child 
+div.infoCardChildren div:nth-child(3) label:last-child {
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+div.viewDetails div.infoCard:first-child 
+div.infoCardChildren div label:nth-child(2) {
+  flex: 2 0 !important;
+}
+
+.infoCardChildren div label:nth-of-type(even){
+  font-weight: bold;
+}
+
+div.viewDetails div.infoCard:nth-of-type(2)  
+div.infoCardChildren > div:nth-of-type(2) label:first-child {
+  flex: 1 0 28%;
+} 
+
+div.viewDetails div.infoCard:nth-of-type(2)  
+div.infoCardChildren > div:nth-of-type(2) label:last-child {
+  flex: 2 0 72%;
+} 
+
+div.viewDetails div.infoCard:nth-of-type(2)  
+div.infoCardChildren > div:nth-of-type(1) div:first-child {
+}
+
+div[class^="col-"]:nth-child(2) div.infoCardChildren  {
+  justify-content: flex-start;
+}
+
+div[class^="col-"]:nth-child(2) div.infoCardChildren  div{
+  padding: 16px;
+}
+// .infoCardChildren div label:nth-child(2)
+// {
+//   // flex: 2;
+//   flex: 1;
+//   // flex: 2 1 min-content;
+// }
+
+ /* Responsive layout - makes a one column-layout instead of two-column layout */
+ @media (max-width: 800px) {
+  //marital status mobile view
+  div.viewDetails div.infoCard:nth-of-type(2)  
+  div.infoCardChildren > div:nth-of-type(2) label:first-child {
+    flex: 1 0;
+  }
+
+  div.viewDetails div.infoCard:nth-of-type(2)  
+  div.infoCardChildren > div:nth-of-type(2) label:last-child {
+    flex: 1 0;
+  }
+  // other info entered on columnwise in mobile view
+  div.viewDetails div.infoCard:nth-of-type(2)  
+  div.infoCardChildren > div:nth-of-type(1) {
+    flex-direction: column;
+  }
+  div.viewDetails div.infoCard:nth-of-type(2)  
+  div.infoCardChildren > div:nth-of-type(1) 
+  div:first-child {
+    padding-bottom: 20px;
+  }
+  div.viewDetails div.infoCard:nth-of-type(2)  
+  div.infoCardChildren > div:nth-of-type(1) 
+  div:first-child label:last-child{
+    padding-left: 2px !important;
+  }
+  // div[class^=col-]:nth-child(2) div.infoCard:nth-of-type(2) 
+  // div.infoCardChildren div label:last-child{
+  //   // background-color: lightblue;
+  //   text-align: center;
+  // }
 }
