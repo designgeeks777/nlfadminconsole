@@ -1,4 +1,4 @@
-import { Card, CardBody, CardTitle, Col, Row } from "reactstrap";
+import { Button, Card, CardBody, CardTitle, Col, Row } from "reactstrap";
 import Tabs from "../../../components/Tabs";
 import { useContext, useEffect, useRef, useState } from "react";
 import GuestJourney from "./GuestJourney";
@@ -54,6 +54,10 @@ const GuestCounterDetails = () => {
   };
   return (
     <>
+      <div className="d-flex mb-3 align-items-center justify-content-between">
+        <h4 className="text-primary mb-0">Guest Counter </h4>
+        {!show && <Button className="btn buttons">Remove Guest</Button>}
+      </div>
       <Card>
         <CardBody>
           <CardTitle tag="h5">

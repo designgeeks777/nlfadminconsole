@@ -349,6 +349,7 @@ button:hover {
   cursor: pointer;
 }
 
+/* GUEST COUNTER - VIEW DETAILS */
 .infoCard {
   border-radius: 20px;
   border: 1px solid $modal-content-border-color;
@@ -364,14 +365,15 @@ button:hover {
 }
 
 .infoCardChildren {
-    padding: 0px 16px;
-    display: flex;
-    // flex-wrap: wrap;
-    // align-content: stretch;
-    width: 100%;
-    min-height: inherit;
-    flex-direction: column;
-    justify-content: space-around;
+  padding: 16px;
+  padding-top: 0px;
+  display: flex;
+  // flex-wrap: wrap;
+  // align-content: stretch;
+  width: 100%;
+  min-height: inherit;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .infoCardChildren div {
@@ -380,32 +382,33 @@ button:hover {
   display: flex;
 }
 
-.infoCardChildren div label{
+.infoCardChildren div p{
   flex: 1 0;
+  margin-bottom: 0px !important;
 }
 
 div.viewDetails div.infoCard:first-child 
-div.infoCardChildren div:nth-child(3) label:last-child {
+div.infoCardChildren div:nth-child(3) p:last-child {
   max-height: 120px;
   overflow-y: auto;
 }
 
 div.viewDetails div.infoCard:first-child 
-div.infoCardChildren div label:nth-child(2) {
+div.infoCardChildren div p:nth-child(2) {
   flex: 2 0 !important;
 }
 
-.infoCardChildren div label:nth-of-type(even){
+.infoCardChildren div p:nth-of-type(even){
   font-weight: bold;
 }
 
 div.viewDetails div.infoCard:nth-of-type(2)  
-div.infoCardChildren > div:nth-of-type(2) label:first-child {
+div.infoCardChildren > div:nth-of-type(2) p:first-child {
   flex: 1 0 28%;
 } 
 
 div.viewDetails div.infoCard:nth-of-type(2)  
-div.infoCardChildren > div:nth-of-type(2) label:last-child {
+div.infoCardChildren > div:nth-of-type(2) p:last-child {
   flex: 2 0 72%;
 } 
 
@@ -413,13 +416,13 @@ div.viewDetails div.infoCard:nth-of-type(2)
 div.infoCardChildren > div:nth-of-type(1) div:first-child {
 }
 
-div[class^="col-"]:nth-child(2) div.infoCardChildren  {
-  justify-content: flex-start;
-}
+// div[class^="col-"]:nth-child(2) div.infoCardChildren  {
+//   justify-content: flex-start;
+// }
 
-div[class^="col-"]:nth-child(2) div.infoCardChildren  div{
-  padding: 16px;
-}
+// div[class^="col-"]:nth-child(2) div.infoCardChildren  div{
+//   padding: 16px;
+// }
 // .infoCardChildren div label:nth-child(2)
 // {
 //   // flex: 2;
@@ -431,12 +434,12 @@ div[class^="col-"]:nth-child(2) div.infoCardChildren  div{
  @media (max-width: 800px) {
   //marital status mobile view
   div.viewDetails div.infoCard:nth-of-type(2)  
-  div.infoCardChildren > div:nth-of-type(2) label:first-child {
+  div.infoCardChildren > div:nth-of-type(2) p:first-child {
     flex: 1 0;
   }
 
   div.viewDetails div.infoCard:nth-of-type(2)  
-  div.infoCardChildren > div:nth-of-type(2) label:last-child {
+  div.infoCardChildren > div:nth-of-type(2) p:last-child {
     flex: 1 0;
   }
   // other info entered on columnwise in mobile view
@@ -451,7 +454,7 @@ div[class^="col-"]:nth-child(2) div.infoCardChildren  div{
   }
   div.viewDetails div.infoCard:nth-of-type(2)  
   div.infoCardChildren > div:nth-of-type(1) 
-  div:first-child label:last-child{
+  div:first-child p:last-child{
     padding-left: 2px !important;
   }
   // div[class^=col-]:nth-child(2) div.infoCard:nth-of-type(2) 
@@ -459,4 +462,151 @@ div[class^="col-"]:nth-child(2) div.infoCardChildren  div{
   //   // background-color: lightblue;
   //   text-align: center;
   // }
+}
+
+/* GUEST COUNTER - VERTICAL STEPPER */
+
+.verticalStepper { margin: 0; padding: 0; width: 100%; height: 100%; display: flex;
+    flex-direction: column;}
+
+.verticalStepper li { 
+  display: flex; 
+  color: $modal-label-color;
+  width: 100%;
+}
+
+.verticalStepper .stepcircle { 
+  position: relative;
+}
+
+.verticalStepper .stepcircle::after { 
+   content: "";
+   position: absolute;
+   z-index: 2;
+   left: -6px;
+   bottom: 0px;
+   border-radius: 50%;
+   background: $white;
+   border: 1px $primary solid;
+   width: 12px;
+   height: 12px;
+}
+
+.verticalStepper > .guestJourney:first-child > .stepContent 
+> li:first-child > .stepcircle::after{
+  background: $primary;
+}
+
+.verticalStepper > .guestJourney:first-child > .stepContent 
+> li:first-child > .stepline::before{
+  display: none;
+}
+
+.verticalStepper .stepline {
+  padding: 0 24px 24px 24px;
+  position: relative;
+  display: inherit;
+}
+
+.stepline > p {
+  margin-bottom: 0;
+  position: relative;
+  top: 28px;
+}
+
+.verticalStepper .stepline::before {
+   content: "";
+   position: absolute;
+   z-index: 1;
+   left: 0;
+   bottom: 6px;
+   height: 100%;
+   border-left: 1px $primary solid;
+}
+.guestJourney {
+  display: flex;
+}
+
+.stepImage {
+  width: 100px;
+  align-self: flex-end;
+  flex: 0 0 auto;
+  // display: flex;
+}
+.stepImage img {
+  object-fit: contain;
+  width: 100%;
+}
+
+.stepContent {
+  // width: 85%;
+  // background: linen;
+}
+
+.stepContent span p{
+  text-wrap:  wrap;
+}
+.followNoteContainer {
+  visibility: visible;
+    max-width: 321px;
+    max-height: 114px;
+    position: relative;
+    display: block;
+}
+.followNote {
+  max-width: inherit;
+    background: $black;
+    color: $white;
+    text-wrap: wrap;
+    border-radius: 8px;
+    display: inherit;
+    max-height: inherit;
+    overflow-y: auto;
+    position: relative;
+    left: 24px;
+    top: 6px;
+}
+
+.followNoteContainer::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  bottom: 0px;
+  height: 100%;
+  border-left: 1px $primary solid;
+}
+
+.lineGap {
+  position: relative;
+  height: 100px;
+}
+
+.lineGap::before {
+  content: "";
+    position: absolute;
+    z-index: 1;
+    left: 100px;
+    bottom: 6px;
+    height: 100%;
+    border-left: 1px $primary solid;
+}
+
+@media (max-width: 800px) {
+  .stepImage {
+    width: 50px;
+  } 
+  .followNoteContainer {
+    // width: 100%;
+    width: calc(100% - 24px);
+  }
+  .lineGap::before {
+    left: 50px;
+    // left: calc(50% - 105px);
+  }
+}
+
+.verticalStepper > .guestJourney:nth-child(3) > .stepContent > 
+li:first-child > .stepcircle::after{
+  background: $primary;
 }

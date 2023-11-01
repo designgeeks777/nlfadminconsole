@@ -9,44 +9,44 @@ const ViewDetails = () => {
           <div className="viewDetails">
             <InfoCard cardLabel="Basic Info" editLabel="Edit Info">
               <div>
-                <label>First Name</label>
-                <label>Anand</label>
+                <p>First Name</p>
+                <p>Anand</p>
               </div>
               <div>
-                <label>Last Name</label>
-                <label>Rao</label>
+                <p>Last Name</p>
+                <p>Rao</p>
               </div>
               <div>
-                <label>Address</label>
-                <label>
+                <p>Address</p>
+                <p>
                   Flat A/3, 242/1, ABC, Yelahanka Flat A/3, 242/1, ABC,
                   Yelahanka Flat A/3, 242/1, ABC, Yelahanka Flat A/3, 242/1,
                   ABC, Yelahanka
-                </label>
+                </p>
               </div>
             </InfoCard>
             <InfoCard cardLabel="Other Info" editLabel="Edit Info">
               <div>
                 <div>
-                  <label>Gender</label>
-                  <label className="ps-3">Male</label>
+                  <p>Gender</p>
+                  <p className="ps-3">Male</p>
                 </div>
                 <div>
-                  <label>Entered On</label>
-                  <label>23/11/2023</label>
+                  <p>Entered On</p>
+                  <p>23/11/2023</p>
                 </div>
               </div>
               <div>
-                {/* <label style={{ flex: "1 0 28%" }}>Martial Status</label>
-              <label style={{ flex: "2 0 72%" }}>Single</label> */}
-                <label>Martial Status</label>
-                <label>Single</label>
+                {/* <p style={{ flex: "1 0 28%" }}>Martial Status</p>
+              <p style={{ flex: "2 0 72%" }}>Single</p> */}
+                <p>Martial Status</p>
+                <p>Single</p>
               </div>
               <div>
-                <label>Source</label>
-                <label className="ps-3">Personal Information</label>
-                <label>Invited By</label>
-                <label>Suraj</label>
+                <p>Source</p>
+                <p className="ps-3">Personal Information</p>
+                <p>Invited By</p>
+                <p>Suraj</p>
               </div>
             </InfoCard>
           </div>
@@ -54,38 +54,38 @@ const ViewDetails = () => {
         <Col sm="6" md="6">
           <InfoCard cardLabel="Contact Info" editLabel="Edit Info">
             <div>
-              <label>Contact number</label>
-              <label>+91922938493</label>
+              <p>Contact number</p>
+              <p>+91922938493</p>
             </div>
             <div>
-              <label>Email Id</label>
-              {/* <label>No Email Id</label> */}
-              <label style={{ width: "50%" }}>sephoraPeak@dss@yahoo.com</label>
+              <p>Email Id</p>
+              {/* <p>No Email Id</p> */}
+              <p style={{ width: "50%" }}>sephoraPeak@dss@yahoo.com</p>
             </div>
             <div>
-              <label>DOB</label>
-              <label>04 April 2018</label>
+              <p>DOB</p>
+              <p>04 April 2018</p>
             </div>
           </InfoCard>
           <InfoCard cardLabel="LifeGroup Details" editLabel="Edit Info">
             <div>
-              <label>Willingness to join</label>
-              <label>Warm</label>
+              <p>Willingness to join</p>
+              <p>Warm</p>
             </div>
             <div>
-              <label>LifeGroup</label>
-              <label>Kannur</label>
+              <p>LifeGroup</p>
+              <p>Kannur</p>
             </div>
             <div>
-              <label>Follow-up</label>
-              <label>Praveen</label>
+              <p>Follow-up</p>
+              <p>Praveen</p>
             </div>
           </InfoCard>
         </Col>
       </Row>
-      <div class="form-check">
+      <div className="form-check">
         <input
-          class="form-check-input text-primary shadow-none"
+          className="form-check-input text-primary shadow-none"
           type="checkbox"
           value=""
           id="flexCheckDefault"
