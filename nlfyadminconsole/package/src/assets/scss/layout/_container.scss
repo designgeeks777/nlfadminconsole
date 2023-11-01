@@ -473,6 +473,7 @@ div.infoCardChildren > div:nth-of-type(1) div:first-child {
   display: flex; 
   color: $modal-label-color;
   width: 100%;
+  align-items: flex-start;
 }
 
 .verticalStepper .stepcircle { 
@@ -484,7 +485,8 @@ div.infoCardChildren > div:nth-of-type(1) div:first-child {
    position: absolute;
    z-index: 2;
    left: -6px;
-   bottom: 0px;
+  //  bottom: 0px;
+   top: 34px;
    border-radius: 50%;
    background: $white;
    border: 1px $primary solid;
@@ -497,13 +499,13 @@ div.infoCardChildren > div:nth-of-type(1) div:first-child {
   background: $primary;
 }
 
-.verticalStepper > .guestJourney:first-child > .stepContent 
-> li:first-child > .stepline::before{
+.verticalStepper > .guestJourney:last-child > .stepContent 
+> li:last-child > .stepline::before{
   display: none;
 }
 
 .verticalStepper .stepline {
-  padding: 0 24px 24px 24px;
+  padding: 0 0px 24px 24px;
   position: relative;
   display: inherit;
 }
@@ -519,7 +521,7 @@ div.infoCardChildren > div:nth-of-type(1) div:first-child {
    position: absolute;
    z-index: 1;
    left: 0;
-   bottom: 6px;
+   top: 46px;
    height: 100%;
    border-left: 1px $primary solid;
 }
@@ -587,7 +589,7 @@ div.infoCardChildren > div:nth-of-type(1) div:first-child {
     position: absolute;
     z-index: 1;
     left: 100px;
-    bottom: 6px;
+    top: 46px;
     height: 100%;
     border-left: 1px $primary solid;
 }
