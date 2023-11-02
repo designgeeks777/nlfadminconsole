@@ -4,6 +4,7 @@ import { Col, Row, Table } from "reactstrap";
 import { BASEURL } from "../../../APIKey";
 import axios from "axios";
 import { LoaderContext } from "../../../LoaderContext";
+import ComponentModal from "../../../components/ComponentModal";
 
 const ViewDetails = ({ guestData }) => {
   const id = "65433e146392cbd2128dba31";
@@ -38,12 +39,28 @@ const ViewDetails = ({ guestData }) => {
   //       console.error("POST Error:", err, showAlert);
   //     });
   // };
+  const [show, setShow] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const showModal = (value) => {
+    setShow(true);
+    setModalTitle(value);
+  };
+  const toggle = () => {
+    setShow(!show);
+  };
+  const editCardInfo = () => {
+    console.log("editCardInfo");
+  };
   return (
     <div className="m-1 mt-5">
       <Row>
         <Col sm="6" md="6">
           <div className="viewDetails">
-            <InfoCard cardLabel="Basic Info" editLabel="Edit Info">
+            <InfoCard
+              openModal={showModal}
+              cardLabel="Basic Info"
+              editLabel="Edit Info"
+            >
               <div>
                 <p>First Name</p>
                 <p>{guestData.firstname}</p>
@@ -57,7 +74,11 @@ const ViewDetails = ({ guestData }) => {
                 <p>{guestData.address}</p>
               </div>
             </InfoCard>
-            <InfoCard cardLabel="Other Info" editLabel="Edit Info">
+            <InfoCard
+              openModal={showModal}
+              cardLabel="Other Info"
+              editLabel="Edit Info"
+            >
               <div>
                 <div>
                   <p>Gender</p>
@@ -69,8 +90,6 @@ const ViewDetails = ({ guestData }) => {
                 </div>
               </div>
               <div>
-                {/* <p style={{ flex: "1 0 28%" }}>Martial Status</p>
-              <p style={{ flex: "2 0 72%" }}>Single</p> */}
                 <p>Martial Status</p>
                 <p>{guestData.maritalstatus}</p>
               </div>
@@ -96,7 +115,11 @@ const ViewDetails = ({ guestData }) => {
           </div>
         </Col>
         <Col sm="6" md="6">
-          <InfoCard cardLabel="Contact Info" editLabel="Edit Info">
+          <InfoCard
+            openModal={showModal}
+            cardLabel="Contact Info"
+            editLabel="Edit Info"
+          >
             <div>
               <p>Contact number</p>
               <p>{guestData.contactnumber}</p>
@@ -113,7 +136,11 @@ const ViewDetails = ({ guestData }) => {
               <p>{guestData.dob}</p>
             </div>
           </InfoCard>
-          <InfoCard cardLabel="LifeGroup Details" editLabel="Edit Info">
+          <InfoCard
+            openModal={showModal}
+            cardLabel="LifeGroup Details"
+            editLabel="Edit Info"
+          >
             <div>
               <p>Willingness to join</p>
               <p>{guestData.willingnesstojoin}</p>
@@ -135,6 +162,64 @@ const ViewDetails = ({ guestData }) => {
           </InfoCard>
         </Col>
       </Row>
+      {show ? (
+        <ComponentModal
+          show={show}
+          toggle={toggle}
+          title={modalTitle}
+          submitButtonTitle="Edit"
+          cancelButtonTitle="Cancel"
+          submitButtonClick={() => editCardInfo()}
+          cancelButtonClick={toggle}
+        >
+          {modalTitle === "Basic Info" && (
+            <>
+              <label
+                for="firstname"
+                size="md"
+                className="form-label modal-body-label"
+              >
+                Title
+              </label>
+              <input
+                type="text"
+                className="form-control modal-body-input shadow-none"
+                id="firstname"
+                name="firstname"
+                placeholder=""
+              />
+              <label
+                for="title"
+                size="md"
+                className="form-label modal-body-label"
+              >
+                Title
+              </label>
+              <input
+                type="text"
+                className="form-control modal-body-input shadow-none"
+                id="title"
+                name="title"
+                placeholder=""
+              />
+              <label
+                for="title"
+                size="md"
+                className="form-label modal-body-label"
+              >
+                Title
+              </label>
+              <input
+                type="text"
+                className="form-control modal-body-input shadow-none"
+                id="title"
+                name="title"
+                placeholder=""
+              />
+            </>
+          )}
+        </ComponentModal>
+      ) : null}
       <div className="form-check">
         <input
           className="form-check-input text-primary shadow-none"
