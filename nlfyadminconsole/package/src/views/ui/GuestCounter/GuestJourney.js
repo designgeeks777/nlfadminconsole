@@ -177,7 +177,7 @@ const GuestJourney = ({ guestData }) => {
                   Follow up member <b> {guestData.followupmember} </b> assigned
                   on{" "}
                   <strong className="text-black">
-                    followupmemberassigneddate
+                    {guestData.followupmemberassigneddate}
                   </strong>
                 </p>
               </span>
@@ -210,10 +210,9 @@ const GuestJourney = ({ guestData }) => {
             <span className="stepcircle"></span>
             <span className="stepline">
               <p>
-                Assigned to LifeGroup <b> {lifeGroupPlace} </b> on
-                {" lifegroupassigndate"}
+                Assigned to LifeGroup <b> {lifeGroupPlace} </b> on{" "}
                 <strong className="text-black">
-                  {guestData.startedlifegroup}
+                  {guestData.lifegroupassigndate}
                 </strong>
               </p>
             </span>
