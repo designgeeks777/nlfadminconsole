@@ -385,6 +385,7 @@ button:hover {
 .infoCardChildren div p{
   flex: 1 0;
   margin-bottom: 0px !important;
+  text-transform: capitalize;
 }
 
 div.viewDetails div.infoCard:first-child 
@@ -404,12 +405,12 @@ div.infoCardChildren div p:nth-child(2) {
 
 div.viewDetails div.infoCard:nth-of-type(2)  
 div.infoCardChildren > div:nth-of-type(2) p:first-child {
-  flex: 1 0 28%;
+  flex: 1 0 26%;
 } 
 
 div.viewDetails div.infoCard:nth-of-type(2)  
 div.infoCardChildren > div:nth-of-type(2) p:last-child {
-  flex: 2 0 72%;
+  flex: 2 0 74%;
 } 
 
 div.viewDetails div.infoCard:nth-of-type(2)  
@@ -494,10 +495,10 @@ div.infoCardChildren > div:nth-of-type(1) div:first-child {
    height: 12px;
 }
 
-.verticalStepper > .guestJourney:first-child > .stepContent 
-> li:first-child > .stepcircle::after{
-  background: $primary;
-}
+// .verticalStepper > .guestJourney:first-child > .stepContent 
+// > li:first-child > .stepcircle::after{
+//   background: $primary;
+// }
 
 .verticalStepper > .guestJourney:last-child > .stepContent 
 > li:last-child > .stepline::before{
@@ -574,7 +575,7 @@ div.infoCardChildren > div:nth-of-type(1) div:first-child {
   position: absolute;
   z-index: 1;
   left: 0;
-  bottom: 0px;
+  top: 34px;
   height: 100%;
   border-left: 1px $primary solid;
 }
@@ -608,7 +609,7 @@ div.infoCardChildren > div:nth-of-type(1) div:first-child {
   }
 }
 
-.verticalStepper > .guestJourney:nth-child(3) > .stepContent > 
+.verticalStepper > div.guestJourney:first-of-type > .stepContent > 
 li:first-child > .stepcircle::after{
   background: $primary;
 }

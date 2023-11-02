@@ -1,78 +1,129 @@
-import React, { useState } from "react";
-const GuestJourney = () => {
-  const [selectedId, setSelectedId] = useState(false);
+import React, { useContext, useEffect, useState } from "react";
+import { BASEURL } from "../../../APIKey";
+import axios from "axios";
 
+const GuestJourney = ({ guestData }) => {
+  const [selectedId, setSelectedId] = useState(null);
   const onSelectItem = (id) => {
     if (id === selectedId) return setSelectedId(null);
     setSelectedId(id);
   };
+
+  const [lifeGroupPlace, setLifeGroupPlace] = useState("");
+  const lifeGroupUrl = `${BASEURL}lifeGroups/${guestData.lifegroupid}`;
+  const fetchLifeGroupName = async () => {
+    const response = await axios.get(lifeGroupUrl);
+    var place = response.data.place;
+    setLifeGroupPlace(place);
+  };
+
+  useEffect(() => {
+    if (guestData.lifegroupid) {
+      fetchLifeGroupName();
+    }
+  }, [guestData]);
+
+  const [followupNotes, setFollowupNotes] = useState([]);
+
+  useEffect(() => {
+    if (guestData.followupnotes) {
+      let data = guestData.followupnotes;
+      setFollowupNotes(data.reverse());
+    }
+  }, [guestData.followupnotes]);
+
+  //follow up notes section
+  const followUpNotesSection = () => {
+    if (followupNotes) {
+      // return guestData.followupnotes.map((item, index) => {
+      return followupNotes.map((item, index) => {
+        return (
+          <>
+            <li key={index}>
+              <span className="stepcircle"></span>
+              <span className="stepline">
+                <p>
+                  Followed up on{" "}
+                  <strong className="text-black">{item.date}</strong>{" "}
+                  <span
+                    style={{ cursor: "pointer" }}
+                    className="text-primary"
+                    onClick={() => {
+                      onSelectItem(index);
+                    }}
+                  >
+                    {selectedId === index
+                      ? "Close Follow-up note "
+                      : "See Follow-up note "}
+                    <i
+                      className={`bi ${
+                        selectedId === index
+                          ? "bi-chevron-down"
+                          : "bi-chevron-right"
+                      }`}
+                    ></i>
+                  </span>
+                </p>
+              </span>
+            </li>
+            {selectedId === index ? (
+              <span
+                className="followNoteContainer"
+                style={{
+                  // display: selectedId ? "inline-block" : "none",
+                  visibility: selectedId === index ? "visible" : "hidden",
+                }}
+              >
+                <span className="p-2 followNote">{item.note}</span>
+              </span>
+            ) : null}
+          </>
+        );
+      });
+    }
+  };
   return (
     <ul className="verticalStepper mb-3">
       {/* finalStep */}
-      <div className="guestJourney">
-        <div className="stepImage">
-          <img
-            src={require("../../../assets/images/guestCounter/finalStep.png")}
-            alt="finalStep"
-            // width={124}
-            // height={70}
-          />
-        </div>
-        <div className="stepContent">
-          <li>
-            <span className="stepcircle"></span>
-            <span className="stepline">
-              <p>
-                Hooray! Anand started coming to Life Groups{" "}
-                <strong className="text-black">29/11/2023</strong>{" "}
-                <img
-                  src={require("../../../assets/images/guestCounter/tick.png")}
-                  alt="happy"
-                  width={28}
-                  height={28}
-                />
-              </p>
-            </span>
-          </li>
-          <li>
-            <span className="stepcircle"></span>
-            <span className="stepline">
-              <p>
-                Followed up on{" "}
-                <strong className="text-black">26/11/2023</strong>{" "}
-                <span className="text-primary">
-                  See Follow-up note{" "}
-                  <i
-                    className={`bi ${
-                      // selectedId === index
-                      selectedId ? "bi-chevron-down" : "bi-chevron-right"
-                    } text-primary`}
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      // onSelectItem(index);
-                      setSelectedId(!selectedId);
-                    }}
-                  />
+      {guestData.startedlifegroup === "started" && (
+        <>
+          <div className="guestJourney">
+            <div className="stepImage">
+              <img
+                src={require("../../../assets/images/guestCounter/finalStep.png")}
+                alt="finalStep"
+                // width={124}
+                // height={70}
+              />
+            </div>
+            <div className="stepContent">
+              <li>
+                <span className="stepcircle"></span>
+                <span className="stepline">
+                  <p>
+                    Hooray! Anand started coming to Life Groups{" "}
+                    <strong className="text-black">29/11/2023</strong>{" "}
+                    <img
+                      src={require("../../../assets/images/guestCounter/tick.png")}
+                      alt="happy"
+                      width={28}
+                      height={28}
+                    />
+                  </p>
                 </span>
-              </p>
-            </span>
-          </li>
-          {/* {selectedId ? (
-            <span
-              className="p-2 followNote"
-              style={{
-                display: selectedId ? "inline-block" : "none",
-                visibility: selectedId ? "visible" : "hidden",
-              }}
-            >
-              “Had a general conversation on phone.Spoke around 15 mins.Seemed
-              pretty enthusiastic.However, seeming little confused as well.”
-            </span>
-          ) : null} */}
-        </div>
-      </div>
-      {/* below div to create gap */}
-      <div className="lineGap"></div>
+              </li>
+              {/* added for gap between steps */}
+              <li>
+                <span className="stepline"></span>
+              </li>
+              {/* added for gap between steps */}
+            </div>
+          </div>
+          {/* below div to create gap */}
+          <div className="lineGap"></div>
+        </>
+      )}
+
       {/* followUpAssignStep */}
       <div className="guestJourney">
         <div className="stepImage">
@@ -83,95 +134,64 @@ const GuestJourney = () => {
             height={81}
           />
         </div>
-        <div className="stepContent">
-          <li>
-            <span className="stepcircle"></span>
-            <span className="stepline">
-              <p>
-                No Member assigned yet to follow up with this person{" "}
-                <img
-                  src={require("../../../assets/images/guestCounter/sad.png")}
-                  alt="sad"
-                  width={16}
-                  height={16}
-                />{" "}
-                <span className="text-info">Assing Now/Follow-up Now</span>
-              </p>
-            </span>
-          </li>
-          <li>
-            <span className="stepcircle"></span>
-            <span className="stepline">
-              <p>
-                Followed up on{" "}
-                <strong className="text-black">25/11/2023</strong>{" "}
-                <span className="text-primary">
-                  {selectedId ? "Close Follow-up note " : "See Follow-up note "}
-                  <i
-                    className={`bi ${
-                      // selectedId === index
-                      selectedId ? "bi-chevron-down" : "bi-chevron-right"
-                    } text-primary`}
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      // onSelectItem(index);
-                      setSelectedId(!selectedId);
-                    }}
-                  />
-                </span>
-              </p>
-            </span>
-          </li>
-          {selectedId ? (
-            <span
-              className="followNoteContainer"
-              style={{
-                // display: selectedId ? "inline-block" : "none",
-                visibility: selectedId ? "visible" : "hidden",
-              }}
-            >
-              <span className="p-2 followNote">
-                “Had a general conversation on phone.Spoke around 15 mins.Seemed
-                pretty enthusiastic.However, seeming little confused as well.”
+        {guestData?.followupmember === "" ||
+        guestData?.followupnotes?.length === 0 ? (
+          <div className="stepContent">
+            <li>
+              <span className="stepcircle"></span>
+              <span className="stepline">
+                <p>
+                  No Member assigned yet to follow up with this person{" "}
+                  <img
+                    src={require("../../../assets/images/guestCounter/sad.png")}
+                    alt="sad"
+                    width={16}
+                    height={16}
+                  />{" "}
+                  <span className="text-info fw-bold">
+                    {guestData?.followupmember === ""
+                      ? "Assign Now"
+                      : guestData?.followupnotes?.length === 0
+                      ? "Follow-up Now"
+                      : null}
+                  </span>
+                </p>
               </span>
-            </span>
-          ) : null}
-          <li>
-            <span className="stepcircle"></span>
-            <span className="stepline">
-              <p>
-                Followed up on{" "}
-                <strong className="text-black">24/11/2023</strong>{" "}
-                <span className="text-primary">
-                  See Follow-up note <i className="bi bi-chevron-right"></i>
-                </span>
-              </p>
-            </span>
-          </li>
-          {selectedId ? (
-            <span
-              className="followNoteContainer"
-              style={{
-                // display: selectedId ? "inline-block" : "none",
-                visibility: selectedId ? "visible" : "hidden",
-              }}
-            >
-              <span className="p-2 followNote">
-                “Had a general conversation on phone.Spoke around 15 mins.Seemed
-                pretty enthusiastic.However, seeming little confused as well.”
+            </li>
+            {/* added for gap between steps */}
+            <li>
+              <span className="stepline"></span>
+            </li>
+            <li>
+              <span className="stepline"></span>
+            </li>
+            {/* added for gap between steps */}
+          </div>
+        ) : guestData?.followupmember !== "" ? (
+          <div className="stepContent">
+            {followUpNotesSection()}
+            <li>
+              <span className="stepcircle"></span>
+              <span className="stepline">
+                <p>
+                  Follow up member <b> {guestData.followupmember} </b> assigned
+                  on{" "}
+                  <strong className="text-black">
+                    followupmemberassigneddate
+                  </strong>
+                </p>
               </span>
-            </span>
-          ) : null}
-          <li>
-            <span className="stepcircle"></span>
-            <span className="stepline">
-              <p>
-                Follow up member <b> Praveen </b> assigned on{" "}
-                <strong className="text-black">24/11/2023</strong>
-              </p>
-            </span>
-          </li>
-        </div>
+            </li>
+            {/* added for gap between steps */}
+            <li>
+              <span className="stepline"></span>
+            </li>
+            <li>
+              <span className="stepline"></span>
+            </li>
+            {/* added for gap between steps */}
+          </div>
+        ) : null}
       </div>
       {/* below div to create gap */}
       <div className="lineGap"></div>
@@ -190,8 +210,11 @@ const GuestJourney = () => {
             <span className="stepcircle"></span>
             <span className="stepline">
               <p>
-                Assigned to LifeGroup <b> Kannur </b> on{" "}
-                <strong className="text-black">24/11/2023</strong>
+                Assigned to LifeGroup <b> {lifeGroupPlace} </b> on
+                {" lifegroupassigndate"}
+                <strong className="text-black">
+                  {guestData.startedlifegroup}
+                </strong>
               </p>
             </span>
           </li>
@@ -200,13 +223,22 @@ const GuestJourney = () => {
             <span className="stepline">
               <p>
                 Interested to join LifeGroup?{" "}
-                <img
-                  src={require("../../../assets/images/guestCounter/happy.png")}
-                  alt="happy"
-                  width={16}
-                  height={16}
-                />{" "}
-                Warm
+                {guestData.willingnesstojoin === "Hot" || "Warm" ? (
+                  <img
+                    src={require("../../../assets/images/guestCounter/happy.png")}
+                    alt="happy"
+                    width={16}
+                    height={16}
+                  />
+                ) : (
+                  <img
+                    src={require("../../../assets/images/guestCounter/sad.png")}
+                    alt="sad"
+                    width={16}
+                    height={16}
+                  />
+                )}{" "}
+                {guestData.willingnesstojoin}
               </p>
             </span>
           </li>
@@ -214,8 +246,8 @@ const GuestJourney = () => {
             <span className="stepcircle"></span>
             <span className="stepline">
               <p>
-                Anand came first on{" "}
-                <strong className="text-black">23/11/2023</strong>
+                {guestData.firstname} came first on{" "}
+                <strong className="text-black">{guestData.enteredon}</strong>
               </p>
             </span>
           </li>
