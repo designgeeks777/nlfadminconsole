@@ -13,11 +13,6 @@ const ViewDetails = ({ guestData, handleTabsCallback }) => {
   const [lifeGroupPlace, setLifeGroupPlace] = useState("");
   const lifeGroupByIdUrl = `${BASEURL}lifeGroups/${guestData.lifegroupid}`;
   const lifeGroupsUrl = `${BASEURL}lifeGroups/`;
-  const [showAlert, setShowAlert] = useState({
-    isOpen: false,
-    type: "",
-    message: "",
-  });
   const { isLoading, setIsLoading } = useContext(LoaderContext);
   const [lifeGroupOptions, setLifeGroupOptions] = useState([]);
   const formattedEnteredOnDate = useRef("");
@@ -134,29 +129,28 @@ const ViewDetails = ({ guestData, handleTabsCallback }) => {
     resetModalData();
   };
   const editCardInfo = () => {
-    console.log("editCardInfo", selectedGuestData);
+    let showAlert = {};
+    console.log("editCardInfo", modalTitle);
     axios
       .patch(guestUrl, selectedGuestData)
       .then((res) => {
         setSelectedGuestData(res.data);
         // resetModalData();
         setShow(false);
-        setShowAlert({
-          ...showAlert,
+        showAlert = {
           isOpen: true,
           type: "success",
-          message: `${modalTitle} ${successMsgs.update}`,
-        });
+          message: modalTitle + " " + successMsgs.update,
+        };
         handleTabsCallback(true, showAlert);
       })
       .catch((err) => {
         resetModalData();
-        setShowAlert({
-          ...showAlert,
+        showAlert = {
           isOpen: true,
           type: "danger",
           message: errorMsgs.update,
-        });
+        };
         setIsLoading(false);
         handleTabsCallback(false, showAlert);
         // console.error("POST Error:", err, showAlert);

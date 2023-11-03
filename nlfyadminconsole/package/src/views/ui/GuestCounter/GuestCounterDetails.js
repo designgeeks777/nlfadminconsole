@@ -64,7 +64,7 @@ const GuestCounterDetails = () => {
       type: alertMsg.type,
       message: alertMsg.message,
     });
-    console.log(alertMsg,showAlert);
+    console.log(showAlert);
     setTimeout(() => {
       setShowAlert({ isOpen: false, type: "", message: "" });
     }, 2000);

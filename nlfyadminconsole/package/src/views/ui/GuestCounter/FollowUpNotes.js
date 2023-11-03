@@ -13,11 +13,6 @@ const FollowUpNotes = ({ guestData, handleTabsCallback }) => {
     followedBy: "",
     followUpMsg: "",
   });
-  const [showAlert, setShowAlert] = useState({
-    isOpen: false,
-    type: "",
-    message: "",
-  });
   const { isLoading, setIsLoading } = useContext(LoaderContext);
   const maxWords = useRef(0);
   const handleFollowupMsgChange = (event) => {
@@ -30,6 +25,7 @@ const FollowUpNotes = ({ guestData, handleTabsCallback }) => {
   };
 
   const onSubmitNote = () => {
+    let showAlert = {};
     setIsLoading(true);
     let formattedDate = new Date(followup.followUpDate).toLocaleDateString(
       "en-GB"
@@ -48,22 +44,20 @@ const FollowUpNotes = ({ guestData, handleTabsCallback }) => {
       .then(() => {
         // setIsLoading(false);
         resetModalData();
-        setShowAlert({
-          ...showAlert,
+        showAlert = {
           isOpen: true,
           type: "success",
           message: `Follow-up note ${successMsgs.add}`,
-        });
+        };
         handleTabsCallback(true, showAlert);
       })
       .catch((err) => {
         resetModalData();
-        setShowAlert({
-          ...showAlert,
+        showAlert = {
           isOpen: true,
           type: "danger",
           message: errorMsgs.add,
-        });
+        };
         setIsLoading(false);
         handleTabsCallback(false, showAlert);
         console.error("POST Error:", err, showAlert);
