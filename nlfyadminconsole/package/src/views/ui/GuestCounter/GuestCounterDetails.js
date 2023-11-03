@@ -64,7 +64,7 @@ const GuestCounterDetails = () => {
       type: alertMsg.type,
       message: alertMsg.message,
     });
-    console.log(showAlert);
+    console.log(alertMsg,showAlert);
     setTimeout(() => {
       setShowAlert({ isOpen: false, type: "", message: "" });
     }, 2000);
@@ -93,7 +93,7 @@ const GuestCounterDetails = () => {
             // tabs={tabHeadings}
             guestData={guestData}
             parentCallback={handleCallback}
-            parentFollowupNoteCallback={handleTabsCallback}
+            parentTabsCallback={handleTabsCallback}
           />
         </CardBody>
       </Card>

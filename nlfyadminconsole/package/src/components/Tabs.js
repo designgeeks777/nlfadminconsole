@@ -10,7 +10,7 @@ const tabs = [
   { label: "View Details", value: "tab2" },
   { label: "Follow-up Notes", value: "tab3" },
 ];
-const Tabs = ({ guestData, parentCallback, parentFollowupNoteCallback }) => {
+const Tabs = ({ guestData, parentCallback, parentTabsCallback }) => {
   const [active, setActive] = useState(tabs[0].value);
 
   return (
@@ -38,11 +38,14 @@ const Tabs = ({ guestData, parentCallback, parentFollowupNoteCallback }) => {
       {active === "tab1" ? (
         <GuestJourney guestData={guestData} />
       ) : active === "tab2" ? (
-        <ViewDetails guestData={guestData} />
+        <ViewDetails
+          guestData={guestData}
+          handleTabsCallback={parentTabsCallback}
+        />
       ) : (
         <FollowUpNotes
           guestData={guestData}
-          handleTabsCallback={parentFollowupNoteCallback}
+          handleTabsCallback={parentTabsCallback}
         />
       )}
       {/* </div> */}

@@ -385,7 +385,6 @@ button:hover {
 .infoCardChildren div p{
   flex: 1 0;
   margin-bottom: 0px !important;
-  text-transform: capitalize;
 }
 
 div.viewDetails div.infoCard:first-child 
@@ -401,6 +400,7 @@ div.infoCardChildren div p:nth-child(2) {
 
 .infoCardChildren div p:nth-of-type(even){
   font-weight: bold;
+  text-transform: capitalize;
 }
 
 div.viewDetails div.infoCard:nth-of-type(2)  
