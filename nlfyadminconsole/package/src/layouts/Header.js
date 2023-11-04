@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Navbar,
   Collapse,
@@ -10,10 +10,13 @@ import {
   Button,
 } from "reactstrap";
 import avatar from "../assets/images/users/avatar.png";
+import { AuthenticationContext } from "../services/AuthService";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  const { user, logOut } = useContext(AuthenticationContext);
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   const Handletoggle = () => {
@@ -22,6 +25,18 @@ const Header = () => {
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user === null) {
+      navigate("/");
+    }
+  }, [user]);
+  const onLogOut = () => {
+    console.log("clicked");
+    logOut();
+  };
+
   return (
     <Navbar className="bg-gradient text-white" dark expand="md">
       <div className="d-flex align-items-center">
@@ -43,7 +58,9 @@ const Header = () => {
           <i className="bi bi-list"></i>
         </Button>
       </div>
-      <div className="me-auto nav-link welcome-text">Welcome Admin!</div>
+      <div className="me-auto nav-link welcome-text">
+        Welcome {user.displayName}!
+      </div>
 
       <div className="hstack gap-2">
         <Button
@@ -64,7 +81,7 @@ const Header = () => {
         <Dropdown isOpen={dropdownOpen} toggle={toggle}>
           <DropdownToggle color="transparent">
             <img
-              src={avatar}
+              src={user.photoURL}
               alt="profile"
               className="rounded-circle"
               width="40"
@@ -72,13 +89,9 @@ const Header = () => {
             ></img>
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem header>Info</DropdownItem>
-            <DropdownItem>My Account</DropdownItem>
-            <DropdownItem>Edit Profile</DropdownItem>
-            <DropdownItem divider />
-            <DropdownItem>My Balance</DropdownItem>
-            <DropdownItem>Inbox</DropdownItem>
-            <DropdownItem>Logout</DropdownItem>
+            <DropdownItem>
+              <span onClick={logOut}>Logout</span>
+            </DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </Collapse>
