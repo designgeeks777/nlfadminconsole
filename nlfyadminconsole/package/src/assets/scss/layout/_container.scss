@@ -626,10 +626,17 @@ li:first-child > .stepcircle::after{
   width: 414px;
   height: 378px;
   border-radius: 20px;
+  padding: 24px;
 }
 
 .loginButton {
-  width: 218px;
-  height: 50px;
+  max-width: 218px;
+  max-height: 50px;
   border-radius: 20px;
+}
+
+@media (max-width: 800px) {
+  .loginCard {
+    width: calc(80% - 36px);
+  }
 }
