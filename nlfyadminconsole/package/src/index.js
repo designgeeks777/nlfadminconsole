@@ -14,13 +14,13 @@ const root = createRoot(rootElement);
 
 root.render(
   <Suspense fallback={<Loader />}>
-    <HashRouter>
-      <LoaderContextProvider>
-        <AuthenticationContextProvider>
+    <LoaderContextProvider>
+      <AuthenticationContextProvider>
+        <HashRouter>
           <App />
-        </AuthenticationContextProvider>
-      </LoaderContextProvider>
-    </HashRouter>
+        </HashRouter>
+      </AuthenticationContextProvider>
+    </LoaderContextProvider>
   </Suspense>
 
   // document.getElementById("root")

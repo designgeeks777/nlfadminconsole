@@ -24,51 +24,47 @@ const GuestCounterDetails = lazy(() =>
 );
 /*****Routes******/
 
-const ThemeRoutes = (user) =>
-  user === null
-    ? [
-        { path: "/*", element: <Navigate to="/login" /> },
+const ThemeRoutes = (isAuthenticated) =>
+  [
+    {
+      path: "/",
+      element: isAuthenticated ? <FullLayout /> : <Navigate to="/login" />,
+      children: [
+        { path: "/", element: <Navigate to="/dashboard" /> },
+        // { path: "/login", element: <Login /> },
+        { path: "/dashboard", exact: true, element: <Dashboard /> },
+        { path: "/alerts", exact: true, element: <Alerts /> },
+        { path: "/announcements", exact: true, element: <Announcements /> },
+        { path: "/users", exact: true, element: <Users /> },
+        { path: "/churchPrayers", exact: true, element: <ChurchPrayers /> },
         {
-          path: "/",
-          element: <Login />,
-          children: [
-            { path: "login", element: <Login /> },
-            { path: "/", element: <Navigate to="/login" /> },
-          ],
+          path: "/prayerRequests",
+          exact: true,
+          element: <PrayerRequests />,
         },
-      ]
-    : [
+        { path: "/lifeGroups", exact: true, element: <LifeGroups /> },
+        { path: "/addLifeGroup", exact: true, element: <AddLifeGroup /> },
         {
-          path: "/",
-          element: <FullLayout />,
-          children: [
-            { path: "/", element: <Navigate to="/dashboard" /> },
-            { path: "/login", element: <Login /> },
-            { path: "/dashboard", exact: true, element: <Dashboard /> },
-            { path: "/alerts", exact: true, element: <Alerts /> },
-            { path: "/announcements", exact: true, element: <Announcements /> },
-            { path: "/users", exact: true, element: <Users /> },
-            { path: "/churchPrayers", exact: true, element: <ChurchPrayers /> },
-            {
-              path: "/prayerRequests",
-              exact: true,
-              element: <PrayerRequests />,
-            },
-            { path: "/lifeGroups", exact: true, element: <LifeGroups /> },
-            { path: "/addLifeGroup", exact: true, element: <AddLifeGroup /> },
-            {
-              path: "/lifeGroupsDetails/:id",
-              exact: true,
-              element: <LifeGroupDetails />,
-            },
-            { path: "/events", exact: true, element: <Events /> },
-            {
-              path: "/guestCounterDetails/:id",
-              exact: true,
-              element: <GuestCounterDetails />,
-            },
-          ],
+          path: "/lifeGroupsDetails/:id",
+          exact: true,
+          element: <LifeGroupDetails />,
         },
-      ];
+        { path: "/events", exact: true, element: <Events /> },
+        {
+          path: "/guestCounterDetails/:id",
+          exact: true,
+          element: <GuestCounterDetails />,
+        },
+      ],
+    },
+    {
+      path: "/",
+      element: !isAuthenticated ? <Login /> : <Navigate to="/dashboard" replace={true} />,
+      children: [
+        { path: "login", element: <Login /> },
+        // { path: "/", element: <Navigate to="/login" /> },
+      ],
+    },
+  ];
 
 export default ThemeRoutes;

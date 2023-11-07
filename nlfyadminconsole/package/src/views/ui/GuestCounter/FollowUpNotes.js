@@ -4,13 +4,15 @@ import { BASEURL } from "../../../APIKey";
 import { LoaderContext } from "../../../LoaderContext";
 import axios from "axios";
 import { errorMsgs, successMsgs } from "../../../constants";
+import { AuthenticationContext } from "../../../services/AuthService";
 
 const FollowUpNotes = ({ guestData, handleTabsCallback }) => {
+  const { user } = useContext(AuthenticationContext);
   const id = "65433e146392cbd2128dba31";
   const url = `${BASEURL}guests/${id}`;
   const [followup, setFollowup] = useState({
     followUpDate: "",
-    followedBy: "",
+    followedBy: user.firstName,
     followUpMsg: "",
   });
   const { isLoading, setIsLoading } = useContext(LoaderContext);
@@ -34,7 +36,7 @@ const FollowUpNotes = ({ guestData, handleTabsCallback }) => {
       note: followup.followUpMsg.trim(),
       date: formattedDate,
       followedupby: followup.followedBy, // by default logged in value, editable
-      eneterdby: followup.followedBy, // logged in person value,
+      eneterdby: user.firstName, // logged in person value,
     };
     let followupnotes = guestData.followupnotes;
     followupnotes.push(newFollowupNote);

@@ -15,11 +15,11 @@ const Dashboard = () => {
   const lifeGroupsUrl = `${BASEURL}getLifeGroupsCount/`;
   const usersUrl = `${BASEURL}getUsersCount/`;
   const announcementsUrl = `${BASEURL}getAnnouncementsCount/`;
-  const user = useContext(AuthenticationContext);
+  const { user } = useContext(AuthenticationContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user === null) {
+    if (!user) {
       navigate("/");
     }
   }, [user]);

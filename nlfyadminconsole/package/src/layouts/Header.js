@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Navbar,
   Collapse,
@@ -28,14 +28,10 @@ const Header = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user === null) {
+    if (!user) {
       navigate("/");
     }
   }, [user]);
-  const onLogOut = () => {
-    console.log("clicked");
-    logOut();
-  };
 
   return (
     <Navbar className="bg-gradient text-white" dark expand="md">
@@ -59,7 +55,7 @@ const Header = () => {
         </Button>
       </div>
       <div className="me-auto nav-link welcome-text">
-        Welcome {user.displayName}!
+        Welcome {user.firstName}!
       </div>
 
       <div className="hstack gap-2">
@@ -89,9 +85,7 @@ const Header = () => {
             ></img>
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem>
-              <span onClick={logOut}>Logout</span>
-            </DropdownItem>
+            <DropdownItem onClick={logOut}>Logout</DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </Collapse>

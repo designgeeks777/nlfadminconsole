@@ -1,22 +1,27 @@
 import { Button, Card, CardTitle } from "reactstrap";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthenticationContext } from "../services/AuthService";
 import { useNavigate } from "react-router-dom";
+import { LoaderContext } from "../LoaderContext";
 
 const Login = () => {
   const { user, signInWithGoogle } = useContext(AuthenticationContext);
+  const { isLoading, setIsLoading } = useContext(LoaderContext);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) navigate("/dashboard");
+    if (user) {
+      navigate("/dashboard");
+      // console.log("login",user);
+    }
   }, [user]);
 
   return (
     <div className="loginBg d-flex flex-column align-items-center justify-content-center">
       <Card className="loginCard d-flex flex-column align-items-center justify-content-evenly mb-2">
         <CardTitle tag="h3" className="text-primary">
-          Admin console
+          Admin Console
         </CardTitle>
         <img
           alt="logo"
