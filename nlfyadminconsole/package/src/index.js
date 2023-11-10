@@ -7,17 +7,20 @@ import reportWebVitals from "./reportWebVitals";
 import { HashRouter } from "react-router-dom";
 import Loader from "./layouts/loader/Loader";
 import { LoaderContextProvider } from "./LoaderContext";
+import { AuthenticationContextProvider } from "./services/AuthService";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
 root.render(
   <Suspense fallback={<Loader />}>
-    <HashRouter>
-      <LoaderContextProvider>
-        <App />
-      </LoaderContextProvider>
-    </HashRouter>
+    <LoaderContextProvider>
+      <AuthenticationContextProvider>
+        <HashRouter>
+          <App />
+        </HashRouter>
+      </AuthenticationContextProvider>
+    </LoaderContextProvider>
   </Suspense>
 
   // document.getElementById("root")

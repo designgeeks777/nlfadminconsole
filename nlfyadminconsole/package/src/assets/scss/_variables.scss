@@ -57,6 +57,8 @@ $min-contrast-ratio: 2;
 $body-bg: $gray-100 !default;
 $body-color: $gray-900 !default;
 $gradient : linear-gradient(180deg, $primary 0%, rgba(208, 57, 37, 0.7) 100%); 
+$placeholder-color : #C9CAC8;
+
 /*******************/
 // Theme common variable
 /********************/
@@ -94,13 +96,6 @@ $jrlg-btn-width: 112px;
 $jrlg-btn-height: 38px;
 
 /*******************/
-// Theme modal btn
-/********************/
-$btn-modal-width: 140px;
-$btn-modal-height: 44px;
-$btn-modal-border-radius: 10px;
-
-/*******************/
 // Theme modal
 /********************/
 $modal-border-width: 1px;
@@ -116,6 +111,9 @@ $modal-btn-border-color: $primary;
 $modal-btn-hover-color: $primary;
 $modal-btn-hover-border-color: $primary;
 $modal-btn-hover-bg-color: #f5f5f5;
+$btn-modal-width: 140px;
+$btn-modal-height: 44px;
+$btn-modal-border-radius: 10px;
 
 /*******************/
 // Theme sidebar width
