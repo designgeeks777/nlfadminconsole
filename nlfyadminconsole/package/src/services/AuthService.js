@@ -28,7 +28,6 @@ export const AuthenticationContextProvider = ({ children }) => {
 
   useEffect(() => {
     onAuthStateChanged(auth, async (usr) => {
-      console.log("isLoading in onAuthStateChange", isLoading);
       if (usr) {
         setIsLoading(true);
         let leadersGmailId = await checkLeaderAlreadySaved(usr.email);

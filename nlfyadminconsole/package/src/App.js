@@ -6,8 +6,6 @@ import Loader from "./layouts/loader/Loader";
 
 const App = () => {
   const { user, isLoading } = useContext(AuthenticationContext);
-  console.log("Userrr", user);
-  console.log("isLoading in Appjs", isLoading);
 
   const routes = ThemeRoutes(user);
   const routing = useRoutes(routes);

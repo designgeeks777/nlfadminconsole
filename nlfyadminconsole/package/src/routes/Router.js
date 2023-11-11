@@ -22,15 +22,15 @@ const Events = lazy(() => import("../views/ui/Events"));
 const GuestCounterDetails = lazy(() =>
   import("../views/ui/GuestCounter/GuestCounterDetails")
 );
+const AddGuest = lazy(() => import("../views/ui/GuestCounter/addGuest.js"));
 /*****Routes******/
-
 const ThemeRoutes = (isAuthenticated) => [
   {
     path: "/",
-    element: isAuthenticated ? <FullLayout /> : <Navigate to="/login" />,
+    element:
+      isAuthenticated !== null ? <FullLayout /> : <Navigate to="/login" />,
     children: [
       { path: "/", element: <Navigate to="/dashboard" /> },
-      // { path: "/login", element: <Login /> },
       { path: "/dashboard", exact: true, element: <Dashboard /> },
       { path: "/alerts", exact: true, element: <Alerts /> },
       { path: "/announcements", exact: true, element: <Announcements /> },
@@ -54,18 +54,16 @@ const ThemeRoutes = (isAuthenticated) => [
         exact: true,
         element: <GuestCounterDetails />,
       },
+      { path: "/addGuest", exact: true, element: <AddGuest /> },
     ],
   },
   {
     path: "/",
-    element: !isAuthenticated ? (
-      <Login />
-    ) : (
-      <Navigate to="/dashboard" replace={true} />
-    ),
+    element:
+      isAuthenticated === null ? <Login /> : <Navigate to="/dashboard" />,
     children: [
       { path: "login", element: <Login /> },
-      // { path: "/", element: <Navigate to="/login" /> },
+      { path: "/", element: <Navigate to="/login" /> },
     ],
   },
 ];

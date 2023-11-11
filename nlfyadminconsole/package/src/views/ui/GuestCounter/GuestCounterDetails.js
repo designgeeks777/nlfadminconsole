@@ -6,6 +6,7 @@ import { LoaderContext } from "../../../LoaderContext";
 import axios from "axios";
 import { BASEURL } from "../../../APIKey";
 import Alerts from "../Alerts";
+import { useNavigate } from "react-router-dom";
 
 const tableColumns = [
   { path: "date", name: "Follow-up Date" },
@@ -18,7 +19,7 @@ const GuestCounterDetails = () => {
   const { isLoading, setIsLoading } = useContext(LoaderContext);
   const [guestData, setGuestData] = useState([]);
   const [tableData, setTableData] = useState([]);
-
+  const navigate = useNavigate();
   const url = `${BASEURL}guests/65433e146392cbd2128dba31`;
 
   const loadData = async () => {
@@ -82,6 +83,14 @@ const GuestCounterDetails = () => {
       )}
       <div className="d-flex mb-3 align-items-center justify-content-between">
         <h4 className="text-primary mb-0">Guest Counter </h4>
+        <Button
+          className="btn buttons"
+          onClick={() => {
+            navigate("/addGuest");
+          }}
+        >
+          Add Guest
+        </Button>
         {!show && <Button className="btn buttons">Remove Guest</Button>}
       </div>
       <Card>
