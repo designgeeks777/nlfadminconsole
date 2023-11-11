@@ -7,11 +7,15 @@ const OtherDetails = () => {
   const formattedEnteredOnDate = useRef("");
 
   const handleFieldChange = (event) => {
-    formattedEnteredOnDate.current = event.target.value
-      .split("/")
-      .reverse()
-      .join("-");
-    setGuestDetails(event.target.name, event.target.value);
+    if (event.target.name === "enteredon") {
+      formattedEnteredOnDate.current = event.target.value
+        .split("/")
+        .reverse()
+        .join("-");
+      setGuestDetails(event.target.name, formattedEnteredOnDate.current);
+    } else {
+      setGuestDetails(event.target.name, event.target.value);
+    }
   };
 
   return (

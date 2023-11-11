@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import BasicDetails from "../views/ui/GuestCounter/Guest/basicDetails";
 import Contact from "../views/ui/GuestCounter/Guest/contact";
 import OtherDetails from "../views/ui/GuestCounter/Guest/otherDetails";
 import AssignLifeGroup from "../views/ui/GuestCounter/Guest/assignLifeGroup";
 import { useNavigate } from "react-router-dom";
+import { GuestContext } from "../views/ui/GuestCounter/GuestDataContext";
 
 function Stepper({ steps, activeStep }) {
   function getStepClass(step) {
@@ -33,20 +34,20 @@ function Stepper({ steps, activeStep }) {
   );
 }
 
-const CustomStepper = (newGuestData) => {
+const CustomStepper = ({ parentCallback }) => {
   const [activeStep, setActiveStep] = useState(0);
-  const navigate = useNavigate();
+  const { guestData, setGuestData } = useContext(GuestContext);
   const steps = ["Basic Details", "Contact", "Others", "Assign LifeGroup"];
   function getSectionComponent() {
     switch (activeStep) {
       case 0:
-        return <BasicDetails newGuestData={newGuestData} />;
+        return <BasicDetails />;
       case 1:
-        return <Contact newGuestData={newGuestData} />;
+        return <Contact />;
       case 2:
-        return <OtherDetails newGuestData={newGuestData} />;
+        return <OtherDetails />;
       case 3:
-        return <AssignLifeGroup newGuestData={newGuestData} />;
+        return <AssignLifeGroup />;
       default:
         return null;
     }
@@ -79,7 +80,14 @@ const CustomStepper = (newGuestData) => {
             </button>
           )}
           {activeStep === steps.length - 1 && (
-            <button className="btn px-4 py-2 buttons btn-primary">Save</button>
+            <button
+              className="btn px-4 py-2 buttons btn-primary"
+              onClick={() => {
+                parentCallback(guestData);
+              }}
+            >
+              Save
+            </button>
           )}
         </div>
       </div>

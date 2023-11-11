@@ -7,8 +7,8 @@ import Alerts from "../Alerts";
 import { useNavigate } from "react-router-dom";
 import { errorMsgs, successMsgs } from "../../../constants";
 import { LoaderContext } from "../../../LoaderContext";
+import { GuestContext, GuestContextProvider } from "./GuestDataContext";
 import CustomStepper from "../../../components/Stepper";
-import { GuestContextProvider } from "./GuestDataContext";
 
 const AddGuest = () => {
   let navigate = useNavigate();
@@ -22,54 +22,13 @@ const AddGuest = () => {
   useEffect(() => {
     setIsLoading(false);
   }, []);
-  const [newGuestData, setNewGuestData] = useState({
-    firstname: "",
-    lastname: "",
-    address: "",
-    contactnumber: "",
-    email: "",
-    dob: "",
-    enteredon: "",
-    gender: "",
-    maritalstatus: "",
-    hearaboutus: "",
-    invitedby: "",
-    hearaboutusothers: "",
-    willingnesstojoin: "",
-    lifegroupid: "",
-    followupmember: "",
-    followupnotes: "",
-    startedlifegroup: "",
-    lifegroupassigndate: "",
-    followupmemberassigneddate: "",
-  });
   
-  const addGuest = () => {
-    console.log("added", newGuestData);
+  const addGuest = (guestData) => {
+    console.log("added", guestData);
     axios
-      .post(url, newGuestData)
+      .post(url, guestData)
       .then(() => {
-        setNewGuestData({
-          firstname: "",
-          lastname: "",
-          address: "",
-          contactnumber: "",
-          email: "",
-          dob: "",
-          enteredon: "",
-          gender: "",
-          maritalstatus: "",
-          hearaboutus: "",
-          invitedby: "",
-          hearaboutusothers: "",
-          willingnesstojoin: "",
-          lifegroupid: "",
-          followupmember: "",
-          followupnotes: "",
-          startedlifegroup: "",
-          lifegroupassigndate: "",
-          followupmemberassigneddate: "",
-        });
+        navigate("/dashboard");
         setShowAlert({
           ...showAlert,
           isOpen: true,
@@ -93,6 +52,9 @@ const AddGuest = () => {
       });
   };
 
+  const handleCallback = (guestData) => {
+    addGuest(guestData);
+  };
   return (
     <GuestContextProvider>
       <div className="d-flex flex-column">
@@ -106,7 +68,7 @@ const AddGuest = () => {
           />
         )}
         <ComponentCard title="Add Guest">
-          <CustomStepper newGuestData={newGuestData} />
+          <CustomStepper parentCallback={handleCallback} />
         </ComponentCard>
       </div>
     </GuestContextProvider>

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { GuestContext } from "../GuestDataContext";
 
-const BasicDetails = (newGuestData, parentCallback) => {
+const BasicDetails = () => {
   const { guestData, setGuestDetails } = useContext(GuestContext);
 
   const handleFieldChange = (event) => {

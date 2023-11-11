@@ -10,11 +10,15 @@ const Contact = () => {
   }, []);
 
   const handleFieldChange = (event) => {
-    formattedDOBDate.current = event.target.value
-      .split("/")
-      .reverse()
-      .join("-");
-    setGuestDetails(event.target.name, formattedDOBDate.current);
+    if (event.target.name === "dob") {
+      formattedDOBDate.current = event.target.value
+        .split("/")
+        .reverse()
+        .join("-");
+      setGuestDetails(event.target.name, formattedDOBDate.current);
+    } else {
+      setGuestDetails(event.target.name, event.target.value);
+    }
   };
 
   return (

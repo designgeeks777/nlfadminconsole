@@ -5,8 +5,7 @@ import axios from "axios";
 
 const AssignLifeGroup = () => {
   const { guestData, setGuestDetails } = useContext(GuestContext);
-  const formattedEnteredOnDate = useRef("");
-  const [lifeGroupOptions, setLifeGroupOptions] = useState([]);
+  const [lifeGroupOptions, setLifeGroupOptions] = useState([{ place: "Select a LifeGroup", lifegroupid: 0 }]);
   const lifeGroupsUrl = `${BASEURL}lifeGroups/`;
   const willingnessOptions = [
     { label: "Select willingness", value: "" },
@@ -19,7 +18,7 @@ const AssignLifeGroup = () => {
   const getLifeGroupOptions = async () => {
     const LGResponse = await axios.get(lifeGroupsUrl);
     let options = [];
-    setLifeGroupOptions([{ place: "Select a LifeGroup", lifegroupid: 0 }]);
+    // setLifeGroupOptions([{ place: "Select a LifeGroup", lifegroupid: 0 }]);
     options = LGResponse.data.map((lifeGroup) => {
       const { place, _id } = lifeGroup;
       return { place: place, lifegroupid: _id };
@@ -32,10 +31,6 @@ const AssignLifeGroup = () => {
   }, []);
 
   const handleFieldChange = (event) => {
-    formattedEnteredOnDate.current = event.target.value
-      .split("/")
-      .reverse()
-      .join("-");
     setGuestDetails(event.target.name, event.target.value);
   };
 

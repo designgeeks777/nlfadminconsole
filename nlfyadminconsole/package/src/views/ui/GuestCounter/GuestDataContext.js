@@ -22,13 +22,13 @@ export const GuestContextProvider = ({ children }) => {
     enteredon: "",
     gender: "male",
     maritalstatus: "single",
-    hearaboutus: "others",
+    hearaboutus: "website",
     invitedby: "",
     hearaboutusothers: "",
     willingnesstojoin: "",
     lifegroupid: "",
     followupmember: "",
-    followupnotes: "",
+    followupnotes: [],
     startedlifegroup: "",
     lifegroupassigndate: "",
     followupmemberassigneddate: "",
@@ -63,7 +63,7 @@ export const GuestContextProvider = ({ children }) => {
     } else {
       setGuestData({ ...guestData, [name]: value });
     }
-    console.log(updatedValue, guestData);
+    console.log(inputType, updatedValue, guestData);
   };
 
   return (
