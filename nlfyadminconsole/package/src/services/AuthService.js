@@ -23,13 +23,13 @@ export const AuthenticationContext = createContext();
 
 export const AuthenticationContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const { isLoading, setIsLoading } = useContext(LoaderContext);
+  const [isLoading, setIsLoading] = useState(true);
   const url = `${BASEURL}leaders/`;
 
   useEffect(() => {
     onAuthStateChanged(auth, async (usr) => {
       if (usr) {
-        setIsLoading(false);
+        setIsLoading(true);
         let leadersGmailId = await checkLeaderAlreadySaved(usr.email);
         console.log("onAuthStateChanged", usr.email, leadersGmailId);
         if (usr.email === leadersGmailId) {
@@ -38,8 +38,15 @@ export const AuthenticationContextProvider = ({ children }) => {
           let splitName = displayName.split(/\s+/);
           let firstName = splitName[0];
           let lastName = splitName[1];
-          let modifiedUser = { firstName, lastName, email, photoURL, lastSignInTime };
+          let modifiedUser = {
+            firstName,
+            lastName,
+            email,
+            photoURL,
+            lastSignInTime,
+          };
           setUser(modifiedUser);
+          setIsLoading(false);
           // console.log("SAVED >>>", user);
         } else {
           const { displayName, email, photoURL, metadata } = usr;
@@ -47,9 +54,16 @@ export const AuthenticationContextProvider = ({ children }) => {
           let splitName = displayName.split(/\s+/);
           let firstName = splitName[0];
           let lastName = splitName[1];
-          let modifiedUser = { firstName, lastName, email, photoURL, lastSignInTime };
+          let modifiedUser = {
+            firstName,
+            lastName,
+            email,
+            photoURL,
+            lastSignInTime,
+          };
           setUser(modifiedUser);
           saveData(modifiedUser);
+          setIsLoading(false);
           // console.log("NOT SAVED >>>", user);
         }
       }
@@ -63,6 +77,7 @@ export const AuthenticationContextProvider = ({ children }) => {
       const result = await getRedirectResult(auth);
       // setIsLoading(false);
       // setUser(result.user);
+      console.log("Result:", result);
     } catch (error) {
       setIsLoading(false);
     }
@@ -114,7 +129,9 @@ export const AuthenticationContextProvider = ({ children }) => {
   };
 
   return (
-    <AuthenticationContext.Provider value={{ user, signInWithGoogle, logOut }}>
+    <AuthenticationContext.Provider
+      value={{ user, isLoading, signInWithGoogle, logOut }}
+    >
       {children}
     </AuthenticationContext.Provider>
   );

@@ -24,7 +24,7 @@ const GuestCounterDetails = lazy(() =>
 );
 const AddGuest = lazy(() => import("../views/ui/GuestCounter/addGuest.js"));
 /*****Routes******/
-const ThemeRoutes = (isAuthenticated, pathname) => [
+const ThemeRoutes = (isAuthenticated) => [
   {
     path: "/",
     element:
