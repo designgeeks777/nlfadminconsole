@@ -14,10 +14,10 @@ const ChurchPrayers = lazy(() => import("../views/ui/ChurchPrayers"));
 const PrayerRequests = lazy(() => import("../views/ui/PrayerRequests"));
 const AddLifeGroup = lazy(() => import("../views/ui/LifeGroups/AddLifeGroup"));
 const LifeGroups = lazy(() => import("../views/ui/LifeGroups/LifeGroups"));
-const LifeGroupDetails = lazy(() =>
-  import("../views/ui/LifeGroups/LifeGroupDetails")
-);
+const LifeGroupDetails = lazy(() => import("../views/ui/LifeGroups/LifeGroupDetails"));
 const Events = lazy(() => import("../views/ui/Events"));
+const GuestCounter = lazy(() => import("../views/ui/GuestCounter/GuestCounter.js"));
+
 /*****Routes******/
 
 const ThemeRoutes = [
@@ -34,12 +34,9 @@ const ThemeRoutes = [
       { path: "/prayerRequests", exact: true, element: <PrayerRequests /> },
       { path: "/lifeGroups", exact: true, element: <LifeGroups /> },
       { path: "/addLifeGroup", exact: true, element: <AddLifeGroup /> },
-      {
-        path: "/lifeGroupsDetails/:id",
-        exact: true,
-        element: <LifeGroupDetails />,
-      },
+      { path: "/lifeGroupsDetails/:id", exact: true, element: <LifeGroupDetails /> },
       { path: "/events", exact: true, element: <Events /> },
+      { path: "/guestCounter", exact: true, element: <GuestCounter /> },
     ],
   },
 ];
