@@ -337,6 +337,10 @@ textarea.form-control.is-invalid, .form-control.is-invalid {
   border-bottom-right-radius: 4px;
 }
 
+input::placeholder {
+  color: $placeholder-color !important;
+}
+
 textarea::placeholder {
   color: $placeholder-color !important;
 }
@@ -638,5 +642,180 @@ li:first-child > .stepcircle::after{
 @media (max-width: 800px) {
   .loginCard {
     width: calc(80% - 36px);
+  }
+}
+
+/* Custom horizontal stepper for guest */
+.steps-container {
+  display: flex;
+  padding-top: 20px;
+}
+
+.step {
+  text-align: center;
+  flex: 1;
+  cursor: default;
+  position: relative;
+}
+
+// .steps-container > div {
+//   flex: 1;
+//   cursor: default;
+//   position: relative;
+//   text-align: center;
+// }
+
+// .steps-container > div > .label {
+//   margin-bottom : 20px;
+// }
+
+.step .line {
+  height: 0px;
+  border-width: 1px;
+  border-style: solid;
+  position: absolute;
+  bottom: calc(50% + 20px);
+  left: calc(50% + 10px);
+  width: calc(100% - 20px);
+}
+
+.step .circle {
+  margin-bottom: 12px;
+  padding: 10px;
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.step-active .circle {
+  background: $white;
+  color: $white;
+  border: 1px solid $success;
+  padding: 5px;
+}
+
+.step-active .circle:after {
+  content: "";
+  background: $success;
+  border-radius: 10px;
+  display: block;
+  height: 10px;
+  width: 10px;
+}
+
+.step-done .circle {
+  background: $white;
+  color: $white;
+  border: 1px solid $success;
+}
+
+.step-done .circle:after {
+  content: "";
+  position: absolute;
+  transform: rotate(45deg) translate(-50%, -50%);
+  left: 48%;
+  top: 16%;
+  height: 12px;
+  width: 6px;
+  border-bottom: 2px solid $success;
+  border-right: 2px solid $success;
+}
+
+.step-inactive .circle {
+  border: 1px solid #999999;
+}
+
+.step-active .label {
+  color: $modal-label-color;
+  // white-space: nowrap;
+  font-weight: $headings-font-weight;
+}
+
+.step-done .label {
+  color: #666666;
+  // white-space: nowrap;
+  font-weight: $headings-font-weight;
+}
+
+.step-inactive .label {
+  color: #999999;
+  // white-space: nowrap;
+}
+
+.step-done .line {
+  border-color: #999999;
+}
+
+.step-inactive .line, .step-active .line {
+  border-color: #999999;
+}
+
+/* ADD GUEST  */
+.basicDetails {
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+}
+
+.basicDetails > div {
+  margin-right: 4em;
+  margin-bottom: 1em;
+}
+
+.basicDetails > div > .form-control {
+  display: inline-flex;
+}
+
+.basicDetails >  div > textarea {
+  border-radius: 10px;
+}
+
+.basicDetails > div > input[id="followupmember"].form-control{
+  display: block;
+}
+
+.hearaboutusInput {
+  width: 50%;
+}
+
+.form-check-label {
+  color: $black;
+}
+
+.stepperbuttons {
+  width: $btn-width;
+  height: $btn-height;
+  border-radius: $btn-border-radius;
+} 
+
+@media (max-width: 700px) {
+  // @media (max-width: 800px) {
+  .step .line {
+    bottom: calc(50% + 30px);
+  }
+
+  .step-done .circle:after{
+    left: 43%;
+    top: 12%;
+  }
+
+  .basicDetails > div {
+    width: 100%;
+    margin: 0.5em auto;
+  }
+
+  .basicDetails > div > .form-control {
+    width: 100% !important;
+  }
+
+  .basicDetails > div > input[type="date"] {
+    width: 100% !important;
+  }
+
+  .basicDetails > div > div .form-check-inline {
+    margin : 0.5em 0.5em 0 0;
+  }
+
+  .hearaboutusInput {
+    width: 100%;
   }
 }
