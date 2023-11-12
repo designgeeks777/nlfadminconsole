@@ -77,6 +77,7 @@ const initialData = [
 
 const GuestCounter = () => {
   const [tableData, setTableData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedOption, setSelectedOption] = useState("all");
   const [showAddGuest, setShowAddGuest] = useState(false);
@@ -96,6 +97,7 @@ const GuestCounter = () => {
       var data = [];
       data = response.data;
       setTableData(data.reverse());
+      setFilteredData(data);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -116,7 +118,10 @@ const GuestCounter = () => {
   const handleSearchChange = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
-
+    if (query === "") {
+      setFilteredData(tableData);
+      return;
+    }
     // Filter data
     const filteredData = tableData.filter(
       (item) =>
@@ -124,11 +129,21 @@ const GuestCounter = () => {
         item.lastname.toLowerCase().includes(query) ||
         item.contactnumber.includes(query)
     );
-
-    setTableData(filteredData);
+    setFilteredData(filteredData);
   };
   const handleSelectChange = (e) => {
     setSelectedOption(e.target.value);
+    const option = e.target.value.toLowerCase();
+    if (option.includes("all")) {
+      setFilteredData(tableData);
+      return;
+    }
+    // Filter data
+    const filteredData = tableData.filter(
+      (item) => item.willingnesstojoin === option
+    );
+    setFilteredData(filteredData);
+    console.log("filter", filteredData, option);
   };
 
   const handleTabsCallback = (isLoaddata, alertMsg) => {
@@ -237,7 +252,7 @@ const GuestCounter = () => {
             <Col lg="12">
               <ProjectTables
                 title="Current Guest Lists"
-                tableData={tableData}
+                tableData={filteredData}
                 tableColumns={tableColumns}
                 parentCallback={handleAddGuest}
               />

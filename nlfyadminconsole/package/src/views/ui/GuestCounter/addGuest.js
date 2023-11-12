@@ -1,5 +1,5 @@
 import { Button, FormGroup, Input, Label } from "reactstrap";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import ComponentCard from "../../../components/ComponentCard";
 import { BASEURL } from "../../../APIKey";
 import axios from "axios";
@@ -19,6 +19,7 @@ const AddGuest = ({ handleGuestCounterCallback }) => {
     message: "",
   });
   const { isLoading, setIsLoading } = useContext(LoaderContext);
+  const hideCard = useRef(false);
   const state = useLocation();
   useEffect(() => {
     setIsLoading(false);
@@ -29,11 +30,11 @@ const AddGuest = ({ handleGuestCounterCallback }) => {
     let showAlert = {};
     console.log("added", guestData);
     setIsLoading(true);
-    // navigate("/guestCounter");
+    navigate("/guestCounter");
     axios
       .post(url, guestData)
       .then(() => {
-        navigate("/guestCounter");
+        // navigate("/guestCounter");
         setIsLoading(false);
         showAlert = {
           isOpen: true,
@@ -53,14 +54,17 @@ const AddGuest = ({ handleGuestCounterCallback }) => {
       });
   };
 
-  const handleCallback = (guestData) => {
+  const handleCallback = (guestData, hide) => {
+    hideCard.current = hide;
     addGuest(guestData);
   };
   return (
     <GuestContextProvider>
-      <ComponentCard title="Add Guest">
-        <CustomStepper parentCallback={handleCallback} />
-      </ComponentCard>
+      {!hideCard.current && (
+        <ComponentCard title="Add Guest">
+          <CustomStepper parentCallback={handleCallback} />
+        </ComponentCard>
+      )}
     </GuestContextProvider>
   );
 };

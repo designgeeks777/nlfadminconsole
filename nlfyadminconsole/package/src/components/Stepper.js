@@ -106,7 +106,7 @@ const CustomStepper = ({ parentCallback }) => {
             onClick={() => {
               setActiveStep(activeStep + 1);
               if (activeStep === steps.length - 1) {
-                parentCallback(guestData);
+                parentCallback(guestData, true);
               }
             }}
             disabled={getDisabledStepState(activeStep)}
