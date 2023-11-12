@@ -42,7 +42,7 @@ const navigation = [
   },
   {
     title: "Guest Counter",
-    href: "/guestCounterDetails/0",
+    href: "/guestCounter",
     icon: faPeopleGroup,
   },
 ];

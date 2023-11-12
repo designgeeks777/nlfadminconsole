@@ -8,10 +8,11 @@ import {
   PaginationLink,
   Spinner,
 } from "reactstrap";
-import { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import NestedTable from "../NestedTable";
 import { LoaderContext } from "../../LoaderContext";
+import { useNavigate } from "react-router-dom";
 
 const ProjectTables = ({
   children,
@@ -39,22 +40,22 @@ const ProjectTables = ({
   // get table tableColumns
   // const tableColumns = Object.keys(tableData[0]);
 
+  const enableClick = useRef(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
-    tableColumnsCount.current = tableColumns.length;
-  }, [tableColumns.length]);
+    if (title.toLowerCase().includes("guest")) {
+      enableClick.current = true;
+    } else {
+      enableClick.current = false;
+    }
+    // console.log(title, enableClick.current, title.toLowerCase().includes("guest"));
+  }, [title]);
 
   // get table heading data
   const thData = (path, name) => {
     return (
-      <th
-        key={path}
-        className="nowrap"
-        style={
-          tableColumnsCount.current === 4
-            ? { width: "25%" }
-            : { width: "33.3%" }
-        }
-      >
+      <th key={path} className="nowrap">
         {capitalize(name)}
       </th>
     );
@@ -71,7 +72,82 @@ const ProjectTables = ({
       (currentPage + 1) * pageSize
     );
     return paginatedTableData.map((data, index) => {
-      return (
+      return enableClick.current ? (
+        <tr
+          key={index}
+          className="border-top"
+          onClick={() => {
+            // console.log(data._id);
+            navigate(`/guestCounterDetails/${data._id}`, {
+              state: data._id,
+            });
+          }}
+        >
+          {tableColumns.map(({ path }) => {
+            return (
+              <td className="py-3" key={path}>
+                {path === "user" ? (
+                  <div className="d-flex align-items-center py-2">
+                    {data[path].length !== 0 && (
+                      <img
+                        src={data[path][0]?.profilePic}
+                        className="rounded-circle"
+                        alt="avatar"
+                        width="45"
+                        height="45"
+                      />
+                    )}
+                    {data[path].length !== 0 && (
+                      <div className="ms-2">
+                        <h6 className="mb-0">
+                          {capitalize(data[path][0]?.name)}
+                        </h6>
+                      </div>
+                    )}
+                  </div>
+                ) : path === "action" ? (
+                  <div
+                    className="table-actions-button d-flex justify-content-center"
+                    size="sm"
+                    onClick={() => {
+                      setIsLoading(true);
+                      parentCallback(true, paginatedTableData[index]);
+                      // console.log("clicked", paginatedTableData[index]);
+                    }}
+                  >
+                    {data[path].toUpperCase()}
+                  </div>
+                ) : path === "responses" || path === "members" ? (
+                  <span className="ps-4">
+                    {data[path].length === 0 ? null : (
+                      <i
+                        className={`bi ${
+                          selectedId === index
+                            ? "bi-chevron-down"
+                            : "bi-chevron-right"
+                        } text-primary`}
+                        style={{ paddingRight: 6, cursor: "pointer" }}
+                        onClick={() => {
+                          onSelectItem(index);
+                        }}
+                      />
+                    )}
+                    {data[path].length}
+                    {selectedId === index ? (
+                      <NestedTable
+                        tableData={data[path]}
+                        // fromPrayerRequestPage={fromPrayerRequestPage}
+                      />
+                    ) : null}
+                  </span>
+                ) : (
+                  <>{capitalize(data[path])}</>
+                )}
+              </td>
+            );
+          })}
+        </tr>
+      ) : (
         <tr key={index} className="border-top">
           {tableColumns.map(({ path }) => {
             return (

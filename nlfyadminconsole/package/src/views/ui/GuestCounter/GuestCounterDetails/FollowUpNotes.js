@@ -1,18 +1,17 @@
 import React, { useContext, useRef, useState } from "react";
 import { Col, Input, Label, Row, Button, FormFeedback } from "reactstrap";
-import { BASEURL } from "../../../APIKey";
-import { LoaderContext } from "../../../LoaderContext";
+import { BASEURL } from "../../../../APIKey";
+import { LoaderContext } from "../../../../LoaderContext";
 import axios from "axios";
-import { errorMsgs, successMsgs } from "../../../constants";
-import { AuthenticationContext } from "../../../services/AuthService";
+import { errorMsgs, successMsgs } from "../../../../constants";
+import { AuthenticationContext } from "../../../../services/AuthService";
 
 const FollowUpNotes = ({ guestData, handleTabsCallback }) => {
   const { user } = useContext(AuthenticationContext);
-  const id = "65433e146392cbd2128dba31";
-  const url = `${BASEURL}guests/${id}`;
+  const url = `${BASEURL}guests/${guestData._id}`;
   const [followup, setFollowup] = useState({
     followUpDate: "",
-    followedBy: user.firstName,
+    followedBy: user?.firstName,
     followUpMsg: "",
   });
   const { isLoading, setIsLoading } = useContext(LoaderContext);

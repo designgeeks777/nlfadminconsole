@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Nav, NavItem, NavLink } from "reactstrap";
-import GuestJourney from "../views/ui/GuestCounter/GuestJourney";
-import ViewDetails from "../views/ui/GuestCounter/ViewDetails";
-import FollowUpNotes from "../views/ui/GuestCounter/FollowUpNotes";
+import GuestJourney from "../views/ui/GuestCounter/GuestCounterDetails/GuestJourney";
+import ViewDetails from "../views/ui/GuestCounter/GuestCounterDetails/ViewDetails";
+import FollowUpNotes from "../views/ui/GuestCounter/GuestCounterDetails/FollowUpNotes";
 
 const tabs = [
   { label: "Journey", value: "tab1" },

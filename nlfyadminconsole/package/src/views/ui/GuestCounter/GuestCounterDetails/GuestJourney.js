@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { BASEURL } from "../../../APIKey";
+import { BASEURL } from "../../../../APIKey";
 import axios from "axios";
 
 const GuestJourney = ({ guestData }) => {
@@ -90,7 +90,7 @@ const GuestJourney = ({ guestData }) => {
           <div className="guestJourney">
             <div className="stepImage">
               <img
-                src={require("../../../assets/images/guestCounter/finalStep.png")}
+                src={require("../../../../assets/images/guestCounter/finalStep.png")}
                 alt="finalStep"
                 // width={124}
                 // height={70}
@@ -104,7 +104,7 @@ const GuestJourney = ({ guestData }) => {
                     Hooray! Anand started coming to Life Groups{" "}
                     <strong className="text-black">29/11/2023</strong>{" "}
                     <img
-                      src={require("../../../assets/images/guestCounter/tick.png")}
+                      src={require("../../../../assets/images/guestCounter/tick.png")}
                       alt="happy"
                       width={28}
                       height={28}
@@ -128,7 +128,7 @@ const GuestJourney = ({ guestData }) => {
       <div className="guestJourney">
         <div className="stepImage">
           <img
-            src={require("../../../assets/images/guestCounter/followUpAssignStep.png")}
+            src={require("../../../../assets/images/guestCounter/followUpAssignStep.png")}
             alt="followUpAssignStep"
             // width={124}
             height={81}
@@ -143,7 +143,7 @@ const GuestJourney = ({ guestData }) => {
                 <p>
                   No Member assigned yet to follow up with this person{" "}
                   <img
-                    src={require("../../../assets/images/guestCounter/sad.png")}
+                    src={require("../../../../assets/images/guestCounter/sad.png")}
                     alt="sad"
                     width={16}
                     height={16}
@@ -199,7 +199,7 @@ const GuestJourney = ({ guestData }) => {
       <div className="guestJourney">
         <div className="stepImage">
           <img
-            src={require("../../../assets/images/guestCounter/welcomeStep.png")}
+            src={require("../../../../assets/images/guestCounter/welcomeStep.png")}
             alt="welcomeStep"
             // width={124}
             // height={70}
@@ -224,14 +224,14 @@ const GuestJourney = ({ guestData }) => {
                 Interested to join LifeGroup?{" "}
                 {guestData.willingnesstojoin === "Hot" || "Warm" ? (
                   <img
-                    src={require("../../../assets/images/guestCounter/happy.png")}
+                    src={require("../../../../assets/images/guestCounter/happy.png")}
                     alt="happy"
                     width={16}
                     height={16}
                   />
                 ) : (
                   <img
-                    src={require("../../../assets/images/guestCounter/sad.png")}
+                    src={require("../../../../assets/images/guestCounter/sad.png")}
                     alt="sad"
                     width={16}
                     height={16}

@@ -1,15 +1,14 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import InfoCard from "../../../components/InfoCard";
+import InfoCard from "../../../../components/InfoCard";
 import { Col, Row, Table } from "reactstrap";
-import { BASEURL } from "../../../APIKey";
+import { BASEURL } from "../../../../APIKey";
 import axios from "axios";
-import { LoaderContext } from "../../../LoaderContext";
-import ComponentModal from "../../../components/ComponentModal";
-import { errorMsgs, successMsgs } from "../../../constants";
+import { LoaderContext } from "../../../../LoaderContext";
+import ComponentModal from "../../../../components/ComponentModal";
+import { errorMsgs, successMsgs } from "../../../../constants";
 
 const ViewDetails = ({ guestData, handleTabsCallback }) => {
-  const id = "65433e146392cbd2128dba31";
-  const guestUrl = `${BASEURL}guests/${id}`;
+  const guestUrl = `${BASEURL}guests/${guestData._id}`;
   const [lifeGroupPlace, setLifeGroupPlace] = useState("");
   const lifeGroupByIdUrl = `${BASEURL}lifeGroups/${guestData.lifegroupid}`;
   const lifeGroupsUrl = `${BASEURL}lifeGroups/`;

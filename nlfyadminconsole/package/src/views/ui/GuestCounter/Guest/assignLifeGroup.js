@@ -43,7 +43,7 @@ const AssignLifeGroup = () => {
             size="md"
             className="form-label modal-body-label"
           >
-            Willing to be part of Church?
+            Willing to be part of LifeGroup?
             <label htmlFor="willingnesstojoin" className="text-danger">
               *
             </label>

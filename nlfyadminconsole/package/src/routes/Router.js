@@ -20,9 +20,13 @@ const LifeGroupDetails = lazy(() =>
 );
 const Events = lazy(() => import("../views/ui/Events"));
 const GuestCounterDetails = lazy(() =>
-  import("../views/ui/GuestCounter/GuestCounterDetails")
+  import("../views/ui/GuestCounter/GuestCounterDetails/GuestCounterDetails")
 );
-const AddGuest = lazy(() => import("../views/ui/GuestCounter/addGuest.js"));
+const AddGuest = lazy(() => import("../views/ui/GuestCounter/addGuest"));
+const GuestCounter = lazy(() =>
+  import("../views/ui/GuestCounter/GuestCounter")
+);
+
 /*****Routes******/
 const ThemeRoutes = (isAuthenticated) => [
   {
@@ -55,6 +59,7 @@ const ThemeRoutes = (isAuthenticated) => [
         element: <GuestCounterDetails />,
       },
       { path: "/addGuest", exact: true, element: <AddGuest /> },
+      { path: "/guestCounter", exact: true, element: <GuestCounter /> },
     ],
   },
   {
