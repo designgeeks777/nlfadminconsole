@@ -5,10 +5,6 @@ const Contact = () => {
   const { guestData, setGuestDetails } = useContext(GuestContext);
   const formattedDOBDate = useRef("");
 
-  useEffect(() => {
-    // input.setAttribute("size", input.getAttribute("placeholder").length);
-  }, []);
-
   const handleFieldChange = (event) => {
     if (event.target.name === "dob") {
       formattedDOBDate.current = event.target.value
@@ -36,7 +32,7 @@ const Contact = () => {
             </label>
           </label>
           <input
-            type="text"
+            type="number"
             className="form-control modal-body-input shadow-none mb-2"
             id="contactnumber"
             name="contactnumber"

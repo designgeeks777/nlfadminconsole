@@ -203,7 +203,7 @@ const OtherDetails = () => {
                   className="form-label modal-body-label"
                 >
                   {guestData.hearaboutus === "personalInvitation" ? (
-                    "Invited By"
+                    "Who invited you?"
                   ) : (
                     <>
                       Let us know how you came to know about us
