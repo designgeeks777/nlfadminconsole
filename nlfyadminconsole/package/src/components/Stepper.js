@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import BasicDetails from "../views/ui/GuestCounter/Guest/basicDetails";
 import Contact from "../views/ui/GuestCounter/Guest/contact";
 import OtherDetails from "../views/ui/GuestCounter/Guest/otherDetails";
 import AssignLifeGroup from "../views/ui/GuestCounter/Guest/assignLifeGroup";
-import { useNavigate } from "react-router-dom";
 import { GuestContext } from "../views/ui/GuestCounter/GuestDataContext";
 
 function Stepper({ steps, activeStep }) {
@@ -36,7 +35,7 @@ function Stepper({ steps, activeStep }) {
 
 const CustomStepper = ({ parentCallback }) => {
   const [activeStep, setActiveStep] = useState(0);
-  const { guestData, setGuestData } = useContext(GuestContext);
+  const { guestData } = useContext(GuestContext);
   const steps = ["Basic Details", "Contact", "Others", "Assign LifeGroup"];
   function getSectionComponent() {
     switch (activeStep) {
@@ -64,7 +63,11 @@ const CustomStepper = ({ parentCallback }) => {
       else return false;
     }
     if (step === 1) {
-      if (guestData.contactnumber === "" || guestData.dob === "Invalid Date")
+      if (
+        guestData.contactnumber === "" ||
+        guestData.dob === "Invalid Date" ||
+        guestData.dob === ""
+      )
         return true;
       else return false;
     }

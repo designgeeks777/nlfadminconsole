@@ -8,6 +8,8 @@ import { HashRouter } from "react-router-dom";
 import Loader from "./layouts/loader/Loader";
 import { LoaderContextProvider } from "./LoaderContext";
 import { AuthenticationContextProvider } from "./services/AuthService";
+import { AlertContextProvider } from "./services/AlertService";
+import { GuestContextProvider } from "./views/ui/GuestCounter/GuestDataContext";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
@@ -16,9 +18,11 @@ root.render(
   <Suspense fallback={<Loader />}>
     <LoaderContextProvider>
       <AuthenticationContextProvider>
-        <HashRouter>
-          <App />
-        </HashRouter>
+        <AlertContextProvider>
+          <HashRouter>
+            <App />
+          </HashRouter>
+        </AlertContextProvider>
       </AuthenticationContextProvider>
     </LoaderContextProvider>
   </Suspense>

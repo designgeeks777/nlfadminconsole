@@ -819,3 +819,12 @@ li:first-child > .stepcircle::after{
     width: 100%;
   }
 }
+
+/* Project table clickable */
+.clickable {
+  cursor: pointer;
+}
+.clickable:hover {
+  background-color: $gray-100;
+  --bs-table-bg: transparent;
+}

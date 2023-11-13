@@ -13,6 +13,7 @@ const Contact = () => {
         .join("-");
       setGuestDetails(event.target.name, formattedDOBDate.current);
     } else {
+      console.log(event.target.value);
       setGuestDetails(event.target.name, event.target.value);
     }
   };
@@ -32,7 +33,8 @@ const Contact = () => {
             </label>
           </label>
           <input
-            type="number"
+            type="text"
+            // pattern={[^\+[1-9]{1}[0-9]{3,14}$]}
             className="form-control modal-body-input shadow-none mb-2"
             id="contactnumber"
             name="contactnumber"
@@ -49,7 +51,7 @@ const Contact = () => {
             Email Id
           </label>
           <input
-            type="text"
+            type="email"
             className="form-control modal-body-input shadow-none mb-2"
             id="email"
             name="email"

@@ -43,13 +43,13 @@ const ProjectTables = ({
   const enableClick = useRef(false);
   const navigate = useNavigate();
 
+  //clickable table rows if guest counter list only
   useEffect(() => {
     if (title.toLowerCase().includes("guest")) {
       enableClick.current = true;
     } else {
       enableClick.current = false;
     }
-    // console.log(title, enableClick.current, title.toLowerCase().includes("guest"));
   }, [title]);
 
   // get table heading data
@@ -75,7 +75,7 @@ const ProjectTables = ({
       return enableClick.current ? (
         <tr
           key={index}
-          className="border-top"
+          className="border-top clickable"
           onClick={() => {
             // console.log(data._id);
             navigate(`/guestCounterDetails/${data._id}`, {

@@ -67,8 +67,9 @@ const LifeGroups = () => {
   const handleCallback = (showChild, selectedLifeGroupData) => {
     // Update the data and show LifeGroupDetails component.
     navigate(`/lifeGroupsDetails/${selectedLifeGroupData.place}`, {
-      state: { selectedLifeGroupData },
+      state: selectedLifeGroupData._id,
     });
+    console.log(selectedLifeGroupData._id);
   };
   return (
     <>

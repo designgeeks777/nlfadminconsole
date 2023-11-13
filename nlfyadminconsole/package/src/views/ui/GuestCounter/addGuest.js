@@ -1,29 +1,23 @@
-import { Button, FormGroup, Input, Label } from "reactstrap";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef } from "react";
 import ComponentCard from "../../../components/ComponentCard";
 import { BASEURL } from "../../../APIKey";
 import axios from "axios";
-import Alerts from "../Alerts";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { errorMsgs, successMsgs } from "../../../constants";
 import { LoaderContext } from "../../../LoaderContext";
-import { GuestContext, GuestContextProvider } from "./GuestDataContext";
+import { AlertContext } from "../../../services/AlertService";
 import CustomStepper from "../../../components/Stepper";
+import { GuestContextProvider } from "./GuestDataContext";
 
-const AddGuest = ({ handleGuestCounterCallback }) => {
+const AddGuest = () => {
   let navigate = useNavigate();
   const url = `${BASEURL}guests/`;
-  const [showAlert, setShowAlert] = useState({
-    isOpen: false,
-    type: "",
-    message: "",
-  });
-  const { isLoading, setIsLoading } = useContext(LoaderContext);
+  const { setIsLoading } = useContext(LoaderContext);
+  const { setAlert } = useContext(AlertContext);
   const hideCard = useRef(false);
-  const state = useLocation();
+
   useEffect(() => {
     setIsLoading(false);
-    console.log(state);
   }, []);
 
   const addGuest = (guestData) => {
@@ -34,14 +28,13 @@ const AddGuest = ({ handleGuestCounterCallback }) => {
     axios
       .post(url, guestData)
       .then(() => {
-        // navigate("/guestCounter");
         setIsLoading(false);
         showAlert = {
           isOpen: true,
           type: "success",
           message: `Guest ${successMsgs.add}`,
         };
-        handleGuestCounterCallback(true, showAlert);
+        setAlert(showAlert);
       })
       .catch((error) => {
         setIsLoading(false);
@@ -50,7 +43,7 @@ const AddGuest = ({ handleGuestCounterCallback }) => {
           type: "danger",
           message: errorMsgs.add,
         };
-        handleGuestCounterCallback(false, showAlert);
+        setAlert(showAlert);
       });
   };
 
@@ -58,6 +51,7 @@ const AddGuest = ({ handleGuestCounterCallback }) => {
     hideCard.current = hide;
     addGuest(guestData);
   };
+
   return (
     <GuestContextProvider>
       {!hideCard.current && (

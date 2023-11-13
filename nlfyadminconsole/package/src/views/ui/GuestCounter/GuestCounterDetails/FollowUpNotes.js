@@ -11,7 +11,7 @@ const FollowUpNotes = ({ guestData, handleTabsCallback }) => {
   const url = `${BASEURL}guests/${guestData._id}`;
   const [followup, setFollowup] = useState({
     followUpDate: "",
-    followedBy: user?.firstName,
+    followedBy: user.firstName,
     followUpMsg: "",
   });
   const { isLoading, setIsLoading } = useContext(LoaderContext);
@@ -35,7 +35,7 @@ const FollowUpNotes = ({ guestData, handleTabsCallback }) => {
       note: followup.followUpMsg.trim(),
       date: formattedDate,
       followedupby: followup.followedBy, // by default logged in value, editable
-      eneterdby: user.firstName, // logged in person value,
+      eneterdby: user?.firstName, // logged in person value,
     };
     let followupnotes = guestData.followupnotes;
     followupnotes.push(newFollowupNote);
@@ -70,7 +70,7 @@ const FollowUpNotes = ({ guestData, handleTabsCallback }) => {
         <Col sm="4">
           <div className="d-flex flex-column">
             <Label for="followUpDate" className="form-label modal-body-label">
-              Follow-up date{" "}
+              Follow-up date
               <Label for="followUpDate" className="text-danger">
                 *
               </Label>
@@ -89,7 +89,7 @@ const FollowUpNotes = ({ guestData, handleTabsCallback }) => {
               for="followedBy"
               className="form-label modal-body-label mt-4"
             >
-              Who followed up?{" "}
+              Who followed up?
               <Label for="followedBy" className="text-danger">
                 *
               </Label>
@@ -110,7 +110,7 @@ const FollowUpNotes = ({ guestData, handleTabsCallback }) => {
         <Col sm="8">
           <div className="d-flex flex-column">
             <Label for="followUpMsg" className="form-label modal-body-label">
-              Write Follow-up Note{" "}
+              Write Follow-up Note
               <Label for="followUpMsg" className="text-danger">
                 *
               </Label>

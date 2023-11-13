@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Nav, NavItem, NavLink } from "reactstrap";
+import { Nav, NavItem, NavLink, Spinner } from "reactstrap";
 import GuestJourney from "../views/ui/GuestCounter/GuestCounterDetails/GuestJourney";
 import ViewDetails from "../views/ui/GuestCounter/GuestCounterDetails/ViewDetails";
 import FollowUpNotes from "../views/ui/GuestCounter/GuestCounterDetails/FollowUpNotes";
+import { LoaderContext } from "../LoaderContext";
 
 const tabs = [
   { label: "Journey", value: "tab1" },
@@ -12,9 +13,28 @@ const tabs = [
 ];
 const Tabs = ({ guestData, parentCallback, parentTabsCallback }) => {
   const [active, setActive] = useState(tabs[0].value);
+  const { isLoading } = useContext(LoaderContext);
+
+  const goToTab = (tab) => {
+    if (tab === "viewDetails") {
+      setActive(tabs[1].value);
+    }
+    if (tab === "followup") {
+      setActive(tabs[2].value);
+      parentCallback(tabs[2].value);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div style={{ height: 250 }}>
+        <Spinner color="primary" className="table-spinner" />
+      </div>
+    );
+  }
 
   return (
-    <div>
+    <>
       <Nav className="tabnav">
         {tabs.map((tab) => (
           <NavItem key={tab.value} className="tabnav-link">
@@ -28,15 +48,17 @@ const Tabs = ({ guestData, parentCallback, parentTabsCallback }) => {
               }}
             >
               {tab.value === "tab1"
-                ? guestData?.firstname + "'s " + tab.label
+                ? guestData?.firstname?.charAt(0).toUpperCase() +
+                  guestData?.firstname?.slice(1) +
+                  "'s " +
+                  tab.label
                 : tab.label}
             </NavLink>
           </NavItem>
         ))}
       </Nav>
-      {/* <div key={active} className="outlet"> */}
       {active === "tab1" ? (
-        <GuestJourney guestData={guestData} />
+        <GuestJourney guestData={guestData} goToTab={goToTab} />
       ) : active === "tab2" ? (
         <ViewDetails
           guestData={guestData}
@@ -48,8 +70,7 @@ const Tabs = ({ guestData, parentCallback, parentTabsCallback }) => {
           handleTabsCallback={parentTabsCallback}
         />
       )}
-      {/* </div> */}
-    </div>
+    </>
   );
 };
 

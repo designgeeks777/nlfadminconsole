@@ -19,7 +19,7 @@ export const GuestContextProvider = ({ children }) => {
     contactnumber: "",
     email: "",
     dob: "",
-    enteredon: "",
+    enteredon: new Date().toLocaleDateString("en-GB"),
     gender: "male",
     maritalstatus: "single",
     hearaboutus: "website",
@@ -30,6 +30,7 @@ export const GuestContextProvider = ({ children }) => {
     followupmember: "",
     followupnotes: [],
     startedlifegroup: "",
+    startedlifegroupdate: "",
     lifegroupassigndate: "",
     followupmemberassigneddate: "",
   });
@@ -38,23 +39,10 @@ export const GuestContextProvider = ({ children }) => {
   let updatedValue = "";
   var inputType = "";
 
-  useEffect(() => {
-    if (updatedValue !== inputType) {
-      console.log("hi");
-    }
-    console.log("hi out");
-  }, [updatedValue, inputType]);
-
   const setGuestDetails = (name, value) => {
     inputType = name;
     updatedValue = value;
-    if (inputType === "enteredon") {
-      updatedValue = new Date(value).toLocaleDateString("en-GB");
-      setGuestData({
-        ...guestData,
-        enteredon: updatedValue,
-      });
-    } else if (inputType === "dob") {
+    if (inputType === "dob") {
       updatedValue = new Date(value).toLocaleDateString("en-GB");
       setGuestData({
         ...guestData,
@@ -67,7 +55,7 @@ export const GuestContextProvider = ({ children }) => {
   };
 
   return (
-    <GuestContext.Provider value={{ guestData, setGuestDetails }}>
+    <GuestContext.Provider value={{ guestData, setGuestDetails, setGuestData }}>
       {children}
     </GuestContext.Provider>
   );

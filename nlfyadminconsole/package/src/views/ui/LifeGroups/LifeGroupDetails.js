@@ -1,5 +1,5 @@
 import { Button, FormGroup, Input, Label } from "reactstrap";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ComponentCard from "../../../components/ComponentCard";
 import ComponentModal from "../../../components/ComponentModal";
 import PropTypes from "prop-types";
@@ -9,17 +9,47 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASEURL } from "../../../APIKey";
 import { errorMsgs, successMsgs } from "../../../constants";
+import { LoaderContext } from "../../../LoaderContext";
 
 const LifeGroupDetails = () => {
   const { state } = useLocation();
-  const [selectedLifeGroupData, setSelectedLifeGroupData] = useState({
-    place: state.selectedLifeGroupData.place,
-    leaders: state.selectedLifeGroupData.leaders,
-    meetingDay: state.selectedLifeGroupData.meetingDay,
-    members: state.selectedLifeGroupData.members,
-    _id: state.selectedLifeGroupData._id,
-  });
+  const selectedLifeGroupUrl = `${BASEURL}lifeGroups/${state}`;
+  const { isLoading, setIsLoading } = useContext(LoaderContext);
   // selectedLifeGroupData = state.selectedLifeGroupData;
+  const [selectedLifeGroupData, setSelectedLifeGroupData] = useState({
+    place: "",
+    leaders: "",
+    meetingDay: "",
+    members: "",
+    _id: "",
+  });
+  const [resetLifeGroupData, setResetLifeGroupData] = useState({
+    place: "",
+    leaders: "",
+    meetingDay: "",
+    members: "",
+    _id: "",
+  });
+  const loadData = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(selectedLifeGroupUrl);
+      var data = [];
+      data = response.data;
+      setSelectedLifeGroupData(data);
+      setResetLifeGroupData(data);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadData();
+  }, [selectedLifeGroupUrl]);
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openResetModal, setOpenResetModal] = useState(false);
@@ -105,10 +135,10 @@ const LifeGroupDetails = () => {
     setOpenResetModal(false);
     setSelectedLifeGroupData({
       ...selectedLifeGroupData,
-      place: state.selectedLifeGroupData.place,
-      leaders: state.selectedLifeGroupData.leaders,
-      meetingDay: state.selectedLifeGroupData.meetingDay,
-      members: state.selectedLifeGroupData.members,
+      place: resetLifeGroupData.place,
+      leaders: resetLifeGroupData.leaders,
+      meetingDay: resetLifeGroupData.meetingDay,
+      members: resetLifeGroupData.members,
     });
   };
 

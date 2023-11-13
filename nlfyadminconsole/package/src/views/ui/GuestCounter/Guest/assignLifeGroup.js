@@ -5,7 +5,7 @@ import axios from "axios";
 
 const AssignLifeGroup = () => {
   const { guestData, setGuestDetails } = useContext(GuestContext);
-  const [lifeGroupOptions, setLifeGroupOptions] = useState([{ place: "Select a LifeGroup", lifegroupid: 0 }]);
+  const [lifeGroupOptions, setLifeGroupOptions] = useState([{ place: "Select a LifeGroup", lifegroupid: "" }]);
   const lifeGroupsUrl = `${BASEURL}lifeGroups/`;
   const willingnessOptions = [
     { label: "Select willingness", value: "" },

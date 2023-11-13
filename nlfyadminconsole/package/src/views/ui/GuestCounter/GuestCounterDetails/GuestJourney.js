@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BASEURL } from "../../../../APIKey";
 import axios from "axios";
 
-const GuestJourney = ({ guestData }) => {
+const GuestJourney = ({ guestData, goToTab }) => {
   const [selectedId, setSelectedId] = useState(null);
   const onSelectItem = (id) => {
     if (id === selectedId) return setSelectedId(null);
@@ -82,6 +82,7 @@ const GuestJourney = ({ guestData }) => {
       });
     }
   };
+
   return (
     <ul className="verticalStepper mb-3">
       {/* finalStep */}
@@ -101,8 +102,13 @@ const GuestJourney = ({ guestData }) => {
                 <span className="stepcircle"></span>
                 <span className="stepline">
                   <p>
-                    Hooray! Anand started coming to Life Groups{" "}
-                    <strong className="text-black">29/11/2023</strong>{" "}
+                    Hooray!{" "}
+                    {guestData?.firstname?.charAt(0).toUpperCase() +
+                      guestData?.firstname?.slice(1)}{" "}
+                    started coming to Life Group{" "}
+                    <strong className="text-black">
+                      {guestData?.startedlifegroupdate}
+                    </strong>{" "}
                     <img
                       src={require("../../../../assets/images/guestCounter/tick.png")}
                       alt="happy"
@@ -134,8 +140,7 @@ const GuestJourney = ({ guestData }) => {
             height={81}
           />
         </div>
-        {guestData?.followupmember === "" ||
-        guestData?.followupnotes?.length === 0 ? (
+        {guestData?.followupmember === "" ? (
           <div className="stepContent">
             <li>
               <span className="stepcircle"></span>
@@ -148,12 +153,13 @@ const GuestJourney = ({ guestData }) => {
                     width={16}
                     height={16}
                   />{" "}
-                  <span className="text-info fw-bold">
-                    {guestData?.followupmember === ""
-                      ? "Assign Now"
-                      : guestData?.followupnotes?.length === 0
-                      ? "Follow-up Now"
-                      : null}
+                  <span
+                    className="text-info fw-bold"
+                    onClick={() => {
+                      goToTab("viewDetails");
+                    }}
+                  >
+                    Assign Now
                   </span>
                 </p>
               </span>
@@ -169,7 +175,32 @@ const GuestJourney = ({ guestData }) => {
           </div>
         ) : guestData?.followupmember !== "" ? (
           <div className="stepContent">
-            {followUpNotesSection()}
+            {guestData?.followupnotes?.length === 0 ? (
+              <li>
+                <span className="stepcircle"></span>
+                <span className="stepline">
+                  <p>
+                    No follow-up has happened with this person yet{" "}
+                    <img
+                      src={require("../../../../assets/images/guestCounter/sad.png")}
+                      alt="sad"
+                      width={16}
+                      height={16}
+                    />{" "}
+                    <span
+                      className="text-info fw-bold"
+                      onClick={() => {
+                        goToTab("followup");
+                      }}
+                    >
+                      Follow-up Now
+                    </span>
+                  </p>
+                </span>
+              </li>
+            ) : (
+              followUpNotesSection()
+            )}
             <li>
               <span className="stepcircle"></span>
               <span className="stepline">
@@ -209,12 +240,32 @@ const GuestJourney = ({ guestData }) => {
           <li>
             <span className="stepcircle"></span>
             <span className="stepline">
-              <p>
-                Assigned to LifeGroup <b> {lifeGroupPlace} </b> on{" "}
-                <strong className="text-black">
-                  {guestData.lifegroupassigndate}
-                </strong>
-              </p>
+              {guestData.lifegroupid === "" ? (
+                <p>
+                  Not assigned to any LifeGroup yet{" "}
+                  <img
+                    src={require("../../../../assets/images/guestCounter/sad.png")}
+                    alt="sad"
+                    width={16}
+                    height={16}
+                  />{" "}
+                  <span
+                    className="text-info fw-bold"
+                    onClick={() => {
+                      goToTab("viewDetails");
+                    }}
+                  >
+                    Assign Now
+                  </span>
+                </p>
+              ) : (
+                <p>
+                  Assigned to LifeGroup <b> {lifeGroupPlace} </b> on{" "}
+                  <strong className="text-black">
+                    {guestData.lifegroupassigndate}
+                  </strong>
+                </p>
+              )}
             </span>
           </li>
           <li>
@@ -237,7 +288,8 @@ const GuestJourney = ({ guestData }) => {
                     height={16}
                   />
                 )}{" "}
-                {guestData.willingnesstojoin}
+                {guestData?.willingnesstojoin?.charAt(0).toUpperCase() +
+                  guestData?.willingnesstojoin?.slice(1)}
               </p>
             </span>
           </li>
@@ -245,7 +297,9 @@ const GuestJourney = ({ guestData }) => {
             <span className="stepcircle"></span>
             <span className="stepline">
               <p>
-                {guestData.firstname} came first on{" "}
+                {guestData?.firstname?.charAt(0).toUpperCase() +
+                  guestData?.firstname?.slice(1)}{" "}
+                came first on{" "}
                 <strong className="text-black">{guestData.enteredon}</strong>
               </p>
             </span>

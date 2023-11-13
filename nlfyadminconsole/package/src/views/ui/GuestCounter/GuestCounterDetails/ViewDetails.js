@@ -13,9 +13,12 @@ const ViewDetails = ({ guestData, handleTabsCallback }) => {
   const lifeGroupByIdUrl = `${BASEURL}lifeGroups/${guestData.lifegroupid}`;
   const lifeGroupsUrl = `${BASEURL}lifeGroups/`;
   const { isLoading, setIsLoading } = useContext(LoaderContext);
-  const [lifeGroupOptions, setLifeGroupOptions] = useState([]);
+  const [lifeGroupOptions, setLifeGroupOptions] = useState([
+    { place: "Select a LifeGroup", lifegroupid: "" },
+  ]);
   const formattedEnteredOnDate = useRef("");
   const formattedDOBDate = useRef("");
+
   //get all lifeGroup places list
   const getLifeGroupOptions = async () => {
     const LGResponse = await axios.get(lifeGroupsUrl);
@@ -23,8 +26,9 @@ const ViewDetails = ({ guestData, handleTabsCallback }) => {
       const { place, _id } = lifeGroup;
       return { place: place, lifegroupid: _id };
     });
-    setLifeGroupOptions(options);
+    setLifeGroupOptions((prevState) => [...prevState, ...options]);
   };
+
   const formatDate = () => {
     formattedEnteredOnDate.current = new Date(guestData.enteredon)
       .toLocaleDateString("en-GB", {
@@ -39,27 +43,23 @@ const ViewDetails = ({ guestData, handleTabsCallback }) => {
       formattedDOBDate.current = guestData.dob.split("/").reverse().join("-");
     }
   };
+
   const checked = useRef(false);
-  const fetchLifeGroupName = async () => {
+  const fetchLifeGroupName = async (id) => {
     const response = await axios.get(lifeGroupByIdUrl);
+    // const response = lifeGroupOptions.filter(lifeGroup =>  lifeGroup.lifegroupid === id);
     var place = response.data.place;
     setLifeGroupPlace(place);
   };
+
   useEffect(() => {
     getLifeGroupOptions();
+  }, []);
+
+  useEffect(() => {
     if (guestData.lifegroupid) {
-      fetchLifeGroupName();
+      fetchLifeGroupName(guestData.lifegroupid);
     }
-    // if (lifeGroupOptions.length > 0) {
-    //   let lifeGroupplace = lifeGroupOptions.filter(
-    //     (selectedLifeGroupPlace) =>
-    //       selectedLifeGroupPlace.lifegroupid === guestData.lifegroupid
-    //   );
-    //   if (lifeGroupplace) {
-    //     setLifeGroupPlace(lifeGroupplace[0].place);
-    //     // console.log(lifeGroupplace[0].place);
-    //   }
-    // }
 
     // Format the date to YYYY-MM-DD
     formatDate();
@@ -129,7 +129,17 @@ const ViewDetails = ({ guestData, handleTabsCallback }) => {
   };
   const editCardInfo = () => {
     let showAlert = {};
-    console.log("editCardInfo", modalTitle);
+    if (selectedGuestData.lifegroupid !== "") {
+      selectedGuestData.lifegroupassigndate = new Date().toLocaleDateString(
+        "en-GB"
+      );
+    }
+    if (selectedGuestData.followupmember !== "") {
+      selectedGuestData.followupmemberassigneddate =
+        new Date().toLocaleDateString("en-GB");
+    }
+    console.log("editCardInfo", modalTitle, guestData);
+
     axios
       .patch(guestUrl, selectedGuestData)
       .then((res) => {
@@ -165,7 +175,7 @@ const ViewDetails = ({ guestData, handleTabsCallback }) => {
         inputType: updatedValue,
       });
     }
-    console.log("in useeffect", updatedValue, selectedGuestData.inputType);
+    // console.log("in useeffect", updatedValue, selectedGuestData.inputType);
   }, [updatedValue, inputType]);
 
   const handleFieldChange = (event) => {
@@ -209,11 +219,12 @@ const ViewDetails = ({ guestData, handleTabsCallback }) => {
         setSelectedGuestData({
           ...selectedGuestData,
           startedlifegroup: "started",
+          startedlifegroupdate: new Date().toLocaleDateString("en-GB"),
         });
       }
     }
-    // console.log("effect", checked.current, selectedGuestData.startedlifegroup);
   }, [val, checked.current]);
+
   const handleChange = (e) => {
     checked.current = e.target.checked;
     setSelectedGuestData({
@@ -411,7 +422,7 @@ const ViewDetails = ({ guestData, handleTabsCallback }) => {
                 Email Id
               </label>
               <input
-                type="text"
+                type="email"
                 className="form-control modal-body-input shadow-none mb-2"
                 id="email"
                 name="email"
