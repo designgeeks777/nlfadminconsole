@@ -1,21 +1,9 @@
 import { Button, Card, CardTitle } from "reactstrap";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { AuthenticationContext } from "../services/AuthService";
-import { useNavigate } from "react-router-dom";
-import { LoaderContext } from "../LoaderContext";
 
 const Login = () => {
-  const { user, signInWithGoogle } = useContext(AuthenticationContext);
-  const { isLoading, setIsLoading } = useContext(LoaderContext);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user) {
-      navigate("/dashboard");
-      // console.log("login",user);
-    }
-  }, [user]);
+  const { signInWithGoogle } = useContext(AuthenticationContext);
 
   return (
     <div className="loginBg d-flex flex-column align-items-center justify-content-center">

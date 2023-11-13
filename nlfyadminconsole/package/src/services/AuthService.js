@@ -24,6 +24,7 @@ export const AuthenticationContext = createContext();
 export const AuthenticationContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticating, setISAuthenticating] = useState(false);
   const url = `${BASEURL}leaders/`;
 
   useEffect(() => {
@@ -47,6 +48,7 @@ export const AuthenticationContextProvider = ({ children }) => {
           };
           setUser(modifiedUser);
           setIsLoading(false);
+          setISAuthenticating(false);
           // console.log("SAVED >>>", user);
         } else {
           const { displayName, email, photoURL, metadata } = usr;
@@ -64,6 +66,7 @@ export const AuthenticationContextProvider = ({ children }) => {
           setUser(modifiedUser);
           saveData(modifiedUser);
           setIsLoading(false);
+          setISAuthenticating(false);
           // console.log("NOT SAVED >>>", user);
         }
       }
@@ -72,11 +75,13 @@ export const AuthenticationContextProvider = ({ children }) => {
 
   const signInWithGoogle = async () => {
     setIsLoading(true);
+    setISAuthenticating(true);
     try {
       await signInWithRedirect(auth, googleProvider);
       const result = await getRedirectResult(auth);
       // setIsLoading(false);
       // setUser(result.user);
+      setIsLoading(true);
       console.log("Result:", result);
     } catch (error) {
       setIsLoading(false);
@@ -130,7 +135,7 @@ export const AuthenticationContextProvider = ({ children }) => {
 
   return (
     <AuthenticationContext.Provider
-      value={{ user, isLoading, signInWithGoogle, logOut }}
+      value={{ user, isLoading, isAuthenticating, signInWithGoogle, logOut }}
     >
       {children}
     </AuthenticationContext.Provider>

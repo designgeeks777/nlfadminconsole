@@ -28,7 +28,8 @@ const GuestCounter = lazy(() =>
 );
 
 /*****Routes******/
-const ThemeRoutes = (isAuthenticated) => [
+
+const ThemeRoutes = (isAuthenticated, isAuthenticating) => [
   {
     path: "/",
     element:
@@ -65,7 +66,11 @@ const ThemeRoutes = (isAuthenticated) => [
   {
     path: "/",
     element:
-      isAuthenticated === null ? <Login /> : <Navigate to="/dashboard" />,
+      isAuthenticated === null && isAuthenticating === false ? (
+        <Login />
+      ) : (
+        <Navigate to="/dashboard" />
+      ),
     children: [
       { path: "login", element: <Login /> },
       { path: "/", element: <Navigate to="/login" /> },
