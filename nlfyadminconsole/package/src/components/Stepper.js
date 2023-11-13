@@ -52,6 +52,38 @@ const CustomStepper = ({ parentCallback }) => {
         return null;
     }
   }
+
+  function getDisabledStepState(step) {
+    if (step === 0) {
+      if (
+        guestData.firstname === "" ||
+        guestData.lastname === "" ||
+        guestData.address === ""
+      )
+        return true;
+      else return false;
+    }
+    if (step === 1) {
+      if (guestData.contactnumber === "" || guestData.dob === "Invalid Date")
+        return true;
+      else return false;
+    }
+    if (step === 2) {
+      if (
+        (guestData.hearaboutus === "personalInvitation" &&
+          guestData.invitedby === "") ||
+        (guestData.hearaboutus === "others" &&
+          guestData.hearaboutusothers === "")
+      )
+        return true;
+      else return false;
+    }
+    if (step === 3) {
+      if (guestData.willingnesstojoin === "") return true;
+      else return false;
+    }
+  }
+
   return (
     <>
       <Stepper steps={steps} activeStep={activeStep} />
@@ -69,26 +101,18 @@ const CustomStepper = ({ parentCallback }) => {
               Back
             </button>
           )}
-          {activeStep !== steps.length - 1 && (
-            <button
-              className="btn px-4 py-2 buttons btn-primary"
-              onClick={() => {
-                setActiveStep(activeStep + 1);
-              }}
-            >
-              Next
-            </button>
-          )}
-          {activeStep === steps.length - 1 && (
-            <button
-              className="btn px-4 py-2 buttons btn-primary"
-              onClick={() => {
-                parentCallback(guestData);
-              }}
-            >
-              Save
-            </button>
-          )}
+          <button
+            className="btn px-4 py-2 buttons btn-primary"
+            onClick={() => {
+              setActiveStep(activeStep + 1);
+              if (activeStep === steps.length - 1) {
+                parentCallback(guestData, true);
+              }
+            }}
+            disabled={getDisabledStepState(activeStep)}
+          >
+            {activeStep === steps.length - 1 ? "Save" : "Next"}
+          </button>
         </div>
       </div>
     </>

@@ -1,16 +1,16 @@
 import { Button, FormGroup, Input, Label } from "reactstrap";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import ComponentCard from "../../../components/ComponentCard";
 import { BASEURL } from "../../../APIKey";
 import axios from "axios";
 import Alerts from "../Alerts";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { errorMsgs, successMsgs } from "../../../constants";
 import { LoaderContext } from "../../../LoaderContext";
 import { GuestContext, GuestContextProvider } from "./GuestDataContext";
 import CustomStepper from "../../../components/Stepper";
 
-const AddGuest = () => {
+const AddGuest = ({ handleGuestCounterCallback }) => {
   let navigate = useNavigate();
   const url = `${BASEURL}guests/`;
   const [showAlert, setShowAlert] = useState({
@@ -19,58 +19,52 @@ const AddGuest = () => {
     message: "",
   });
   const { isLoading, setIsLoading } = useContext(LoaderContext);
+  const hideCard = useRef(false);
+  const state = useLocation();
   useEffect(() => {
     setIsLoading(false);
+    console.log(state);
   }, []);
-  
+
   const addGuest = (guestData) => {
+    let showAlert = {};
     console.log("added", guestData);
+    setIsLoading(true);
+    navigate("/guestCounter");
     axios
       .post(url, guestData)
       .then(() => {
-        navigate("/dashboard");
-        setShowAlert({
-          ...showAlert,
+        // navigate("/guestCounter");
+        setIsLoading(false);
+        showAlert = {
           isOpen: true,
           type: "success",
           message: `Guest ${successMsgs.add}`,
-        });
-        setTimeout(() => {
-          setShowAlert({ isOpen: false, type: "", message: "" });
-        }, 2000);
+        };
+        handleGuestCounterCallback(true, showAlert);
       })
       .catch((error) => {
-        setShowAlert({
-          ...showAlert,
+        setIsLoading(false);
+        showAlert = {
           isOpen: true,
           type: "danger",
           message: errorMsgs.add,
-        });
-        setTimeout(() => {
-          setShowAlert({ isOpen: false, type: "", message: "" });
-        }, 2000);
+        };
+        handleGuestCounterCallback(false, showAlert);
       });
   };
 
-  const handleCallback = (guestData) => {
+  const handleCallback = (guestData, hide) => {
+    hideCard.current = hide;
     addGuest(guestData);
   };
   return (
     <GuestContextProvider>
-      <div className="d-flex flex-column">
-        {showAlert.isOpen && (
-          <Alerts
-            props={{
-              isOpen: showAlert.isOpen,
-              type: showAlert.type,
-              message: showAlert.message,
-            }}
-          />
-        )}
+      {!hideCard.current && (
         <ComponentCard title="Add Guest">
           <CustomStepper parentCallback={handleCallback} />
         </ComponentCard>
-      </div>
+      )}
     </GuestContextProvider>
   );
 };
