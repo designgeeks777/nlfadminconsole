@@ -1,4 +1,4 @@
-import { Card, CardTitle, Button, Col, Row, Label } from "reactstrap";
+import { Card, CardTitle, Button, Col, Row } from "reactstrap";
 import ProjectTables from "../../../components/dashboard/ProjectTable";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import { LoaderContext } from "../../../LoaderContext";
 import { BASEURL } from "../../../APIKey";
 import Alerts from "../Alerts";
 import { AlertContext } from "../../../services/AlertService";
+import { GuestContext } from "./GuestDataContext";
 
 const tableColumns = [
   { path: "firstname", name: "First Name" },
@@ -25,7 +26,7 @@ const GuestCounter = () => {
   const { setIsLoading } = useContext(LoaderContext);
   const { showAlert } = useContext(AlertContext);
   const url = `${BASEURL}guests/`;
-
+  const { fetchLifeGroupOptions } = useContext(GuestContext);
   const loadData = async () => {
     setIsLoading(true);
     try {
@@ -45,6 +46,7 @@ const GuestCounter = () => {
 
   useEffect(() => {
     loadData();
+    fetchLifeGroupOptions(true);
   }, [url]);
 
   const handleSearchChange = (e) => {
@@ -105,68 +107,50 @@ const GuestCounter = () => {
         </Button>
       </div>
       <>
-        <Card style={{ padding: "10px" }}>
-          <Row>
-            <Col lg="6">
-              <div className="d-flex justify-content-between align-items-center mb-0">
-                <Label lg="12" className="text-primary mb-0">
-                  Look for a specific guest
-                </Label>
-              </div>
-              <div className="d-flex justify-content-between align-items-center mb-3">
+        <Card>
+          <div className="searchFilterContainer">
+            <div className="mb-0">
+              <label className="text-primary mb-0" htmlFor="searchbox">
+                Look for a specific guest
+              </label>
+              <div>
                 <input
                   type="text"
                   placeholder="Search guest by phone number, first name, or last name"
                   value={searchQuery}
                   onChange={handleSearchChange}
-                  style={{
-                    border: "1px solid #C4C4C4",
-                    borderRadius: "8px",
-                    width: "100%",
-                    height: "35px",
-                    outline: "none",
-                  }}
-                  className="mt-0"
+                  className="mt-0 searchbox"
+                  id="searchbox"
+                  name="searchbox"
                 />
+                <i className="bi bi-search" />
               </div>
-            </Col>
-            <Col lg="6">
-              <div className="d-flex justify-content-between align-items-center mb-0">
-                <Label lg="12" className=" mb-0">
-                  Willingness to join church
-                </Label>
-              </div>
-              <div className="d-flex justify-content-between align-items-center mb-3">
-                <select
-                  className="form-select mt-0"
-                  onChange={handleFilterChange}
-                  value={selectedOption}
-                  style={{
-                    border: "1px solid #C4C4C4",
-                    borderRadius: "8px",
-                    height: "35px",
-                    width: "60%",
-                    marginLeft: "0",
-                  }}
-                >
-                  <option value="all">All</option>
-                  <option value="hot">Hot</option>
-                  <option value="warm">Warm</option>
-                  <option value="cold">Cold</option>
-                </select>
-              </div>
-            </Col>
-          </Row>
+            </div>
+
+            <div className="mb-0">
+              <label className=" mb-0" htmlFor="filter">
+                Willingness to join church
+              </label>
+              <select
+                className="form-select mt-0 searchbox"
+                onChange={handleFilterChange}
+                value={selectedOption}
+                id="filter"
+                name="filter"
+              >
+                <option value="all">All</option>
+                <option value="hot">Hot</option>
+                <option value="warm">Warm</option>
+                <option value="cold">Cold</option>
+              </select>
+            </div>
+          </div>
         </Card>
-        <Row>
-          <Col lg="12">
-            <ProjectTables
-              title="Current Guest Lists"
-              tableData={filteredData}
-              tableColumns={tableColumns}
-            />
-          </Col>
-        </Row>
+        <ProjectTables
+          title="Current Guest Lists"
+          tableData={filteredData}
+          tableColumns={tableColumns}
+        />
       </>
     </>
   );

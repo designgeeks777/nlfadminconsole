@@ -11,7 +11,13 @@ const tabs = [
   { label: "View Details", value: "tab2" },
   { label: "Follow-up Notes", value: "tab3" },
 ];
-const Tabs = ({ guestData, parentCallback, parentTabsCallback }) => {
+const Tabs = ({
+  guestData,
+  parentCallback,
+  parentTabsCallback,
+  lifeGroupOptions,
+  lifeGroupPlace,
+}) => {
   const [active, setActive] = useState(tabs[0].value);
   const { isLoading } = useContext(LoaderContext);
 
@@ -58,11 +64,17 @@ const Tabs = ({ guestData, parentCallback, parentTabsCallback }) => {
         ))}
       </Nav>
       {active === "tab1" ? (
-        <GuestJourney guestData={guestData} goToTab={goToTab} />
+        <GuestJourney
+          guestData={guestData}
+          goToTab={goToTab}
+          lifeGroupPlace={lifeGroupPlace}
+        />
       ) : active === "tab2" ? (
         <ViewDetails
           guestData={guestData}
           handleTabsCallback={parentTabsCallback}
+          lifeGroupOptions={lifeGroupOptions}
+          lifeGroupPlace={lifeGroupPlace}
         />
       ) : (
         <FollowUpNotes

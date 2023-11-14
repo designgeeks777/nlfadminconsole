@@ -7,7 +7,6 @@ import { errorMsgs, successMsgs } from "../../../constants";
 import { LoaderContext } from "../../../LoaderContext";
 import { AlertContext } from "../../../services/AlertService";
 import CustomStepper from "../../../components/Stepper";
-import { GuestContextProvider } from "./GuestDataContext";
 
 const AddGuest = () => {
   let navigate = useNavigate();
@@ -53,13 +52,13 @@ const AddGuest = () => {
   };
 
   return (
-    <GuestContextProvider>
+    <>
       {!hideCard.current && (
         <ComponentCard title="Add Guest">
           <CustomStepper parentCallback={handleCallback} />
         </ComponentCard>
       )}
-    </GuestContextProvider>
+    </>
   );
 };
 

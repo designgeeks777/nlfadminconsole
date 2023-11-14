@@ -9,6 +9,7 @@ import Alerts from "../../Alerts";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AlertContext } from "../../../../services/AlertService";
 import { errorMsgs, successMsgs } from "../../../../constants";
+import { GuestContext } from "../GuestDataContext";
 
 const tableColumns = [
   { path: "date", name: "Follow-up Date" },
@@ -20,6 +21,8 @@ const GuestCounterDetails = () => {
   const path = useLocation();
   const url = `${BASEURL}guests/${path.state}`;
   const { setIsLoading } = useContext(LoaderContext);
+  const { lifeGroupOptions, lifeGroupPlace, fetchLifeGroupPlace } =
+    useContext(GuestContext);
   const [selectedGuestData, setSelectedGuestData] = useState({});
   const { showAlert, setAlert } = useContext(AlertContext);
   const [tableData, setTableData] = useState([]);
@@ -27,6 +30,7 @@ const GuestCounterDetails = () => {
   const navigate = useNavigate();
   let fname = useRef("");
   let lname = useRef("");
+  let lifegrpid = useRef("");
 
   const loadData = async () => {
     setIsLoading(true);
@@ -42,6 +46,7 @@ const GuestCounterDetails = () => {
         data.firstname.charAt(0).toUpperCase() + data.firstname.slice(1);
       lname.current =
         data.lastname.charAt(0).toUpperCase() + data.lastname.slice(1);
+      lifegrpid.current = data.lifegroupid;
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -54,6 +59,14 @@ const GuestCounterDetails = () => {
   useEffect(() => {
     loadData();
   }, [url]);
+
+  useEffect(() => {
+    // let place = "";
+    if (lifegrpid.current !== "") {
+      fetchLifeGroupPlace(lifeGroupOptions, lifegrpid.current);
+      // console.log("GCD", lifeGroupPlace);
+    }
+  }, [lifegrpid.current]);
 
   const handleCallback = (tabSelected) => {
     if (tabSelected === "tab3") {
@@ -122,23 +135,19 @@ const GuestCounterDetails = () => {
           </CardTitle>
           <Tabs
             guestData={selectedGuestData}
+            lifeGroupOptions={lifeGroupOptions}
+            lifeGroupPlace={lifeGroupPlace}
             parentCallback={handleCallback}
             parentTabsCallback={handleTabsCallback}
           />
         </CardBody>
       </Card>
       {show ? (
-        <div className="p-2">
-          <Row>
-            <Col lg="12">
-              <ProjectTables
-                title="Previous follow-ups"
-                tableData={tableData}
-                tableColumns={tableColumns}
-              />
-            </Col>
-          </Row>
-        </div>
+        <ProjectTables
+          title="Previous follow-ups"
+          tableData={tableData}
+          tableColumns={tableColumns}
+        />
       ) : null}
     </>
   );

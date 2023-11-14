@@ -1,35 +1,16 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { GuestContext } from "../GuestDataContext";
-import { BASEURL } from "../../../../APIKey";
-import axios from "axios";
 
 const AssignLifeGroup = () => {
-  const { guestData, setGuestDetails } = useContext(GuestContext);
-  const [lifeGroupOptions, setLifeGroupOptions] = useState([{ place: "Select a LifeGroup", lifegroupid: "" }]);
-  const lifeGroupsUrl = `${BASEURL}lifeGroups/`;
+  const { guestData, setGuestDetails, lifeGroupOptions } =
+    useContext(GuestContext);
   const willingnessOptions = [
     { label: "Select willingness", value: "" },
     { label: "Hot", value: "hot" },
     { label: "Warm", value: "warm" },
     { label: "Cold", value: "cold" },
   ];
-
-  //get all lifeGroup places list
-  const getLifeGroupOptions = async () => {
-    const LGResponse = await axios.get(lifeGroupsUrl);
-    let options = [];
-    // setLifeGroupOptions([{ place: "Select a LifeGroup", lifegroupid: 0 }]);
-    options = LGResponse.data.map((lifeGroup) => {
-      const { place, _id } = lifeGroup;
-      return { place: place, lifegroupid: _id };
-    });
-    setLifeGroupOptions((prevState) => [...prevState, ...options]);
-  };
-
-  useEffect(() => {
-    getLifeGroupOptions();
-  }, []);
-
+  
   const handleFieldChange = (event) => {
     setGuestDetails(event.target.name, event.target.value);
   };

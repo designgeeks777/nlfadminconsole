@@ -19,9 +19,11 @@ root.render(
     <LoaderContextProvider>
       <AuthenticationContextProvider>
         <AlertContextProvider>
-          <HashRouter>
-            <App />
-          </HashRouter>
+          <GuestContextProvider>
+            <HashRouter>
+              <App />
+            </HashRouter>
+          </GuestContextProvider>
         </AlertContextProvider>
       </AuthenticationContextProvider>
     </LoaderContextProvider>

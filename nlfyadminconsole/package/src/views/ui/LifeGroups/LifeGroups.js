@@ -93,16 +93,12 @@ const LifeGroups = () => {
             </Button>
           </div>
         </>
-        <Row>
-          <Col lg="12">
-            <ProjectTables
-              parentCallback={handleCallback}
-              title="LifeGroups"
-              tableData={tableData}
-              tableColumns={tableColumns}
-            />
-          </Col>
-        </Row>
+        <ProjectTables
+          parentCallback={handleCallback}
+          title="LifeGroups"
+          tableData={tableData}
+          tableColumns={tableColumns}
+        />
       </div>
     </>
   );

@@ -1,30 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { BASEURL } from "../../../../APIKey";
-import axios from "axios";
 
-const GuestJourney = ({ guestData, goToTab }) => {
+const GuestJourney = ({ guestData, goToTab, lifeGroupPlace }) => {
   const [selectedId, setSelectedId] = useState(null);
   const onSelectItem = (id) => {
     if (id === selectedId) return setSelectedId(null);
     setSelectedId(id);
   };
 
-  const [lifeGroupPlace, setLifeGroupPlace] = useState("");
-  const lifeGroupUrl = `${BASEURL}lifeGroups/${guestData.lifegroupid}`;
-  const fetchLifeGroupName = async () => {
-    const response = await axios.get(lifeGroupUrl);
-    var place = response.data.place;
-    setLifeGroupPlace(place);
-  };
-
-  useEffect(() => {
-    if (guestData.lifegroupid) {
-      fetchLifeGroupName();
-    }
-  }, [guestData]);
-
   const [followupNotes, setFollowupNotes] = useState([]);
-
   useEffect(() => {
     if (guestData.followupnotes) {
       let data = guestData.followupnotes;
@@ -35,7 +18,6 @@ const GuestJourney = ({ guestData, goToTab }) => {
   //follow up notes section
   const followUpNotesSection = () => {
     if (followupNotes) {
-      // return guestData.followupnotes.map((item, index) => {
       return followupNotes.map((item, index) => {
         return (
           <>
@@ -93,8 +75,6 @@ const GuestJourney = ({ guestData, goToTab }) => {
               <img
                 src={require("../../../../assets/images/guestCounter/finalStep.png")}
                 alt="finalStep"
-                // width={124}
-                // height={70}
               />
             </div>
             <div className="stepContent">
@@ -136,7 +116,6 @@ const GuestJourney = ({ guestData, goToTab }) => {
           <img
             src={require("../../../../assets/images/guestCounter/followUpAssignStep.png")}
             alt="followUpAssignStep"
-            // width={124}
             height={81}
           />
         </div>
@@ -232,8 +211,6 @@ const GuestJourney = ({ guestData, goToTab }) => {
           <img
             src={require("../../../../assets/images/guestCounter/welcomeStep.png")}
             alt="welcomeStep"
-            // width={124}
-            // height={70}
           />
         </div>
         <div className="stepContent">

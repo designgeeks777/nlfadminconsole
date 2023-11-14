@@ -1,33 +1,23 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import InfoCard from "../../../../components/InfoCard";
-import { Col, Row, Table } from "reactstrap";
+import { Col, Row } from "reactstrap";
 import { BASEURL } from "../../../../APIKey";
 import axios from "axios";
 import { LoaderContext } from "../../../../LoaderContext";
 import ComponentModal from "../../../../components/ComponentModal";
 import { errorMsgs, successMsgs } from "../../../../constants";
 
-const ViewDetails = ({ guestData, handleTabsCallback }) => {
+const ViewDetails = ({
+  guestData,
+  handleTabsCallback,
+  lifeGroupOptions,
+  lifeGroupPlace,
+}) => {
   const guestUrl = `${BASEURL}guests/${guestData._id}`;
-  const [lifeGroupPlace, setLifeGroupPlace] = useState("");
-  const lifeGroupByIdUrl = `${BASEURL}lifeGroups/${guestData.lifegroupid}`;
-  const lifeGroupsUrl = `${BASEURL}lifeGroups/`;
   const { isLoading, setIsLoading } = useContext(LoaderContext);
-  const [lifeGroupOptions, setLifeGroupOptions] = useState([
-    { place: "Select a LifeGroup", lifegroupid: "" },
-  ]);
   const formattedEnteredOnDate = useRef("");
   const formattedDOBDate = useRef("");
-
-  //get all lifeGroup places list
-  const getLifeGroupOptions = async () => {
-    const LGResponse = await axios.get(lifeGroupsUrl);
-    let options = LGResponse.data.map((lifeGroup) => {
-      const { place, _id } = lifeGroup;
-      return { place: place, lifegroupid: _id };
-    });
-    setLifeGroupOptions((prevState) => [...prevState, ...options]);
-  };
+  const checked = useRef(false);
 
   const formatDate = () => {
     formattedEnteredOnDate.current = new Date(guestData.enteredon)
@@ -44,23 +34,7 @@ const ViewDetails = ({ guestData, handleTabsCallback }) => {
     }
   };
 
-  const checked = useRef(false);
-  const fetchLifeGroupName = async (id) => {
-    const response = await axios.get(lifeGroupByIdUrl);
-    // const response = lifeGroupOptions.filter(lifeGroup =>  lifeGroup.lifegroupid === id);
-    var place = response.data.place;
-    setLifeGroupPlace(place);
-  };
-
   useEffect(() => {
-    getLifeGroupOptions();
-  }, []);
-
-  useEffect(() => {
-    if (guestData.lifegroupid) {
-      fetchLifeGroupName(guestData.lifegroupid);
-    }
-
     // Format the date to YYYY-MM-DD
     formatDate();
     if (guestData.startedlifegroup === "started") {
@@ -307,7 +281,6 @@ const ViewDetails = ({ guestData, handleTabsCallback }) => {
             </div>
             <div>
               <p>Email Id</p>
-              {/* <p>No Email Id</p> */}
               <p style={{ width: "50%", textTransform: "none" }}>
                 {guestData.email === "" ? "No email Id" : guestData.email}
               </p>

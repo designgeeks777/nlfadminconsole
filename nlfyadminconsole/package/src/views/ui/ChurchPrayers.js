@@ -223,18 +223,12 @@ const ChurchPrayers = () => {
             </ComponentModal>
           ) : null}
         </div>
-        <div className="p-2">
-          <Row>
-            <Col lg="12">
-              <ProjectTables
-                title="Church Prayers"
-                tableData={tableData}
-                tableColumns={tableColumns}
-                parentCallback={handleCallback}
-              />
-            </Col>
-          </Row>
-        </div>
+        <ProjectTables
+          title="Church Prayers"
+          tableData={tableData}
+          tableColumns={tableColumns}
+          parentCallback={handleCallback}
+        />
       </div>
     </div>
   );
