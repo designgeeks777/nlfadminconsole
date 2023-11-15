@@ -24,7 +24,7 @@ const AssignLifeGroup = () => {
             size="md"
             className="form-label modal-body-label"
           >
-            Willing to be part of LifeGroup?
+            Willing to be part of church/LifeGroup?
             <label htmlFor="willingnesstojoin" className="text-danger">
               *
             </label>

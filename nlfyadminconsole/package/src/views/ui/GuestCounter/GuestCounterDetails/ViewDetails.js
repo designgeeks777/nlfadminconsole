@@ -666,7 +666,7 @@ const ViewDetails = ({
                 size="md"
                 className="form-label modal-body-label"
               >
-                Willingness to join
+                Willing to join church/lifeGroup?
               </label>
               <select
                 id="willingnesstojoin"

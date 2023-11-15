@@ -129,7 +129,7 @@ const GuestCounter = () => {
 
             <div className="mb-0">
               <label className=" mb-0" htmlFor="filter">
-                Willingness to join church
+                Willing to join church/lifeGroup
               </label>
               <select
                 className="form-select mt-0 searchbox"
