@@ -12,7 +12,7 @@ const OtherDetails = () => {
   return (
     <form onChange={handleFieldChange}>
       <div className="basicDetails">
-        <div className="d-flex flex-column mb-4">
+        <div className="d-flex flex-column">
           <label size="md" className="form-label modal-body-label">
             Select Gender
           </label>
@@ -45,11 +45,11 @@ const OtherDetails = () => {
             </div>
           </div>
         </div>
-        <div className="d-flex flex-column pt-1 mb-4">
+        <div className="d-flex flex-column">
           <label size="md" className="form-label modal-body-label">
             Select Marital Status
           </label>
-          <div>
+          <div className="d-flex">
             <div class="form-check form-check-inline">
               <input
                 class="form-check-input text-primary shadow-none"
@@ -88,17 +88,17 @@ const OtherDetails = () => {
                 }
               />
               <label class="form-check-label" htmlFor="inlineRadio3">
-                Divorced/Widowed
+                Divorced/ Widowed
               </label>
             </div>
           </div>
         </div>
 
-        <div className="d-flex flex-column pt-3">
+        <div className="d-flex flex-column" style={{ flex: 1 }}>
           <label size="md" className="form-label modal-body-label">
             How did you hear about us?
           </label>
-          <div className="mb-2">
+          <div className="d-flex mb-2 flex-wrap">
             <div class="form-check form-check-inline">
               <input
                 class="form-check-input text-primary shadow-none"

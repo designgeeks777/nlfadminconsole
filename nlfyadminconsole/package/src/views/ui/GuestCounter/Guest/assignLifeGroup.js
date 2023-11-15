@@ -32,7 +32,7 @@ const AssignLifeGroup = () => {
           <select
             id="willingnesstojoin"
             name="willingnesstojoin"
-            className="form-select shadow-none mb-1"
+            className="form-select shadow-none assignLGSelect"
             value={guestData.willingnesstojoin}
           >
             {willingnessOptions.map((option) => (
@@ -56,7 +56,7 @@ const AssignLifeGroup = () => {
           <select
             id="lifegroupid"
             name="lifegroupid"
-            className="form-select shadow-none mb-1"
+            className="form-select shadow-none assignLGSelect"
             value={guestData.lifegroupid}
           >
             {lifeGroupOptions.map((option) => (
@@ -83,7 +83,7 @@ const AssignLifeGroup = () => {
           </label>
           <input
             type="text"
-            className="form-control modal-body-input shadow-none mb-1"
+            className="form-control modal-body-input shadow-none followupMember"
             id="followupmember"
             name="followupmember"
             placeholder="Type member name"

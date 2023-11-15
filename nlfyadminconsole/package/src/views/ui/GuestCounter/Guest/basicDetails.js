@@ -24,7 +24,7 @@ const BasicDetails = () => {
           </label>
           <input
             type="text"
-            className="form-control modal-body-input shadow-none mb-2"
+            className="form-control modal-body-input shadow-none"
             id="firstname"
             name="firstname"
             placeholder="Enter valid first name"
@@ -44,7 +44,7 @@ const BasicDetails = () => {
           </label>
           <input
             type="text"
-            className="form-control modal-body-input shadow-none mb-2"
+            className="form-control modal-body-input shadow-none"
             id="lastname"
             name="lastname"
             placeholder="Enter valid last name"
@@ -60,7 +60,7 @@ const BasicDetails = () => {
           </label>
           <textarea
             name="address"
-            className="form-control modal-body-textarea shadow-none mb-2"
+            className="form-control modal-body-textarea shadow-none"
             id="address"
             rows={5}
             placeholder="Enter your address"

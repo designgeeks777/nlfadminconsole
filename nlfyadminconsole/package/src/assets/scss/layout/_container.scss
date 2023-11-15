@@ -766,25 +766,30 @@ li:first-child > .stepcircle::after{
   width: 100%;
 }
 
-.basicDetails > div {
-  margin-right: 4em;
-  margin-bottom: 1em;
-}
+// .basicDetails > div {
+//   margin-right: 4em;
+//   margin-bottom: 1em;
+//   display: flex;
+//   flex-direction: column;
+// }
 
-.basicDetails > div > .form-control {
-  display: inline-flex;
-}
+// .basicDetails > div > .form-control {
+//   display: inline-flex;
+// }
 
 .basicDetails >  div > textarea {
   border-radius: 10px;
 }
 
-.basicDetails > div > input[id="followupmember"].form-control{
-  display: block;
-}
+// .basicDetails > div > input[id="followupmember"].form-control{
+//   display: block;
+// }
 
-.hearaboutusInput {
+.hearaboutusInput,.DOBDate,.followupMember {
   width: 50%;
+}
+.assignLGSelect {
+  width: 80%;
 }
 
 .form-check-label {
@@ -796,9 +801,11 @@ li:first-child > .stepcircle::after{
   height: $btn-height;
   border-radius: $btn-border-radius;
 } 
+
 .form-control:focus{
   border-color: $modal-content-border-color;
 }
+
 .contactNoCountryCode {
   flex: 0 15%;
   border-radius: 10px;
@@ -824,6 +831,27 @@ li:first-child > .stepcircle::after{
   border-color: $danger !important;
 }
 
+.PhoneInputInput {
+  flex: 1 1;
+  min-width: 0;
+  border-left: 1px solid $modal-content-border-color !important;
+  border: none;
+}
+
+.PhoneInputInput:focus{
+  outline: none;
+  text-transform: none;
+  font-weight: normal;
+}
+
+/* new stepper css */
+.basicDetails > div {
+  display: flex;
+  flex-direction: column;
+  flex: 0 50%;
+  padding: 0 4em 2em 0;
+}
+
 @media (max-width: 700px) {
   // @media (max-width: 800px) {
   .step .line {
@@ -835,33 +863,44 @@ li:first-child > .stepcircle::after{
     top: 12%;
   }
 
-  .basicDetails > div {
-    width: 100%;
-    margin: 0.5em auto;
-  }
+  // .basicDetails > div {
+  //   width: 100%;
+  //   margin: 0.5em auto;
+  // }
 
-  .basicDetails > div > .form-control {
-    width: 100% !important;
-  }
+  // .basicDetails > div > .form-control {
+  //   width: 100% !important;
+  // }
 
-  .basicDetails > div > input[type="date"] {
-    width: 100% !important;
-  }
+  // .basicDetails > div > input[type="date"] {
+  //   width: 100% !important;
+  // }
 
   .basicDetails > div > div .form-check-inline {
     margin : 0.5em 0.5em 0 0;
+    width: 30%;
   }
 
-  .hearaboutusInput {
+  .hearaboutusInput,.DOBDate,.followupMember,.assignLGSelect {
     width: 100%;
   }
     
   .contactNoCountryCode {
     flex: 0 15%;
+    padding: 0 3px;
   }
 
   .contactNo {
     width: 100%;
+  }
+
+  .basicDetails > div {
+    width: 100%;
+    flex: auto;
+    padding: 0 0 1em 0;
+  }
+  .form-check-label {
+    white-space: normal;
   }
 }
 

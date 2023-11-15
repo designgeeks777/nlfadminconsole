@@ -1,5 +1,8 @@
 import React, { useContext, useRef, useEffect, useState } from "react";
 import { GuestContext } from "../GuestDataContext";
+import "react-phone-number-input/style.css";
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import { errorMsgs } from "../../../../constants";
 
 const Contact = ({ stepperCallback }) => {
   const { guestData, setGuestDetails } = useContext(GuestContext);
@@ -25,46 +28,31 @@ const Contact = ({ stepperCallback }) => {
         .reverse()
         .join("-");
       setGuestDetails(event.target.name, formattedDOBDate.current);
-    } else {
-      if (event.target.name === "countrycode") {
-        var code = event.target.value.replace(
-          /[a-zA-Z!@#\\$%\\^\\&*\\)\\(=._-]*/g,
-          ""
-        );
-        setCountryCode(code);
-        if (code.match(/^(\+?\d{1,3}|\d{1,4})$/gm)) {
-          error.current = false;
-        } else {
-          // setCountryCode("");
-          error.current = true;
-        }
-      }
-      if (event.target.name === "contactnumber") {
-        // if (event.target.value.match(/^[0-9]+$/)) {
-        setPhoneNumber(event.target.value);
-        if (event.target.value.match(/^[0-9]{1,10}$/)) {
-          error.current = false;
-        } else {
-          error.current = true;
-        }
-      }
     }
   };
+
   useEffect(() => {
-    if (countryCode !== "") {
-      setCountryCode(countryCode);
-    }
-  }, [countryCode]);
-  useEffect(() => {
-    if (phoneNumber !== "") {
+    if (phoneNumber !== "" && phoneNumber.length > 0) {
       setPhoneNumber(phoneNumber);
+      setGuestDetails("contactnumber", phoneNumber);
+      stepperCallback(error.current);
+      console.log("contactnumber", phoneNumber);
     }
   }, [phoneNumber]);
-  useEffect(() => {
-    setPhoneNumberWithCode(countryCode + phoneNumber);
-    stepperCallback(error.current);
-    setGuestDetails("contactnumber", phoneNumberWithCode);
-  }, [countryCode, phoneNumber]);
+
+  const handlePhNoChange = (phonenumber) => {
+    if (phonenumber !== undefined && phonenumber.length > 0) {
+      let phno = phonenumber.replace(/ /g, "");
+      if (isValidPhoneNumber(phno)) {
+        error.current = false;
+        setGuestDetails("contactnumber", phoneNumber);
+      } else {
+        error.current = true;
+      }
+      setPhoneNumber(phno);
+    }
+    console.log("handlePhNoChange", phoneNumber, error.current);
+  };
 
   useEffect(() => {
     if (emailId !== "") {
@@ -87,28 +75,22 @@ const Contact = ({ stepperCallback }) => {
               *
             </label>
           </label>
-          <div className="d-flex mb-2">
-            <input
-              type="text"
-              className={`${
-                error.current ? "contactError" : undefined
-              } form-control shadow-none contactNoCountryCode`}
-              id="countrycode"
-              name="countrycode"
-              placeholder="+91"
-              value={countryCode}
-            />
-            <input
-              type="number"
-              className={`${
-                error.current ? "contactError" : undefined
-              } form-control shadow-none contactNo`}
+          <div className="form-control modal-body-input">
+            <PhoneInput
+              international
+              countryCallingCodeEditable={false}
+              defaultCountry="IN"
               id="contactnumber"
               name="contactnumber"
-              placeholder="Enter number with country code"
               value={phoneNumber}
+              onChange={handlePhNoChange}
             />
           </div>
+          {phoneNumber.length > 0 && error.current && (
+            <small className="text-danger">
+              {errorMsgs.phoneNumber.invalid}
+            </small>
+          )}
         </div>
         <div>
           <label
@@ -120,14 +102,15 @@ const Contact = ({ stepperCallback }) => {
           </label>
           <input
             type="email"
-            className={`${
-              emailError ? "contactError" : undefined
-            } form-control shadow-none mb-0 contactEmail`}
+            className="form-control shadow-none contactEmail"
             id="email"
             name="email"
             placeholder="Enter a valid email"
             value={emailId}
           />
+          {emailId.length > 0 && emailError && (
+            <small className="text-danger">{errorMsgs.email.invalid}</small>
+          )}
         </div>
         <div>
           <label
@@ -142,7 +125,7 @@ const Contact = ({ stepperCallback }) => {
           </label>
           <input
             type="date"
-            className="form-control modal-body-input shadow-none mb-2"
+            className="form-control modal-body-input shadow-none DOBDate"
             id="dob"
             name="dob"
             placeholder=""
