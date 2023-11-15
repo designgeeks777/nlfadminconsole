@@ -20,15 +20,7 @@ const ViewDetails = ({
   const checked = useRef(false);
 
   const formatDate = () => {
-    formattedEnteredOnDate.current = new Date(guestData.enteredon)
-      .toLocaleDateString("en-GB", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      })
-      .split("/")
-      .reverse()
-      .join("-");
+    formattedEnteredOnDate.current = guestData.enteredon.split("/").reverse().join("-");
     if (guestData.dob) {
       formattedDOBDate.current = guestData.dob.split("/").reverse().join("-");
     }
@@ -102,6 +94,7 @@ const ViewDetails = ({
     resetModalData();
   };
   const editCardInfo = () => {
+    setIsLoading(true);
     let showAlert = {};
     if (selectedGuestData.lifegroupid !== "") {
       selectedGuestData.lifegroupassigndate = new Date().toLocaleDateString(
@@ -112,13 +105,13 @@ const ViewDetails = ({
       selectedGuestData.followupmemberassigneddate =
         new Date().toLocaleDateString("en-GB");
     }
-    console.log("editCardInfo", modalTitle, guestData);
+    console.log("editCardInfo", modalTitle, selectedGuestData);
 
     axios
       .patch(guestUrl, selectedGuestData)
       .then((res) => {
         setSelectedGuestData(res.data);
-        // resetModalData();
+        setIsLoading(false);
         setShow(false);
         showAlert = {
           isOpen: true,

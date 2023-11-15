@@ -796,11 +796,38 @@ li:first-child > .stepcircle::after{
   height: $btn-height;
   border-radius: $btn-border-radius;
 } 
+.form-control:focus{
+  border-color: $modal-content-border-color;
+}
+.contactNoCountryCode {
+  flex: 0 15%;
+  border-radius: 10px;
+  border-color: $modal-content-border-color;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.contactNo {
+  width: 66%;
+  border-radius: 10px;
+  border-color: $modal-content-border-color;
+  border-left: 0 !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+.contactEmail {
+  border-radius: 10px;
+  border-color: $modal-content-border-color;
+}
+.contactError {
+  border-color: $danger !important;
+}
 
 @media (max-width: 700px) {
   // @media (max-width: 800px) {
   .step .line {
-    bottom: calc(50% + 30px);
+    bottom: calc(50% + 32px);
   }
 
   .step-done .circle:after{
@@ -826,6 +853,14 @@ li:first-child > .stepcircle::after{
   }
 
   .hearaboutusInput {
+    width: 100%;
+  }
+    
+  .contactNoCountryCode {
+    flex: 0 15%;
+  }
+
+  .contactNo {
     width: 100%;
   }
 }

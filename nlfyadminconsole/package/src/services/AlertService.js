@@ -21,7 +21,7 @@ export const AlertContextProvider = ({ children }) => {
         type: "",
         message: "",
       });
-    }, 3000);
+    }, 2000);
   };
   return (
     <AlertContext.Provider value={{ showAlert, setAlert }}>

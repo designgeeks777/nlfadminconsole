@@ -1,42 +1,77 @@
 import React, { useContext, useRef, useEffect, useState } from "react";
 import { GuestContext } from "../GuestDataContext";
-import { FormFeedback, FormGroup, Input, Label } from "reactstrap";
-const Contact = () => {
+
+const Contact = ({ stepperCallback }) => {
   const { guestData, setGuestDetails } = useContext(GuestContext);
   const formattedDOBDate = useRef("");
+  const [countryCode, setCountryCode] = useState("+91");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const error = useRef(false);
+  const [phoneNumberWithCode, setPhoneNumberWithCode] = useState("");
+  const [emailId, setEmailId] = useState("");
+  const [emailError, setEmailError] = useState(false);
 
   const handleFieldChange = (event) => {
     if (event.target.name === "email") {
-      validateEmail(event.target.value);
-    }
-    if (event.target.name === "dob") {
+      setEmailId(event.target.value);
+      if (event.target.value.match(/^[a-z0-9_]+@[a-z]+\.[a-z]{2,3}$/)) {
+        setEmailError(false);
+      } else {
+        setEmailError(true);
+      }
+    } else if (event.target.name === "dob") {
       formattedDOBDate.current = event.target.value
         .split("/")
         .reverse()
         .join("-");
       setGuestDetails(event.target.name, formattedDOBDate.current);
     } else {
-      console.log(event.target.value);
-      setGuestDetails(event.target.name, event.target.value);
+      if (event.target.name === "countrycode") {
+        var code = event.target.value.replace(
+          /[a-zA-Z!@#\\$%\\^\\&*\\)\\(=._-]*/g,
+          ""
+        );
+        setCountryCode(code);
+        if (code.match(/^(\+?\d{1,3}|\d{1,4})$/gm)) {
+          error.current = false;
+        } else {
+          // setCountryCode("");
+          error.current = true;
+        }
+      }
+      if (event.target.name === "contactnumber") {
+        // if (event.target.value.match(/^[0-9]+$/)) {
+        setPhoneNumber(event.target.value);
+        if (event.target.value.match(/^[0-9]{1,10}$/)) {
+          error.current = false;
+        } else {
+          error.current = true;
+        }
+      }
     }
   };
-
-  // Email Validation
-  const [emailError, setEmailError] = useState(false);
   useEffect(() => {
-    if (guestData.email === "") {
-      setEmailError(false);
+    if (countryCode !== "") {
+      setCountryCode(countryCode);
     }
-  }, []);
-  const validateEmail = (mail) => {
-    // var email = e.target.value;
-    console.log(mail);
-    if (mail.match(/^[a-z0-9_]+@[a-z]+\.[a-z]{2,3}$/)) {
-      setEmailError(false);
-    } else {
-      setEmailError(true);
+  }, [countryCode]);
+  useEffect(() => {
+    if (phoneNumber !== "") {
+      setPhoneNumber(phoneNumber);
     }
-  };
+  }, [phoneNumber]);
+  useEffect(() => {
+    setPhoneNumberWithCode(countryCode + phoneNumber);
+    stepperCallback(error.current);
+    setGuestDetails("contactnumber", phoneNumberWithCode);
+  }, [countryCode, phoneNumber]);
+
+  useEffect(() => {
+    if (emailId !== "") {
+      setEmailId(emailId);
+      setGuestDetails("email", emailId);
+    }
+  }, [emailId]);
 
   return (
     <form onChange={handleFieldChange}>
@@ -52,15 +87,28 @@ const Contact = () => {
               *
             </label>
           </label>
-          <input
-            type="text"
-            // pattern={[^\+[1-9]{1}[0-9]{3,14}$]}
-            className="form-control modal-body-input shadow-none mb-2"
-            id="contactnumber"
-            name="contactnumber"
-            placeholder="Enter number with country code"
-            value={guestData.contactnumber}
-          />
+          <div className="d-flex mb-2">
+            <input
+              type="text"
+              className={`${
+                error.current ? "contactError" : undefined
+              } form-control shadow-none contactNoCountryCode`}
+              id="countrycode"
+              name="countrycode"
+              placeholder="+91"
+              value={countryCode}
+            />
+            <input
+              type="number"
+              className={`${
+                error.current ? "contactError" : undefined
+              } form-control shadow-none contactNo`}
+              id="contactnumber"
+              name="contactnumber"
+              placeholder="Enter number with country code"
+              value={phoneNumber}
+            />
+          </div>
         </div>
         <div>
           <label
@@ -72,14 +120,14 @@ const Contact = () => {
           </label>
           <input
             type="email"
-            className="form-control modal-body-input shadow-none mb-0"
+            className={`${
+              emailError ? "contactError" : undefined
+            } form-control shadow-none mb-0 contactEmail`}
             id="email"
             name="email"
             placeholder="Enter a valid email"
-            value={guestData.email}
-            invalid={emailError}
+            value={emailId}
           />
-          {emailError && <small className="mb-2 text-danger">Please enter valid email</small>}
         </div>
         <div>
           <label

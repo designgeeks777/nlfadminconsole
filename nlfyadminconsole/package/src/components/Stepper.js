@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import BasicDetails from "../views/ui/GuestCounter/Guest/basicDetails";
 import Contact from "../views/ui/GuestCounter/Guest/contact";
 import OtherDetails from "../views/ui/GuestCounter/Guest/otherDetails";
@@ -37,12 +37,13 @@ const CustomStepper = ({ parentCallback }) => {
   const [activeStep, setActiveStep] = useState(0);
   const { guestData } = useContext(GuestContext);
   const steps = ["Basic Details", "Contact", "Others", "Assign LifeGroup"];
+  const errors = useRef(false);
   function getSectionComponent() {
     switch (activeStep) {
       case 0:
         return <BasicDetails />;
       case 1:
-        return <Contact />;
+        return <Contact stepperCallback={handleCallback} />;
       case 2:
         return <OtherDetails />;
       case 3:
@@ -51,7 +52,9 @@ const CustomStepper = ({ parentCallback }) => {
         return null;
     }
   }
-
+  const handleCallback = (val) => {
+    errors.current = val;
+  };
   function getDisabledStepState(step) {
     if (step === 0) {
       if (
@@ -66,7 +69,8 @@ const CustomStepper = ({ parentCallback }) => {
       if (
         guestData.contactnumber === "" ||
         guestData.dob === "Invalid Date" ||
-        guestData.dob === ""
+        guestData.dob === "" ||
+        errors.current === true
       )
         return true;
       else return false;
