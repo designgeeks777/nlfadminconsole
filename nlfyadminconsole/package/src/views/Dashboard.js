@@ -1,9 +1,12 @@
 import { Col, Row } from "reactstrap";
 import TopCards from "../components/dashboard/TopCards";
 import Users from "./ui/Users";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { BASEURL } from "../APIKey";
+import { AuthenticationContext } from "../services/AuthService";
+// import { Redirect } from 'react-router-dom';
+import { redirect, useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [joiningRequests, setJoininingRequests] = useState(0);
@@ -12,6 +15,14 @@ const Dashboard = () => {
   const lifeGroupsUrl = `${BASEURL}getLifeGroupsCount/`;
   const usersUrl = `${BASEURL}getUsersCount/`;
   const announcementsUrl = `${BASEURL}getAnnouncementsCount/`;
+  const { user } = useContext(AuthenticationContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, [user]);
 
   useEffect(() => {
     const loadData = async () => {

@@ -49,22 +49,12 @@ const Users = () => {
   }, [url]);
 
   return (
-    <div>
-      <div className="d-flex flex-column mb-3">
-        <div className="p-2">
-          <Row>
-            <Col lg="12">
-              <ProjectTables
-                title="Users"
-                tableData={tableData}
-                tableColumns={tableColumns}
-                fromUsers={true}
-              />
-            </Col>
-          </Row>
-        </div>
-      </div>
-    </div>
+    <ProjectTables
+      title="Users"
+      tableData={tableData}
+      tableColumns={tableColumns}
+      fromUsers={true}
+    />
   );
 };
 

@@ -7,17 +7,26 @@ import reportWebVitals from "./reportWebVitals";
 import { HashRouter } from "react-router-dom";
 import Loader from "./layouts/loader/Loader";
 import { LoaderContextProvider } from "./LoaderContext";
+import { AuthenticationContextProvider } from "./services/AuthService";
+import { AlertContextProvider } from "./services/AlertService";
+import { GuestContextProvider } from "./views/ui/GuestCounter/GuestDataContext";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
 root.render(
   <Suspense fallback={<Loader />}>
-    <HashRouter>
-      <LoaderContextProvider>
-        <App />
-      </LoaderContextProvider>
-    </HashRouter>
+    <LoaderContextProvider>
+      <AuthenticationContextProvider>
+        <AlertContextProvider>
+          <GuestContextProvider>
+            <HashRouter>
+              <App />
+            </HashRouter>
+          </GuestContextProvider>
+        </AlertContextProvider>
+      </AuthenticationContextProvider>
+    </LoaderContextProvider>
   </Suspense>
 
   // document.getElementById("root")

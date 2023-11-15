@@ -67,8 +67,9 @@ const LifeGroups = () => {
   const handleCallback = (showChild, selectedLifeGroupData) => {
     // Update the data and show LifeGroupDetails component.
     navigate(`/lifeGroupsDetails/${selectedLifeGroupData.place}`, {
-      state: { selectedLifeGroupData },
+      state: selectedLifeGroupData._id,
     });
+    console.log(selectedLifeGroupData._id);
   };
   return (
     <>
@@ -92,16 +93,12 @@ const LifeGroups = () => {
             </Button>
           </div>
         </>
-        <Row>
-          <Col lg="12">
-            <ProjectTables
-              parentCallback={handleCallback}
-              title="LifeGroups"
-              tableData={tableData}
-              tableColumns={tableColumns}
-            />
-          </Col>
-        </Row>
+        <ProjectTables
+          parentCallback={handleCallback}
+          title="LifeGroups"
+          tableData={tableData}
+          tableColumns={tableColumns}
+        />
       </div>
     </>
   );

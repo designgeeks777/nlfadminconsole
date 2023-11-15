@@ -52,19 +52,12 @@ const PrayerRequests = () => {
 
   return (
     <div>
-      <div className="d-flex flex-column mb-3">
-        <div className="p-2">
-          <Row>
-            <Col lg="12">
-              <ProjectTables
-                title="Prayer Requests"
-                tableData={tableData}
-                tableColumns={tableColumns}
-              />
-            </Col>
-          </Row>
-        </div>
-      </div>
+      <ProjectTables
+        title="Prayer Requests"
+        tableData={tableData}
+        tableColumns={tableColumns}
+        fromPrayerRequestPage={true}
+      />
     </div>
   );
 };
