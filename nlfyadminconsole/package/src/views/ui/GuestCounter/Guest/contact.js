@@ -17,7 +17,10 @@ const Contact = ({ stepperCallback }) => {
   const handleFieldChange = (event) => {
     if (event.target.name === "email") {
       setEmailId(event.target.value);
-      if (event.target.value.match(/^[a-z0-9_]+@[a-z]+\.[a-z]{2,3}$/)) {
+      if (
+        event.target.value.match(/^[a-z0-9_]+@[a-z]+\.[a-z]{2,3}$/) ||
+        event.target.value.match(/^[a-z0-9_]+@[a-z]+\.[a-z]{2,3}\.[a-z]{2}$/)
+      ) {
         setEmailError(false);
       } else {
         setEmailError(true);
@@ -36,7 +39,7 @@ const Contact = ({ stepperCallback }) => {
       setPhoneNumber(phoneNumber);
       setGuestDetails("contactnumber", phoneNumber);
       stepperCallback(error.current);
-      console.log("contactnumber", phoneNumber);
+      // console.log("contactnumber", phoneNumber);
     }
   }, [phoneNumber]);
 
@@ -51,7 +54,7 @@ const Contact = ({ stepperCallback }) => {
       }
       setPhoneNumber(phno);
     }
-    console.log("handlePhNoChange", phoneNumber, error.current);
+    // console.log("handlePhNoChange", phoneNumber, error.current);
   };
 
   useEffect(() => {
