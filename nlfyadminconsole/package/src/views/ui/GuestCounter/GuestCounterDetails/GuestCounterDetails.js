@@ -21,7 +21,7 @@ const GuestCounterDetails = () => {
   const path = useLocation();
   const url = `${BASEURL}guests/${path.state}`;
   const { setIsLoading } = useContext(LoaderContext);
-  const { lifeGroupOptions, lifeGroupPlace, fetchLifeGroupPlace } =
+  const { lifeGroupOptions, lifeGroupPlace,fetchLifeGroupOptions, fetchLifeGroupPlace } =
     useContext(GuestContext);
   const [selectedGuestData, setSelectedGuestData] = useState({});
   const { showAlert, setAlert } = useContext(AlertContext);
@@ -62,6 +62,7 @@ const GuestCounterDetails = () => {
 
   useEffect(() => {
     // let place = "";
+    fetchLifeGroupOptions(true);
     if (lifegrpid.current !== "") {
       fetchLifeGroupPlace(lifeGroupOptions, lifegrpid.current);
       // console.log("GCD", lifeGroupPlace);
