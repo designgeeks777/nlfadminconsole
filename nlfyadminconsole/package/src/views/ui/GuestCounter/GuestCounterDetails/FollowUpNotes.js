@@ -60,29 +60,23 @@ const FollowUpNotes = ({ guestData, handleTabsCallback }) => {
       }
       return b.date - a.date;
     });
-    // let fomattedFollowNotes = [...follownotes];
 
     //format date value in followupnotes array
     let followupnotes = follownotes.map((n) => {
       const { note, followedupby, eneterdby } = n;
       return {
         note,
-        date:
-          typeof n.date === "string"
-            ? n.date
-            : new Date(n.date).toLocaleDateString("en-GB"),
+        date: new Date(n.date).toLocaleDateString("en-GB"),
         followedupby,
         eneterdby,
       };
     });
 
     let updateBody = { followupnotes };
-    console.log(followupnotes, follownotes);
-    setIsLoading(false);
     axios
       .patch(url, updateBody)
       .then(() => {
-        // setIsLoading(false);
+        setIsLoading(false);
         resetModalData();
         showAlert = {
           isOpen: true,

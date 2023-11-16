@@ -21,8 +21,12 @@ const GuestCounterDetails = () => {
   const path = useLocation();
   const url = `${BASEURL}guests/${path.state}`;
   const { setIsLoading } = useContext(LoaderContext);
-  const { lifeGroupOptions, lifeGroupPlace,fetchLifeGroupOptions, fetchLifeGroupPlace } =
-    useContext(GuestContext);
+  const {
+    lifeGroupOptions,
+    lifeGroupPlace,
+    fetchLifeGroupOptions,
+    fetchLifeGroupPlace,
+  } = useContext(GuestContext);
   const [selectedGuestData, setSelectedGuestData] = useState({});
   const { showAlert, setAlert } = useContext(AlertContext);
   const [tableData, setTableData] = useState([]);
@@ -32,7 +36,7 @@ const GuestCounterDetails = () => {
   let lname = useRef("");
   let lifegrpid = useRef("");
 
-  const loadData = async () => {
+  const loadData = async (reverse) => {
     setIsLoading(true);
     try {
       const response = await axios.get(url);
@@ -41,7 +45,9 @@ const GuestCounterDetails = () => {
       data = response.data;
       setSelectedGuestData(data);
       followupnotes = data.followupnotes;
-      setTableData(followupnotes.reverse());
+      reverse
+        ? setTableData(followupnotes.reverse())
+        : setTableData(followupnotes);
       fname.current =
         data.firstname.charAt(0).toUpperCase() + data.firstname.slice(1);
       lname.current =
@@ -57,15 +63,15 @@ const GuestCounterDetails = () => {
   };
 
   useEffect(() => {
-    loadData();
+    loadData(true);
+    fetchLifeGroupOptions(true);
   }, [url]);
 
   useEffect(() => {
-    // let place = "";
-    fetchLifeGroupOptions(true);
+    // // let place = "";
     if (lifegrpid.current !== "") {
-      fetchLifeGroupPlace(lifeGroupOptions, lifegrpid.current);
-      // console.log("GCD", lifeGroupPlace);
+      //   fetchLifeGroupPlace(lifeGroupOptions, lifegrpid.current);
+      console.log("GCD", lifeGroupOptions, lifeGroupPlace);
     }
   }, [lifegrpid.current]);
 
@@ -78,7 +84,7 @@ const GuestCounterDetails = () => {
   };
   const handleTabsCallback = (isLoaddata, alertMsg) => {
     if (isLoaddata) {
-      loadData();
+      loadData(false);
     }
     setAlert(alertMsg);
   };
