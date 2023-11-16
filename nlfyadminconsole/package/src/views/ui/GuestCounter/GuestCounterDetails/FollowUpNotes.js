@@ -11,7 +11,7 @@ const FollowUpNotes = ({ guestData, handleTabsCallback }) => {
   const url = `${BASEURL}guests/${guestData._id}`;
   const [followup, setFollowup] = useState({
     followUpDate: "",
-    followedBy: user.firstName,
+    followedBy: user?.firstName,
     followUpMsg: "",
   });
   const { isLoading, setIsLoading } = useContext(LoaderContext);
@@ -28,18 +28,57 @@ const FollowUpNotes = ({ guestData, handleTabsCallback }) => {
   const onSubmitNote = () => {
     let showAlert = {};
     setIsLoading(true);
-    let formattedDate = new Date(followup.followUpDate).toLocaleDateString(
-      "en-GB"
-    );
+    let follownotes = guestData.followupnotes.map((obj) => {
+      const [day, month, year] = obj.date.split("/");
+      let followupNoteDate = new Date(year, month - 1, day);
+      obj.date = obj.date.split("/").join("-");
+      return { ...obj, date: followupNoteDate };
+    });
+
+    //get time when uploaded to show in descending order
+    const currentDate = new Date();
+    var timeString =
+      currentDate.getHours() +
+      ":" +
+      currentDate.getMinutes() +
+      ":" +
+      currentDate.getSeconds();
+    let formattedDate = new Date(followup.followUpDate + " " + timeString);
+
     let newFollowupNote = {
       note: followup.followUpMsg.trim(),
       date: formattedDate,
-      followedupby: followup.followedBy, // by default logged in value, editable
-      eneterdby: user?.firstName, // logged in person value,
+      followedupby: followup.followedBy.trim(), // by default logged in value, editable
+      eneterdby: user?.firstName.trim(), // logged in person value,
     };
-    let followupnotes = guestData.followupnotes;
-    followupnotes.push(newFollowupNote);
+    follownotes.push(newFollowupNote);
+
+    //sort in descending order wrt to time uploaded
+    follownotes = follownotes.sort((a, b) => {
+      if (a.date === b.date) {
+        return b.date.getTime() - a.date.getTime();
+      }
+      return b.date - a.date;
+    });
+    // let fomattedFollowNotes = [...follownotes];
+
+    //format date value in followupnotes array
+    let followupnotes = follownotes.map((n) => {
+      const { note, followedupby, eneterdby } = n;
+      return {
+        note,
+        date:
+          typeof n.date === "string"
+            ? n.date
+            : new Date(n.date).toLocaleDateString("en-GB"),
+        followedupby,
+        eneterdby,
+      };
+    });
+
     let updateBody = { followupnotes };
+    console.log(followupnotes, follownotes);
+    setIsLoading(false);
     axios
       .patch(url, updateBody)
       .then(() => {

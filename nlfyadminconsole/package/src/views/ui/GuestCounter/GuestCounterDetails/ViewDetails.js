@@ -20,7 +20,10 @@ const ViewDetails = ({
   const checked = useRef(false);
 
   const formatDate = () => {
-    formattedEnteredOnDate.current = guestData.enteredon.split("/").reverse().join("-");
+    formattedEnteredOnDate.current = guestData.enteredon
+      .split("/")
+      .reverse()
+      .join("-");
     if (guestData.dob) {
       formattedDOBDate.current = guestData.dob.split("/").reverse().join("-");
     }
@@ -105,7 +108,15 @@ const ViewDetails = ({
       selectedGuestData.followupmemberassigneddate =
         new Date().toLocaleDateString("en-GB");
     }
-    console.log("editCardInfo", modalTitle, selectedGuestData);
+    let requestData = Object.keys(selectedGuestData).forEach(
+      (k) =>
+        (selectedGuestData[k] =
+          typeof selectedGuestData[k] == "string"
+            ? selectedGuestData[k].trim()
+            : selectedGuestData[k])
+    );
+
+    console.log("editCardInfo", modalTitle, requestData);
 
     axios
       .patch(guestUrl, selectedGuestData)
