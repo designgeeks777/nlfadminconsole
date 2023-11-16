@@ -26,7 +26,7 @@ const GuestCounter = () => {
   const { setIsLoading } = useContext(LoaderContext);
   const { showAlert } = useContext(AlertContext);
   const url = `${BASEURL}guests/`;
-  const { fetchLifeGroupOptions } = useContext(GuestContext);
+  const { lifeGroupOptions, getLifeGroupOptions } = useContext(GuestContext);
   const loadData = async () => {
     setIsLoading(true);
     try {
@@ -46,7 +46,9 @@ const GuestCounter = () => {
 
   useEffect(() => {
     loadData();
-    fetchLifeGroupOptions(true);
+    // if (lifeGroupOptions.length <= 1) {
+    //   getLifeGroupOptions();
+    // }
   }, [url]);
 
   const handleSearchChange = (e) => {

@@ -41,7 +41,6 @@ export const GuestContextProvider = ({ children }) => {
   ]);
   const lifeGroupsUrl = `${BASEURL}lifeGroups/`;
   const [lifeGroupPlace, setLifeGroupPlace] = useState("");
-  const [getLGOptions, fetchLifeGroupOptions] = useState(false);
   let updatedValue = "";
   var inputType = "";
 
@@ -55,21 +54,17 @@ export const GuestContextProvider = ({ children }) => {
         dob: updatedValue,
       });
     } else {
-      setGuestData({ ...guestData, [name]: value });
+      setGuestData({
+        ...guestData,
+        [name]: typeof value === "string" ? value : value,
+      });
     }
     // console.log(inputType, updatedValue, guestData);
   };
 
-  //called onfirst load of GC, and load options only on selecting guestCounter page
-  useEffect(() => {
-    if (getLGOptions) {
-      getLifeGroupOptions();
-    }
-  }, [getLGOptions]);
-
   let lg = "";
   useEffect(() => {
-    if (lg !== guestData.lifegroupid) {
+    if (lg !== lifeGroupOptions.length) {
       setLifeGroupOptions(lifeGroupOptions);
     }
     // console.log("GUEST CONTEXT lifeGroupOptionsEFFECT", lifeGroupOptions);
@@ -93,6 +88,7 @@ export const GuestContextProvider = ({ children }) => {
     );
     var place = response[0].place;
     setLifeGroupPlace(place);
+    // console.log("fetchLifeGroupPlace", lifeGroupPlace);
   };
 
   return (
@@ -101,9 +97,10 @@ export const GuestContextProvider = ({ children }) => {
         guestData,
         lifeGroupPlace,
         lifeGroupOptions,
-        fetchLifeGroupOptions,
+        getLifeGroupOptions,
         fetchLifeGroupPlace,
         setGuestDetails,
+        setGuestData,
       }}
     >
       {children}

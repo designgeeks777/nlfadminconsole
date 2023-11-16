@@ -24,7 +24,7 @@ const GuestCounterDetails = () => {
   const {
     lifeGroupOptions,
     lifeGroupPlace,
-    fetchLifeGroupOptions,
+    getLifeGroupOptions,
     fetchLifeGroupPlace,
   } = useContext(GuestContext);
   const [selectedGuestData, setSelectedGuestData] = useState({});
@@ -64,16 +64,17 @@ const GuestCounterDetails = () => {
 
   useEffect(() => {
     loadData(true);
-    fetchLifeGroupOptions(true);
+    if (lifeGroupOptions.length <= 1) {
+      getLifeGroupOptions();
+    }
   }, [url]);
 
   useEffect(() => {
-    // // let place = "";
-    if (lifegrpid.current !== "") {
-      //   fetchLifeGroupPlace(lifeGroupOptions, lifegrpid.current);
-      console.log("GCD", lifeGroupOptions, lifeGroupPlace);
+    if (lifegrpid.current !== "" && lifeGroupOptions.length > 1) {
+      fetchLifeGroupPlace(lifeGroupOptions, lifegrpid.current);
+      // console.log("GCD",lifegrpid.current, lifeGroupOptions, lifeGroupPlace);
     }
-  }, [lifegrpid.current]);
+  }, [lifegrpid.current, lifeGroupOptions]);
 
   const handleCallback = (tabSelected) => {
     if (tabSelected === "tab3") {
