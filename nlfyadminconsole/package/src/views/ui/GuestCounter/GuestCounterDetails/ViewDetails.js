@@ -254,16 +254,16 @@ const ViewDetails = ({
               </div>
               <div>
                 <p>Source</p>
-                <p className="ps-2">{guestData.hearaboutus}</p>
+                <p className="sourceValue">{guestData.hearaboutus}</p>
                 <p>
-                  {guestData.hearaboutus === "personalInvitation"
+                  {guestData.hearaboutus === "Personal Invitation"
                     ? "Invited By"
                     : guestData.hearaboutus === "others"
                     ? "Other Source"
                     : null}
                 </p>
                 <p>
-                  {guestData.hearaboutus === "personalInvitation"
+                  {guestData.hearaboutus === "Personal Invitation"
                     ? guestData.invitedby
                     : guestData.hearaboutus === "others"
                     ? guestData.hearaboutusothers
@@ -525,15 +525,15 @@ const ViewDetails = ({
                       type="radio"
                       name="maritalstatus"
                       id="inlineRadio3maritalstatus"
-                      value="divorced/widowed"
+                      value="divorced/ widowed"
                       checked={
-                        selectedGuestData.maritalstatus === "divorced/widowed"
+                        selectedGuestData.maritalstatus === "divorced/ widowed"
                           ? true
                           : false
                       }
                     />
                     <label class="form-check-label" htmlFor="inlineRadio3">
-                      Divorced/Widowed
+                      Divorced/ Widowed
                     </label>
                   </div>
                 </div>
@@ -566,9 +566,9 @@ const ViewDetails = ({
                       type="radio"
                       name="hearaboutus"
                       id="inlineRadio2hearaboutus"
-                      value="personalInvitation"
+                      value="Personal Invitation"
                       checked={
-                        selectedGuestData.hearaboutus === "personalInvitation"
+                        selectedGuestData.hearaboutus === "Personal Invitation"
                           ? true
                           : false
                       }
@@ -583,9 +583,9 @@ const ViewDetails = ({
                       type="radio"
                       name="hearaboutus"
                       id="inlineRadio3hearaboutus"
-                      value="socialMedia"
+                      value="Social Media"
                       checked={
-                        selectedGuestData.hearaboutus === "socialMedia"
+                        selectedGuestData.hearaboutus === "Social Media"
                           ? true
                           : false
                       }
@@ -612,19 +612,19 @@ const ViewDetails = ({
                     </label>
                   </div>
                 </div>
-                {(selectedGuestData.hearaboutus === "personalInvitation" ||
+                {(selectedGuestData.hearaboutus === "Personal Invitation" ||
                   selectedGuestData.hearaboutus === "others") && (
                   <>
                     <label
                       htmlFor={
-                        selectedGuestData.hearaboutus === "personalInvitation"
+                        selectedGuestData.hearaboutus === "Personal Invitation"
                           ? "invitedby"
                           : "hearaboutusothers"
                       }
                       size="md"
                       className="form-label modal-body-label"
                     >
-                      {selectedGuestData.hearaboutus === "personalInvitation"
+                      {selectedGuestData.hearaboutus === "Personal Invitation"
                         ? "Invited By"
                         : "Let us know how you came to know about us"}
                     </label>
@@ -632,18 +632,18 @@ const ViewDetails = ({
                       type="text"
                       className="form-control modal-body-input shadow-none mb-2"
                       id={
-                        selectedGuestData.hearaboutus === "personalInvitation"
+                        selectedGuestData.hearaboutus === "Personal Invitation"
                           ? "invitedby"
                           : "hearaboutusothers"
                       }
                       name={
-                        selectedGuestData.hearaboutus === "personalInvitation"
+                        selectedGuestData.hearaboutus === "Personal Invitation"
                           ? "invitedby"
                           : "hearaboutusothers"
                       }
                       placeholder=""
                       value={
-                        selectedGuestData.hearaboutus === "personalInvitation"
+                        selectedGuestData.hearaboutus === "Personal Invitation"
                           ? selectedGuestData.invitedby
                           : selectedGuestData.hearaboutus === "others"
                           ? selectedGuestData.hearaboutusothers

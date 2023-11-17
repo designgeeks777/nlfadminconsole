@@ -11,10 +11,10 @@ import { redirect, useNavigate } from "react-router-dom";
 const Dashboard = () => {
   const [joiningRequests, setJoininingRequests] = useState(0);
   const [users, setUsers] = useState(0);
-  const [announcements, setAnnouncements] = useState(0);
+  const [guests, setGuests] = useState(0);
   const lifeGroupsUrl = `${BASEURL}getLifeGroupsCount/`;
   const usersUrl = `${BASEURL}getUsersCount/`;
-  const announcementsUrl = `${BASEURL}getAnnouncementsCount/`;
+  const guestsUrl = `${BASEURL}guests/`;
   const { user } = useContext(AuthenticationContext);
   const navigate = useNavigate();
 
@@ -29,16 +29,20 @@ const Dashboard = () => {
       try {
         const lifeGroupsResponse = await axios.get(lifeGroupsUrl);
         setJoininingRequests(lifeGroupsResponse.data);
-        const announcementsResponse = await axios.get(announcementsUrl);
-        setAnnouncements(announcementsResponse.data);
         const usersResponse = await axios.get(usersUrl);
         setUsers(usersResponse.data);
+        const guestsResponse = await axios.get(guestsUrl);
+        if (guestsResponse.data.length > 0) {
+          setGuests(guestsResponse.data.length);
+        } else {
+          setGuests(0);
+        }
       } catch (error) {
         console.error(error);
       }
     };
     loadData();
-  }, [usersUrl, lifeGroupsUrl, announcementsUrl]);
+  }, [usersUrl, lifeGroupsUrl, guestsUrl]);
 
   return (
     <div>
@@ -64,10 +68,10 @@ const Dashboard = () => {
         <Col sm="6" lg="4">
           <TopCards
             bg="bg-light-warning text-warning"
-            title="Announcements"
-            subtitle="Announcements"
-            count={announcements}
-            routeName="/announcements"
+            title="Guests"
+            subtitle="Guests"
+            count={guests}
+            routeName="/guestCounter"
           />
         </Col>
       </Row>

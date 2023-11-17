@@ -431,6 +431,9 @@ div.viewDetails div.infoCard:nth-of-type(2)
 div.infoCardChildren > div:nth-of-type(1) div:first-child {
 }
 
+.sourceValue {
+  padding-left: 0.5rem;
+}
 // div[class^="col-"]:nth-child(2) div.infoCardChildren  {
 //   justify-content: flex-start;
 // }
@@ -447,6 +450,13 @@ div.infoCardChildren > div:nth-of-type(1) div:first-child {
 
  /* Responsive layout - makes a one column-layout instead of two-column layout */
  @media (max-width: 800px) {
+  // for source view details
+  .sourceValue {
+    padding-left: 0;
+  }
+  p:empty{
+    display: none;
+  }
   //marital status mobile view
   div.viewDetails div.infoCard:nth-of-type(2)  
   div.infoCardChildren > div:nth-of-type(2) p:first-child {
@@ -465,7 +475,7 @@ div.infoCardChildren > div:nth-of-type(1) div:first-child {
   div.viewDetails div.infoCard:nth-of-type(2)  
   div.infoCardChildren > div:nth-of-type(1) 
   div:first-child {
-    padding-bottom: 20px;
+    padding-bottom: 15px;
   }
   div.viewDetails div.infoCard:nth-of-type(2)  
   div.infoCardChildren > div:nth-of-type(1) 

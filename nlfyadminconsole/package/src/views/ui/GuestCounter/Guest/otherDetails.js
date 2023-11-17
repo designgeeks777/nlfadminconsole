@@ -82,9 +82,9 @@ const OtherDetails = () => {
                 type="radio"
                 name="maritalstatus"
                 id="inlineRadio3maritalstatus"
-                value="divorced/widowed"
+                value="divorced/ widowed"
                 checked={
-                  guestData.maritalstatus === "divorced/widowed" ? true : false
+                  guestData.maritalstatus === "divorced/ widowed" ? true : false
                 }
               />
               <label class="form-check-label" htmlFor="inlineRadio3">
@@ -118,9 +118,9 @@ const OtherDetails = () => {
                 type="radio"
                 name="hearaboutus"
                 id="inlineRadio2hearaboutus"
-                value="personalInvitation"
+                value="Personal Invitation"
                 checked={
-                  guestData.hearaboutus === "personalInvitation" ? true : false
+                  guestData.hearaboutus === "Personal Invitation" ? true : false
                 }
               />
               <label class="form-check-label" htmlFor="inlineRadio2">
@@ -133,8 +133,8 @@ const OtherDetails = () => {
                 type="radio"
                 name="hearaboutus"
                 id="inlineRadio3hearaboutus"
-                value="socialMedia"
-                checked={guestData.hearaboutus === "socialMedia" ? true : false}
+                value="Social Media"
+                checked={guestData.hearaboutus === "Social Media" ? true : false}
               />
               <label class="form-check-label" htmlFor="inlineRadio1">
                 Social Media
@@ -154,26 +154,26 @@ const OtherDetails = () => {
               </label>
             </div>
           </div>
-          {(guestData.hearaboutus === "personalInvitation" ||
+          {(guestData.hearaboutus === "Personal Invitation" ||
             guestData.hearaboutus === "others") && (
             <>
               <label
                 htmlFor={
-                  guestData.hearaboutus === "personalInvitation"
+                  guestData.hearaboutus === "Personal Invitation"
                     ? "invitedby"
                     : "hearaboutusothers"
                 }
                 size="md"
                 className="form-label modal-body-label"
               >
-                {guestData.hearaboutus === "personalInvitation" ? (
+                {guestData.hearaboutus === "Personal Invitation" ? (
                   "Who invited you?"
                 ) : (
                   <>
                     Let us know how you came to know about us
                     <label
                       htmlFor={
-                        guestData.hearaboutus === "personalInvitation"
+                        guestData.hearaboutus === "Personal Invitation"
                           ? "invitedby"
                           : "hearaboutusothers"
                       }
@@ -188,18 +188,18 @@ const OtherDetails = () => {
                 type="text"
                 className="form-control modal-body-input shadow-none hearaboutusInput"
                 id={
-                  guestData.hearaboutus === "personalInvitation"
+                  guestData.hearaboutus === "Personal Invitation"
                     ? "invitedby"
                     : "hearaboutusothers"
                 }
                 name={
-                  guestData.hearaboutus === "personalInvitation"
+                  guestData.hearaboutus === "Personal Invitation"
                     ? "invitedby"
                     : "hearaboutusothers"
                 }
                 placeholder=""
                 value={
-                  guestData.hearaboutus === "personalInvitation"
+                  guestData.hearaboutus === "Personal Invitation"
                     ? guestData.invitedby
                     : guestData.hearaboutus === "others"
                     ? guestData.hearaboutusothers

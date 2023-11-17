@@ -49,6 +49,14 @@ const AddGuest = () => {
 
   const addGuest = (guestData) => {
     let showAlert = {};
+    if (guestData.lifegroupid !== "") {
+      guestData.lifegroupassigndate = new Date().toLocaleDateString("en-GB");
+    }
+    if (guestData.followupmember !== "") {
+      guestData.followupmemberassigneddate = new Date().toLocaleDateString(
+        "en-GB"
+      );
+    }
     Object.keys(guestData).forEach((key) => {
       guestData[key] =
         typeof guestData[key] == "string"
