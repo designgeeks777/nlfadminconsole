@@ -18,6 +18,7 @@ import {
 import { LoaderContext } from "../LoaderContext";
 import axios from "axios";
 import { BASEURL } from "../APIKey";
+import LogoutConfirmationModal from "./LogoutConfirmationModal";
 
 export const AuthenticationContext = createContext();
 
@@ -120,23 +121,39 @@ export const AuthenticationContextProvider = ({ children }) => {
         console.log(err);
       });
   };
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
-  const logOut = async () => {
+  
+  const logOut = () => {
+    setIsLogoutModalOpen(true);
+  };
+
+  const handleLogoutConfirmed = async () => {
     setIsLoading(true);
     try {
       await signOut(auth);
       setIsLoading(false);
       setUser(null);
+      setIsLogoutModalOpen(false);
     } catch (error) {
       setIsLoading(false);
       console.error(error);
     }
   };
 
+  const handleLogoutCancelled = () => {
+    setIsLogoutModalOpen(false);
+  };
+
   return (
     <AuthenticationContext.Provider
       value={{ user, isLoading, isAuthenticating, signInWithGoogle, logOut }}
     >
+      <LogoutConfirmationModal
+        isOpen={isLogoutModalOpen}
+        onConfirm={handleLogoutConfirmed}
+        onClose={handleLogoutCancelled}
+      />
       {children}
     </AuthenticationContext.Provider>
   );
