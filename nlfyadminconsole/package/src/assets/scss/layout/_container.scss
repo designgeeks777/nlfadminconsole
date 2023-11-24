@@ -53,6 +53,17 @@ color: $white;
   margin-right: 0px;
 }
 
+//for mobile view logo white bg
+.card-bg{ 
+  background: $white;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .navbar-collapse {
   display: flex;
   justify-content: flex-end;

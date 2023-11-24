@@ -5,6 +5,7 @@ import GuestJourney from "../views/ui/GuestCounter/GuestCounterDetails/GuestJour
 import ViewDetails from "../views/ui/GuestCounter/GuestCounterDetails/ViewDetails";
 import FollowUpNotes from "../views/ui/GuestCounter/GuestCounterDetails/FollowUpNotes";
 import { LoaderContext } from "../LoaderContext";
+import { GuestContext } from "../views/ui/GuestCounter/GuestDataContext";
 
 const tabs = [
   { label: "Journey", value: "tab1" },
@@ -20,10 +21,12 @@ const Tabs = ({
 }) => {
   const [active, setActive] = useState(tabs[0].value);
   const { isLoading } = useContext(LoaderContext);
+  const { setAssignNow } = useContext(GuestContext);
 
   const goToTab = (tab) => {
     if (tab === "viewDetails") {
       setActive(tabs[1].value);
+      setAssignNow(true);
     }
     if (tab === "followup") {
       setActive(tabs[2].value);

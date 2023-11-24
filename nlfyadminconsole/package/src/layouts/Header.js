@@ -36,14 +36,12 @@ const Header = () => {
   return (
     <Navbar className="bg-gradient text-white" dark expand="md">
       <div className="d-flex align-items-center">
-        <NavbarBrand href="/" className="d-lg-none">
-          {/* <LogoWhite /> */}
+        <NavbarBrand href="/" className="d-lg-none card-bg">
           <img
             src={require("../assets/images/logos/logoIcon.png")}
             alt="logo"
             width={40}
             height={40}
-            className="card-bg"
           />
         </NavbarBrand>
         <Button

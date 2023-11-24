@@ -6,6 +6,7 @@ import axios from "axios";
 import { LoaderContext } from "../../../../LoaderContext";
 import ComponentModal from "../../../../components/ComponentModal";
 import { errorMsgs, successMsgs } from "../../../../constants";
+import { GuestContext } from "../GuestDataContext";
 
 const ViewDetails = ({
   guestData,
@@ -18,6 +19,7 @@ const ViewDetails = ({
   const formattedEnteredOnDate = useRef("");
   const formattedDOBDate = useRef("");
   const checked = useRef(false);
+  const { assignNow, setAssignNow } = useContext(GuestContext);
 
   const formatDate = () => {
     formattedEnteredOnDate.current = guestData.enteredon
@@ -29,6 +31,12 @@ const ViewDetails = ({
     }
   };
 
+  useEffect(() => {
+    if (assignNow) {
+      showModal("LifeGroup Details");
+    }
+    // console.log(assignNow);
+  }, [assignNow]);
   useEffect(() => {
     // Format the date to YYYY-MM-DD
     formatDate();
@@ -94,6 +102,7 @@ const ViewDetails = ({
   };
   const toggle = () => {
     setShow(!show);
+    setAssignNow(false);
     resetModalData();
   };
   const editCardInfo = () => {
@@ -124,6 +133,7 @@ const ViewDetails = ({
         setSelectedGuestData(res.data);
         setIsLoading(false);
         setShow(false);
+        setAssignNow(false);
         showAlert = {
           isOpen: true,
           type: "success",
@@ -325,7 +335,7 @@ const ViewDetails = ({
           show={show}
           toggle={toggle}
           title={modalTitle}
-          submitButtonTitle="Edit"
+          submitButtonTitle="Save"
           cancelButtonTitle="Cancel"
           submitButtonClick={() => editCardInfo()}
           cancelButtonClick={toggle}
@@ -655,7 +665,7 @@ const ViewDetails = ({
               </div>
             </form>
           )}
-          {modalTitle === "LifeGroup Details" && (
+          {(modalTitle === "LifeGroup Details" || assignNow) && (
             <form onChange={handleFieldChange}>
               <label
                 htmlFor="followupmember"

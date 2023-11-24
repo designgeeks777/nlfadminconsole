@@ -36,6 +36,7 @@ export const GuestContextProvider = ({ children }) => {
     followupmemberassigneddate: "",
   });
   const { isLoading, setIsLoading } = useContext(LoaderContext);
+  const [assignNow, setAssignNow] = useState(false);
   const [lifeGroupOptions, setLifeGroupOptions] = useState([
     { place: "Select a LifeGroup", lifegroupid: "" },
   ]);
@@ -97,10 +98,12 @@ export const GuestContextProvider = ({ children }) => {
         guestData,
         lifeGroupPlace,
         lifeGroupOptions,
+        assignNow,
         getLifeGroupOptions,
         fetchLifeGroupPlace,
         setGuestDetails,
         setGuestData,
+        setAssignNow,
       }}
     >
       {children}
