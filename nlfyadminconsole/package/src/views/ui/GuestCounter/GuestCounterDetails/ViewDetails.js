@@ -18,8 +18,13 @@ const ViewDetails = ({
   const { isLoading, setIsLoading } = useContext(LoaderContext);
   const formattedEnteredOnDate = useRef("");
   const formattedDOBDate = useRef("");
-  const checked = useRef(false);
+  // const checked = useRef(false);
   const { assignNow, setAssignNow } = useContext(GuestContext);
+  // const [isChecked, setIsChecked] = useState(false);
+  const isChecked = useRef(false);
+  const [startedComingCheckedModal, setStartedComingCheckedModal] =
+    useState(false);
+  const [notComingCheckedModal, setNotComingCheckedModal] = useState(false);
 
   const formatDate = () => {
     formattedEnteredOnDate.current = guestData.enteredon
@@ -41,11 +46,10 @@ const ViewDetails = ({
     // Format the date to YYYY-MM-DD
     formatDate();
     if (guestData.startedlifegroup === "started") {
-      checked.current = true;
+      isChecked.current.checked = true;
     } else {
-      checked.current = false;
+      isChecked.current.checked = false;
     }
-    // console.log(startedlifegroup);
   }, [guestData]);
 
   const [show, setShow] = useState(false);
@@ -106,7 +110,7 @@ const ViewDetails = ({
     resetModalData();
   };
   const editCardInfo = () => {
-    setIsLoading(true);
+    // setIsLoading(true);
     let showAlert = {};
     if (selectedGuestData.lifegroupid !== "") {
       selectedGuestData.lifegroupassigndate = new Date().toLocaleDateString(
@@ -117,7 +121,14 @@ const ViewDetails = ({
       selectedGuestData.followupmemberassigneddate =
         new Date().toLocaleDateString("en-GB");
     }
-    let requestData = Object.keys(selectedGuestData).forEach(
+    if (selectedGuestData.startedlifegroup !== "") {
+      selectedGuestData.startedlifegroupdate = new Date().toLocaleDateString(
+        "en-GB"
+      );
+    } else {
+      selectedGuestData.startedlifegroupdate = "";
+    }
+    Object.keys(selectedGuestData).forEach(
       (k) =>
         (selectedGuestData[k] =
           typeof selectedGuestData[k] == "string"
@@ -125,8 +136,7 @@ const ViewDetails = ({
             : selectedGuestData[k])
     );
 
-    console.log("editCardInfo", modalTitle, requestData);
-
+    // console.log("editCardInfo", modalTitle, selectedGuestData);
     axios
       .patch(guestUrl, selectedGuestData)
       .then((res) => {
@@ -199,26 +209,49 @@ const ViewDetails = ({
     formattedDOBDate.current = event.target.value;
   };
 
-  //below code for checbox
-  let val = "";
-  useEffect(() => {
-    if (val !== selectedGuestData.startedlifegroup) {
-      if (checked.current) {
-        setSelectedGuestData({
-          ...selectedGuestData,
-          startedlifegroup: "started",
-          startedlifegroupdate: new Date().toLocaleDateString("en-GB"),
-        });
-      }
+  //below code for checkbox
+  const handleChange = (event) => {
+    isChecked.current.checked = event.target.checked;
+    if (isChecked.current.checked) {
+      setStartedComingCheckedModal(true);
+      setSelectedGuestData({
+        ...selectedGuestData,
+        startedlifegroup: "started",
+      });
+    } else {
+      setSelectedGuestData({
+        ...selectedGuestData,
+        startedlifegroup: "",
+      });
+      setNotComingCheckedModal(true);
     }
-  }, [val, checked.current]);
-
-  const handleChange = (e) => {
-    checked.current = e.target.checked;
+  };
+  const toggleStartedComingCheckboxModal = () => {
+    isChecked.current.checked = false;
     setSelectedGuestData({
       ...selectedGuestData,
-      startedlifegroup: checked.current ? "started" : "",
+      startedlifegroup: "",
     });
+    setStartedComingCheckedModal(false);
+  };
+  const toggleNotComingCheckboxModal = () => {
+    setNotComingCheckedModal(false);
+  };
+  const updateStartedComingCheckbox = () => {
+    setSelectedGuestData({
+      ...selectedGuestData,
+      startedlifegroup: "started",
+    });
+    editCardInfo();
+    setStartedComingCheckedModal(false);
+  };
+  const updateNotComingCheckbox = () => {
+    setSelectedGuestData({
+      ...selectedGuestData,
+      startedlifegroup: "",
+    });
+    editCardInfo();
+    setNotComingCheckedModal(false);
   };
   return (
     <div className="m-1 mt-5">
@@ -736,9 +769,10 @@ const ViewDetails = ({
         <input
           className="form-check-input text-primary shadow-none"
           type="checkbox"
-          checked={checked.current}
+          ref={isChecked}
+          // value={isChecked}
+          // checked={isChecked}
           onChange={handleChange}
-          value="test"
           id="startedlifegroup"
           name="startedlifegroup"
         />
@@ -749,6 +783,28 @@ const ViewDetails = ({
           Started coming to church/lifeGroup regularly?
         </label>
       </div>
+      <ComponentModal
+        title=""
+        show={startedComingCheckedModal}
+        toggle={toggleStartedComingCheckboxModal}
+        submitButtonTitle="Yes"
+        cancelButtonTitle=""
+        submitButtonClick={() => updateStartedComingCheckbox()}
+      >
+        Are you sure <strong>{guestData?.firstname}</strong> is coming to
+        church/lifeGroup regularly?
+      </ComponentModal>
+      <ComponentModal
+        title=""
+        show={notComingCheckedModal}
+        toggle={toggleNotComingCheckboxModal}
+        submitButtonTitle="Yes"
+        cancelButtonTitle=""
+        submitButtonClick={() => updateNotComingCheckbox()}
+      >
+        Are you sure <strong>{guestData?.firstname}</strong> is not coming to
+        church/lifeGroup regularly?
+      </ComponentModal>
     </div>
   );
 };

@@ -1,23 +1,14 @@
-import React, {
-  useState,
-  createContext,
-  useEffect,
-  useRef,
-  useContext,
-  useCallback,
-} from "react";
+import React, { useState, createContext, useEffect } from "react";
 import { auth, googleProvider } from "../firebase";
 import {
-  GoogleAuthProvider,
   getRedirectResult,
   onAuthStateChanged,
-  signInWithPopup,
   signInWithRedirect,
   signOut,
 } from "firebase/auth";
-import { LoaderContext } from "../LoaderContext";
 import axios from "axios";
 import { BASEURL } from "../APIKey";
+import ComponentModal from "../components/ComponentModal";
 
 export const AuthenticationContext = createContext();
 
@@ -26,6 +17,7 @@ export const AuthenticationContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticating, setISAuthenticating] = useState(false);
   const url = `${BASEURL}leaders/`;
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, async (usr) => {
@@ -121,22 +113,54 @@ export const AuthenticationContextProvider = ({ children }) => {
       });
   };
 
-  const logOut = async () => {
+  // const logOut = async () => {
+  //   setIsLoading(true);
+  //   try {
+  //     await signOut(auth);
+  //     setIsLoading(false);
+  //     setUser(null);
+  //   } catch (error) {
+  //     setIsLoading(false);
+  //     console.error(error);
+  //   }
+  // };
+
+  const logOut = () => {
+    setIsLogoutModalOpen(true);
+  };
+
+  const handleLogoutConfirmed = async () => {
     setIsLoading(true);
     try {
       await signOut(auth);
       setIsLoading(false);
       setUser(null);
+      setIsLogoutModalOpen(false);
     } catch (error) {
       setIsLoading(false);
       console.error(error);
     }
   };
 
+  const handleLogoutCancelled = () => {
+    setIsLogoutModalOpen(false);
+  };
+
   return (
     <AuthenticationContext.Provider
       value={{ user, isLoading, isAuthenticating, signInWithGoogle, logOut }}
     >
+      <ComponentModal
+        show={isLogoutModalOpen}
+        toggle={handleLogoutCancelled}
+        title=""
+        submitButtonTitle="Yes"
+        submitButtonClick={handleLogoutConfirmed}
+        cancelButtonTitle="No"
+        cancelButtonClick={handleLogoutCancelled}
+      >
+        <h5 className="text-center">Are you sure you want to logout?</h5>
+      </ComponentModal>
       {children}
     </AuthenticationContext.Provider>
   );
