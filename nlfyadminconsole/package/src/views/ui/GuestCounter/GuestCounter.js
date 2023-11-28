@@ -26,7 +26,6 @@ const GuestCounter = () => {
   const { setIsLoading } = useContext(LoaderContext);
   const { showAlert } = useContext(AlertContext);
   const url = `${BASEURL}guests/`;
-  const { lifeGroupOptions, getLifeGroupOptions } = useContext(GuestContext);
   const loadData = async () => {
     setIsLoading(true);
     try {
@@ -43,6 +42,12 @@ const GuestCounter = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (filteredData.length !== "") {
+      setFilteredData(filteredData);
+    }
+  }, [filteredData]);
 
   useEffect(() => {
     loadData();
