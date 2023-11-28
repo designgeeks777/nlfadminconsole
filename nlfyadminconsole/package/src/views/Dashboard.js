@@ -5,8 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { BASEURL } from "../APIKey";
 import { AuthenticationContext } from "../services/AuthService";
-// import { Redirect } from 'react-router-dom';
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [joiningRequests, setJoininingRequests] = useState(0);
@@ -49,11 +48,11 @@ const Dashboard = () => {
       <Row>
         <Col sm="6" lg="4">
           <TopCards
-            bg="bg-light-success text-success"
-            title="New Life Group Requests"
-            subtitle="New Life Group Requests"
-            count={joiningRequests}
-            routeName="/lifeGroups"
+            bg="bg-light-warning text-warning"
+            title="Guests"
+            subtitle="Guests"
+            count={guests}
+            routeName="/guestCounter"
           />
         </Col>
         <Col sm="6" lg="4">
@@ -67,11 +66,11 @@ const Dashboard = () => {
         </Col>
         <Col sm="6" lg="4">
           <TopCards
-            bg="bg-light-warning text-warning"
-            title="Guests"
-            subtitle="Guests"
-            count={guests}
-            routeName="/guestCounter"
+            bg="bg-light-success text-success"
+            title="New Life Group Requests"
+            subtitle="New Life Group Requests"
+            count={joiningRequests}
+            routeName="/lifeGroups"
           />
         </Col>
       </Row>
