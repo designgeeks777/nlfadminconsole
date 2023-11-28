@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Navbar,
   Collapse,
@@ -10,10 +10,13 @@ import {
   Button,
 } from "reactstrap";
 import avatar from "../assets/images/users/avatar.png";
+import { AuthenticationContext } from "../services/AuthService";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  const { user, logOut } = useContext(AuthenticationContext);
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   const Handletoggle = () => {
@@ -22,17 +25,23 @@ const Header = () => {
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, [user]);
+
   return (
     <Navbar className="bg-gradient text-white" dark expand="md">
       <div className="d-flex align-items-center">
-        <NavbarBrand href="/" className="d-lg-none">
-          {/* <LogoWhite /> */}
+        <NavbarBrand href="/" className="d-lg-none card-bg">
           <img
             src={require("../assets/images/logos/logoIcon.png")}
             alt="logo"
             width={40}
             height={40}
-            className="card-bg"
           />
         </NavbarBrand>
         <Button
@@ -43,7 +52,9 @@ const Header = () => {
           <i className="bi bi-list"></i>
         </Button>
       </div>
-      <div className="me-auto nav-link welcome-text">Welcome Admin!</div>
+      <div className="me-auto nav-link welcome-text">
+        Welcome {user.firstName}!
+      </div>
 
       <div className="hstack gap-2">
         <Button
@@ -64,7 +75,7 @@ const Header = () => {
         <Dropdown isOpen={dropdownOpen} toggle={toggle}>
           <DropdownToggle color="transparent">
             <img
-              src={avatar}
+              src={user.photoURL}
               alt="profile"
               className="rounded-circle"
               width="40"
@@ -72,13 +83,7 @@ const Header = () => {
             ></img>
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem header>Info</DropdownItem>
-            <DropdownItem>My Account</DropdownItem>
-            <DropdownItem>Edit Profile</DropdownItem>
-            <DropdownItem divider />
-            <DropdownItem>My Balance</DropdownItem>
-            <DropdownItem>Inbox</DropdownItem>
-            <DropdownItem>Logout</DropdownItem>
+            <DropdownItem onClick={logOut}>Logout</DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </Collapse>

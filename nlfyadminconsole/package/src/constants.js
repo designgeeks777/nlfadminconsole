@@ -6,6 +6,13 @@ export const errorMsgs = {
   decline: "Sorry! Failed to decline at this moment. Please check your server",
   removeLGMember:
     "Sorry! Failed to remove member at this moment. Please check your server",
+  phoneNumber: {
+    invalid: "Enter valid phone number",
+    required: "Phone number required",
+  },
+  email: {
+    invalid: "Enter valid email",
+  },
 };
 
 export const successMsgs = {

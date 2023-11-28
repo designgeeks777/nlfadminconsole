@@ -181,7 +181,7 @@ const JoiningRequests = ({ joiningRequestsArray, lifeGroup, loadData }) => {
         />
       )}
       <CardTitle tag="h4" className="text-primary mb-3">
-        Joining Requests {load}
+        Joining Requests
       </CardTitle>
       <Slider {...settings}>
         {joiningRequestsArray.map((item, i) => (

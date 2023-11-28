@@ -8,7 +8,6 @@ import {
   faPeopleGroup,
   faCalendarDays,
   faPersonPraying,
-  faBell,
 } from "@fortawesome/free-solid-svg-icons";
 const navigation = [
   {
@@ -39,6 +38,11 @@ const navigation = [
   {
     title: "Church Prayers",
     href: "/churchPrayers",
+    icon: faPeopleGroup,
+  },
+  {
+    title: "Guest Counter",
+    href: "/guestCounter",
     icon: faPeopleGroup,
   },
 ];

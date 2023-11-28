@@ -17,18 +17,20 @@ const ComponentModal = ({
       <div>
         <Modal centered isOpen={show} toggle={toggle}>
           {/* <ModalHeader toggle={toggle}>{title}</ModalHeader> */}
-          <ModalHeader>{title}</ModalHeader>
-          <ModalBody>
+          {title !== "" ? <ModalHeader>{title}</ModalHeader> : null}
+          <ModalBody className="pt-4">
             <div>{children}</div>
           </ModalBody>
           <ModalFooter>
-            <Button
-              color="secondary"
-              className="modal-btn-secondary"
-              onClick={cancelButtonClick}
-            >
-              {cancelButtonTitle}
-            </Button>
+            {cancelButtonTitle !== "" ? (
+              <Button
+                color="secondary"
+                className="modal-btn-secondary"
+                onClick={cancelButtonClick}
+              >
+                {cancelButtonTitle}
+              </Button>
+            ) : null}
             <Button
               color="primary"
               className="modal-btn-primary"

@@ -214,17 +214,11 @@ const Announcements = () => {
             </ComponentModal>
           ) : null}
         </div>
-        <div className="p-2">
-          <Row>
-            <Col lg="12">
-              <ProjectTables
-                title="Announcements"
-                tableData={tableData}
-                tableColumns={tableColumns}
-              />
-            </Col>
-          </Row>
-        </div>
+        <ProjectTables
+          title="Announcements"
+          tableData={tableData}
+          tableColumns={tableColumns}
+        />
       </div>
     </div>
   );
