@@ -14,7 +14,7 @@ const TopCards = (props) => {
         <CardBody>
           <div className="ms-3 p-4 text-center">
             <h1 className="mb-0 font-weight-bold ">{props.count}</h1>
-            <small className="text-muted">{props.subtitle}</small>
+            <small className="text-muted">{props.title}</small>
           </div>
         </CardBody>
       </Card>

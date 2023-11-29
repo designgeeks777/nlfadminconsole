@@ -26,16 +26,26 @@ const Dashboard = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const lifeGroupsResponse = await axios.get(lifeGroupsUrl);
-        setJoininingRequests(lifeGroupsResponse.data);
-        const usersResponse = await axios.get(usersUrl);
-        setUsers(usersResponse.data);
         const guestsResponse = await axios.get(guestsUrl);
         if (guestsResponse.data.length > 0) {
-          setGuests(guestsResponse.data.length);
-        } else {
-          setGuests(0);
+          let guestResponseData = guestsResponse.data;
+          var todaysDate = new Date();
+          var lastSunday = new Date(todaysDate);
+          lastSunday.setDate(todaysDate.getDate() - todaysDate.getDay());
+          let newGuestsResult = guestResponseData.filter((guest) => {
+            let formattedDate = guest.enteredon.split("/").reverse().join("-");
+            return new Date(formattedDate).getDate() >= lastSunday.getDate();
+          });
+          if (newGuestsResult.length > 0) {
+            setGuests(newGuestsResult.length);
+          } else {
+            setGuests(0);
+          }
         }
+        const usersResponse = await axios.get(usersUrl);
+        setUsers(usersResponse.data);
+        const lifeGroupsResponse = await axios.get(lifeGroupsUrl);
+        setJoininingRequests(lifeGroupsResponse.data);
       } catch (error) {
         console.error(error);
       }
@@ -49,8 +59,7 @@ const Dashboard = () => {
         <Col sm="6" lg="4">
           <TopCards
             bg="bg-light-warning text-warning"
-            title="Guests"
-            subtitle="Guests"
+            title="New Guests"
             count={guests}
             routeName="/guestCounter"
           />
@@ -59,7 +68,6 @@ const Dashboard = () => {
           <TopCards
             bg="bg-light-danger text-danger"
             title="Users"
-            subtitle="Users"
             count={users}
             routeName="/"
           />
@@ -68,7 +76,6 @@ const Dashboard = () => {
           <TopCards
             bg="bg-light-success text-success"
             title="New Life Group Requests"
-            subtitle="New Life Group Requests"
             count={joiningRequests}
             routeName="/lifeGroups"
           />

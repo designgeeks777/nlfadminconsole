@@ -8,11 +8,12 @@ import { LoaderContext } from "../../../LoaderContext";
 import { AlertContext } from "../../../services/AlertService";
 import CustomStepper from "../../../components/Stepper";
 import { GuestContext, GuestContextProvider } from "./GuestDataContext";
+import { Spinner } from "reactstrap";
 
 const AddGuest = () => {
   let navigate = useNavigate();
   const url = `${BASEURL}guests/`;
-  const { setIsLoading } = useContext(LoaderContext);
+  const { isLoading, setIsLoading } = useContext(LoaderContext);
   const { setAlert } = useContext(AlertContext);
   const hideCard = useRef(false);
   const { lifeGroupOptions, setGuestData, getLifeGroupOptions } =
@@ -65,11 +66,11 @@ const AddGuest = () => {
     });
     console.log("added", guestData);
     setIsLoading(true);
-    navigate("/guestCounter");
     axios
       .post(url, guestData)
       .then(() => {
-        // setIsLoading(false);
+        navigate("/guestCounter");
+        setIsLoading(false);
         showAlert = {
           isOpen: true,
           type: "success",
@@ -93,6 +94,21 @@ const AddGuest = () => {
     addGuest(guestData);
   };
 
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          height: "80vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginRight: "4em",
+        }}
+      >
+        <Spinner color="primary" />
+      </div>
+    );
+  }
   return (
     <>
       {!hideCard.current && (

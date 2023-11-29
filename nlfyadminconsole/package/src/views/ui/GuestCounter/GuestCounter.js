@@ -44,16 +44,7 @@ const GuestCounter = () => {
   };
 
   useEffect(() => {
-    if (filteredData.length !== "") {
-      setFilteredData(filteredData);
-    }
-  }, [filteredData]);
-
-  useEffect(() => {
     loadData();
-    // if (lifeGroupOptions.length <= 1) {
-    //   getLifeGroupOptions();
-    // }
   }, [url]);
 
   const handleSearchChange = (e) => {
